@@ -131,9 +131,11 @@ public class MongoDBController extends BaseController {
 	public @ResponseBody String delete(@RequestParam(value = "ids") String ids) {
 		String successFlag = Constants.OPTION_FLAG_SUCCESS;
 		String[] idArr = ids.split(",");
+		List<Integer> list = new ArrayList<Integer>();
 		try {
 			for (String id : idArr) {
-				Query query = new Query(Criteria.where("id").is(id));
+				list.add(Integer.parseInt(id));
+				Query query = new Query(Criteria.where("id").in(list));
 				countryMongoDao.remove(query);
 			}
 		} catch (Exception e) {
