@@ -1,0 +1,6 @@
+1）将iTextAsian.jar和iTextAsianCmaps.jar置于l项目lib中 
+2）将模板设计中的文本框的属性中，在font栏中做如下设置： 
+   Font Name: 宋体（或其他如楷体） 
+   Pdf font name:STSong-Light 
+   Pdf encoding: UniGB-UCS2-H 
+   Pdf Embeded: 打勾 

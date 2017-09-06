@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.1.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.1.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+
+	<bean id="myBatisDataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 数据源 -->
+		<property name="dataSource" ref="myBatisDataSource" />
+		<!-- 配置文件 -->
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+	</bean>
+
+	<!-- mybatis数据映射配置文件扫描器配置 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.its.core.mybatis.dao.mapper" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+
+	<!-- 定义事物管理器 -->
+	<bean id="myBatisTransactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="myBatisDataSource" />
+		<!-- <property name="globalRollbackOnParticipationFailure" value="false" /> -->
+	</bean>
+
+	<tx:annotation-driven proxy-target-class="true"
+		transaction-manager="myBatisTransactionManager" />
+
+	<!-- 事物传播属性 -->
+	<tx:advice id="myBatisTxadvice" transaction-manager="myBatisTransactionManager">
+		<!-- 配置详细事务处理语义 -->
+		<tx:attributes>
+			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="save*" propagation="REQUIRED" isolation="DEFAULT" />
+			<tx:method name="update*" propagation="REQUIRED" isolation="DEFAULT" />
+			<tx:method name="delete*" propagation="REQUIRED" isolation="DEFAULT" />
+			<tx:method name="batch*" propagation="REQUIRED" isolation="DEFAULT" />
+			<tx:method name="new*" propagation="REQUIRED" isolation="DEFAULT" />
+
+			<tx:method name="get*" propagation="SUPPORTS" isolation="DEFAULT" read-only="true" />
+			<tx:method name="find*" propagation="SUPPORTS" isolation="DEFAULT" read-only="true" />
+			<tx:method name="select*" propagation="SUPPORTS" isolation="DEFAULT" read-only="true" />
+			<tx:method name="load*" propagation="SUPPORTS" isolation="DEFAULT" read-only="true" />
+
+			<!-- 其他采用默认事务方式 -->
+			<tx:method name="*" propagation="REQUIRED" isolation="DEFAULT" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 切入点 -->
+	<aop:config>
+		<!-- 配置切入点 -->
+		<aop:pointcut id="mybatisTransactionPointcut" expression="execution(* com.its.service..*Impl.*(..))" />
+		<!-- 指定在txAdvice切入点应用txAdvice事务增强处理 -->
+		<aop:advisor advice-ref="myBatisTxadvice" pointcut-ref="mybatisTransactionPointcut" />
+	</aop:config>
+
+</beans>

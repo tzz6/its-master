@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.1.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.1.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+		http://www.springframework.org/schema/task 
+		http://www.springframework.org/schema/task/spring-task-4.1.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+
+	<!-- Quartz -->
+	<!-- 方式一：通过extends QuartzJobBean 的方式 -->
+	<bean name="exQuartzJob"
+		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.its.servers.job.quartz.EXQuartzJob" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="timeout" value="0" />
+			</map>
+		</property>
+	</bean>
+	<bean id="exQuartzJobCronTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="exQuartzJob" />
+		<!-- 每5秒执行一次 -->
+		<property name="cronExpression" value="0/10 * * * * ?" />
+	</bean>
+
+
+	<!-- 方式二：不通过extends QuartzJobBean 的方式 -->
+	<bean id="quartzJob" class="com.its.servers.job.quartz.QuartzJob" />
+	<!-- 定时推送预报消息任务 -->
+	<bean id="quartzJobMethodInvokingJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="quartzJob" />
+		</property>
+		<property name="targetMethod">
+			<value>push</value>
+		</property>
+		<property name="concurrent" value="false" />
+	</bean>
+	<!-- 配置触发器 -->
+	<bean id="quartzJobCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="quartzJobMethodInvokingJobDetail" />
+		</property>
+		<!-- 每30秒执行一次 -->
+		<property name="cronExpression" value="0 0/10 * * * ?" />
+	</bean>
+	
+	
+	<!-- 测试集群 start-->
+	<bean name="exQuartzAJob"
+		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.its.servers.job.quartz.EXQuartzAJob" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="timeout" value="0" />
+			</map>
+		</property>
+	</bean>
+	<bean id="exQuartzAJobCronTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="exQuartzAJob" />
+		<!-- 每5秒执行一次 -->
+		<property name="cronExpression" value="0/10 * * * * ?" />
+	</bean>
+	
+	<bean name="exQuartzBJob"
+		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.its.servers.job.quartz.EXQuartzBJob" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="timeout" value="0" />
+			</map>
+		</property>
+	</bean>
+	<bean id="exQuartzBJobCronTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="exQuartzBJob" />
+		<!-- 每5秒执行一次 -->
+		<property name="cronExpression" value="0/10 * * * * ?" />
+	</bean>
+	<!-- 测试集群 end-->
+
+	<!-- 配置调度工厂 -->
+	<bean name="schedulerFactory" lazy-init="false"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		
+		<!-- 集群配制 start-->
+		<property name="dataSource" ref="dataSource" />
+        <property name="applicationContextSchedulerContextKey" value="applicationContextKey"/>  
+        <property name="configLocation" value="classpath:quartz.properties"/>   
+		<!-- 集群配制 end -->
+		
+		<property name="triggers">
+			<list>
+				<ref bean="exQuartzJobCronTrigger" />
+				<ref bean="exQuartzAJobCronTrigger" />
+				<ref bean="exQuartzBJobCronTrigger" />
+<!-- 				<ref bean="quartzJobCronTrigger" /> -->
+			</list>
+		</property>
+	</bean>
+
+	<!-- Quartz中任务动态管理（增加、删除、修改、停用、恢复） -->
+	<bean id="quartzManager" class="com.its.servers.job.manager.QuartzManager" >
+		<property name="schedulerFactory" ref="schedulerFactory"/>
+	</bean>
+</beans>

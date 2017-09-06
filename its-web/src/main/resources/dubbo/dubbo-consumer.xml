@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	 http://code.alibabatech.com/schema/dubbo
+	 http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+	<dubbo:application name="its-web" />
+
+	<!-- 使用zookeeper注册中心暴露服务地址,同一注册中心的多个集群地址用逗号分隔 -->
+	<dubbo:registry protocol="zookeeper" address="${dubbo.registry.address}" />
+
+	<dubbo:monitor protocol="registry" />
+
+	<!-- 用dubbo协议在20880端口暴露服务 -->
+	<dubbo:protocol name="dubbo" port="20880" />
+
+	<!--用户 -->
+	<dubbo:reference interface="com.its.servers.facade.dubbo.sys.service.SysUserFacade"
+		id="sysUserFacade" check="false" timeout="60000" />
+	<!--用户角色 -->
+	<dubbo:reference interface="com.its.servers.facade.dubbo.sys.service.SysUserRoleFacade"
+		id="sysUserRoleFacade" check="false" timeout="60000" />
+	<!--系统名称 -->
+	<dubbo:reference interface="com.its.servers.facade.dubbo.sys.service.SysNameFacade"
+		id="sysNameFacade" check="false" timeout="60000" />
+	<!-- 角色 -->
+	<dubbo:reference interface="com.its.servers.facade.dubbo.sys.service.SysRoleFacade"
+		id="sysRoleFacade" check="false" timeout="60000" />
+	<!-- 角色菜单 -->
+	<dubbo:reference interface="com.its.servers.facade.dubbo.sys.service.SysRoleMenuFacade"
+		id="sysRoleMenuFacade" check="false" timeout="60000" />
+	<!-- 菜单-->
+	<dubbo:reference interface="com.its.servers.facade.dubbo.sys.service.SysMenuFacade"
+		id="sysMenuFacade" check="false" timeout="60000" />
+</beans>

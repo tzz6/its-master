@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xsi:schemaLocation="  
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
+    http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
+    http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+
+	<!-- Import Apache CXF Bean Definition -->
+<!-- 	CXF版本是3.0以上；只需要引入cxf.xml配置文件 -->
+<!-- 	CXF版本是3.0以下；需要引入cxf-extension-soap.xml、cxf-servlet.xml配置文件 -->
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+<!-- 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" /> -->
+<!-- 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" /> -->
+
+	<jaxws:endpoint id="cxfSysUserFacadeImpl"
+		implementor="com.its.servers.facade.cxf.sys.service.impl.CXFSysUserFacadeImpl" address="/cxfSysUserFacade">
+	</jaxws:endpoint>
+	
+	<!-- restful -->
+	<bean id="wsUserRestService" class="com.its.servers.web.cxf.restful.service.impl.WsUserInfoRestServiceImpl" />
+	<bean id="cxfRestfulSysUser" class="com.its.servers.web.cxf.restful.service.CXFRestfulSysUser" />
+	<jaxrs:server id="restServiceContainer" address="/rest">
+		<jaxrs:serviceBeans>
+			<ref bean="wsUserRestService" />
+			<ref bean="cxfRestfulSysUser" />
+		</jaxrs:serviceBeans>
+		<jaxrs:extensionMappings>
+			<entry key="json" value="application/json" />
+			<entry key="xml" value="application/xml" />
+		</jaxrs:extensionMappings>
+		<jaxrs:languageMappings>
+			<entry key="en" value="en-gb" />
+		</jaxrs:languageMappings>
+	</jaxrs:server>
+</beans>

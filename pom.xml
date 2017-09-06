@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.its.parent</groupId>
+	<artifactId>its-parent</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>its-parent</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.version>4.3.7.RELEASE</spring.version>
+		<hibernate.version>5.2.8.Final</hibernate.version>
+		<cxf.version>3.1.9</cxf.version>
+		<axis2.version>1.6.3</axis2.version>
+		<ehcache.version>2.9.0</ehcache.version>
+		<!-- 旧版本 -->
+		<!-- <spring.version>4.1.4.RELEASE</spring.version> -->
+		<!-- <hibernate.version>4.3.8.Final</hibernate.version> -->
+		<!-- <cxf.version>2.7.5</cxf.version> -->
+		<jackson.version>2.5.0</jackson.version>
+		<java.version>1.8</java.version>
+		<activemq.version>5.7.0</activemq.version>
+		<log4j.version>1.2.17</log4j.version>
+		<httpclient.version>4.5.1</httpclient.version>
+		<mysql.version>5.1.34</mysql.version>
+		<fastjson.version>1.2.3</fastjson.version>
+		<org.json.version>20160212</org.json.version>
+		<ant.version>1.9.6</ant.version>
+		<zxing.version>3.2.1</zxing.version>
+		<itextpdf.version>5.5.8</itextpdf.version>
+		<itext.asian.version>5.2.0</itext.asian.version>
+		<org.xhtmlrenderer.version>9.0.6</org.xhtmlrenderer.version>
+		<itext.version>2.0.8</itext.version>
+		<mybatis.version>3.4.4</mybatis.version>
+		<mybatis.spring.version>1.3.1</mybatis.spring.version>
+	</properties>
+	
+	<modules>
+		<module>its-common</module>
+		<module>its-core</module>
+		<module>its-model</module>
+		<module>its-servers</module>
+		<module>its-servers-facade</module>
+		<module>its-service</module>
+		<module>its-service-facade</module>
+		<module>its-web</module>
+		<module>its-test</module>
+	</modules>
+</project>
