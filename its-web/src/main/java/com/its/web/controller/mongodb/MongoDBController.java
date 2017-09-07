@@ -54,15 +54,24 @@ public class MongoDBController extends BaseController {
 	 */
 	@RequestMapping("/mongoDBManager")
 	public @ResponseBody Datagrid<Country> mongoDBManager(HttpServletRequest request,
-			@RequestParam(value = "name", required = false) String name, @RequestParam(value = "page") Integer page,
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "enName", required = false) String enName, @RequestParam(value = "page") Integer page,
 			@RequestParam(value = "rows") Integer rows) {
 
 		// List<Country> result = countryMongoDao.findAll();
 		int total = 0;
 		int startNum = (page - 1) * rows;
 		Query query = new Query();
-		if (name != null && !"".equals(name)) {
-			Criteria criteria = Criteria.where("name").is(name);
+		if (name != null && !"".equals(name) && enName != null && !"".equals(enName)) {
+			Criteria criteria = Criteria.where("name").regex(name).and("enName").regex(enName);
+			query.addCriteria(criteria);
+		}
+		if (name != null && !"".equals(name) && (enName == null || "".equals(enName))) {
+			Criteria criteria = Criteria.where("name").regex(name);
+			query.addCriteria(criteria);
+		}
+		if ((name == null || "".equals(name)) && enName != null && !"".equals(enName)) {
+			Criteria criteria = Criteria.where("enName").regex(enName);
 			query.addCriteria(criteria);
 		}
 		total = countryMongoDao.findByQuery(query).size();

@@ -15,6 +15,8 @@
 				<tr>
 					<td class="content_title">&nbsp;名称:</td>
 					<td class="content_input"><input type="text" name="name" id="name" /></td>
+					<td class="content_title">&nbsp;英文名称:</td>
+					<td class="content_input"><input type="text" name="enName" id="enName" /></td>
 					<td class="content_linkbutton" style="padding-left: 10px;"><a
 						href="#" id="search_linkbutton" class="easyui-linkbutton"
 						data-options="iconCls:'icon-search'"> <fmt:message
@@ -136,6 +138,7 @@
 	// 重置查询列表框
 	function resetSearchForm() {
 		$('#name').val('');
+		$('#enName').val('');
 	}
 
 	// 新增按钮点击事件
@@ -145,6 +148,7 @@
 
 	// 打开新增弹出框
 	function openAddDialog() {
+		$('#mongodb_dialog_form').form('clear');
 		$('#mongodb_dialog_div').dialog('open');
 	}
 	

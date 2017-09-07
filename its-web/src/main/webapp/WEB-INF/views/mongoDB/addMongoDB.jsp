@@ -63,6 +63,7 @@
 					method : "post",
 					success : function(result) {
 						resultData = eval('(' + result + ')');
+						$("#mongodb_dialog_linkbutton_save").linkbutton("enable");
 						if (resultData == 'SUCCESS') {
 							$.messager.show({
 								title : Msg.sys_remaind1,
