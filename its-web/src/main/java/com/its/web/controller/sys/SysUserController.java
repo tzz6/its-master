@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.its.common.crypto.simple.MD5SHACryptoUtil;
 import com.its.common.utils.Constants;
 import com.its.common.utils.PrimaryKeyUtil;
 import com.its.model.mybatis.dao.domain.SysUser;
@@ -110,6 +111,8 @@ public class SysUserController {
 			sysUser.setCreateTm(currDate);
 			sysUser.setUpdateBy(currSysUser.getStCode());
 			sysUser.setCreateTm(currDate);
+			String stPassword = MD5SHACryptoUtil.sha512Encrypt(sysUser.getStCode());
+			sysUser.setStPassword(stPassword);
 			sysUserFacade.insertSysUser(sysUser);
 			log.info("新增用户成功---用户名为" + stCode);
 			return successFlag;
@@ -150,7 +153,10 @@ public class SysUserController {
 		String successFlag = Constants.OPTION_FLAG_SUCCESS;
 		try {
 			SysUser currSysUser = UserSession.getUser();// 当前登录用户
-			sysUser.setStName(URLDecoder.decode(sysUser.getStName(), "UTF-8"));
+			String stName =  sysUser.getStName();
+			if (stName != null && !"".equals(stName)) {
+				sysUser.setStName(URLDecoder.decode(stName, "UTF-8"));
+			}
 			// 判断用户工号重复性
 			String stCode = sysUser.getStCode();
 			String currStId = sysUser.getStId();

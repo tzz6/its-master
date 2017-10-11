@@ -145,7 +145,138 @@
 	<!-- 设置用户角色 end -->
 </body>
 <script type="text/javascript">
+	
+	var cols;
+	var dragCols = [ {
+		field : 'rowCheckBox',
+		hidden : false,
+		title : '${requestScope.rb.query_customerMsg_txt_14}',
+		width : 10,
+		checkbox : true,
+		align : 'center'
+	}, {
+		field : 'stCode',
+		hidden : false,
+		title : Msg.sys_user_code,
+		width : 200,
+		align : 'center',
+		formatter : 'formatter-stCode'
+	}, {
+		field : 'stName',
+		hidden : false,
+		title : Msg.sys_user_name,
+		width : 200,
+		align : 'center'
+	}, {
+		field : 'createTm',
+		hidden : false,
+		title : Msg.sys_user_create_tm,
+		width : 200,
+		align : 'center',
+		formatter : 'formatter-createTm'
+	}, {
+		field : 'stId',
+		hidden : true,
+		width : 350,
+		align : 'center'
+	} ];
 	$(function() {
+		delCookie("cols");
+		cols = getCookie("cols");
+		if (cols == null) {
+			//将数组转为JSON，解决Cookie保存数组问题
+			setCookie("cols", JSON.stringify(dragCols));
+			cols = dragCols;
+		}else{
+			cols = JSON.parse(cols);
+		}
+		for(var i = 0;i<cols.length;i++){
+			if(cols[i].formatter=='formatter-stCode'){
+				cols[i].formatter = function(value, row) {return "<input name='stCode_update' id='"+row.stId+"' value='"+value+"' onchange='updateStName(this)' style='width: 190px;height:20px; font-size: 12px;'>";}
+				
+			}
+			if(cols[i].formatter=='formatter-createTm'){
+				cols[i].formatter = function(value, row) {return $.fn.timestampFormat(value, 'yyyy-MM-dd HH:mm:ss');}
+			}
+		}
+		init();
+		drag();//绑定datagrid，绑定拖拽
+	});
+	
+
+	function updateStName(obj) {
+		$.ajax({url : '${ctx}/sysUser/updateSysUser?random='+ new Date().getTime(),
+			type : "POST",
+			data : {
+				'stId' : obj.id,
+				'stCode' : obj.value
+			},
+			async : false,
+			success : function(resultData) {
+				resultData = eval('(' + resultData + ')');
+				if (resultData == 'SUCCESS') {
+					$.messager.show({
+						title : Msg.sys_remaind1,
+						msg : Msg.sys_save_txt
+					});
+					$('#update_dialog_div').dialog('close'); // 关闭新增窗口
+					querySysUserList(); // 重新查询用户列表
+				} else if (resultData == 'IS_REPEAT') {
+					$.messager.show({
+						title : Msg.sys_remaind1,
+						msg : Msg.sys_userMgr_04
+					});
+				} else if (resultData == 'FAIL') {
+					$.messager.show({
+						title : Msg.sys_remaind1,
+						msg : Msg.sys_save_txt3
+					});
+				} else {
+					if (resultData != null && resultData != undefined) {
+						var index = resultData.indexOf("/logout");
+						if (index != -1) {
+							$.messager.show({
+								title : Msg.sys_remaind1,
+								msg : Msg.sys_no_permissions_txt1
+							});
+							setTimeout(function() {
+								top.location.href = resultData;
+							}, 3000);
+						}
+					}
+				}
+			}
+		});
+		
+	}
+	//设置cookies
+	function setCookie(name, value) {
+		var Days = 30;
+		var exp = new Date();
+		exp.setTime(exp.getTime() + Days*24*60*60*1000);
+		document.cookie = name + "=" + escape(value) + ";expires="
+				+ exp.toGMTString();
+	}
+	//获取cookies
+	function getCookie(name) {
+		var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+		if (arr = document.cookie.match(reg))
+			return unescape(arr[2]);
+		else
+			return null;
+	}
+	//删除cookies
+	function delCookie(name) {
+		var exp = new Date();
+		exp.setTime(exp.getTime() - 1);
+		var cval = getCookie(name);
+		if (cval != null)
+			document.cookie = name + "=" + cval + ";expires="
+					+ exp.toGMTString();
+	}
+
+	function init() {
+// 		debugger;
 		// 初始化系统列表
 		$('#user_table').datagrid(
 				{
@@ -153,6 +284,7 @@
 							+ new Date().getTime(),
 					pageList : [ 50, 100, 200 ],
 					pageSize : 50,
+					nowrap : true,
 					rownumbers : true,
 					pagination : true,
 					remoteSort : true,
@@ -160,37 +292,9 @@
 					selectOnCheck : false,
 					singleSelect : true,
 					toolbar : '#tb',
-					columns : [ [ {
-						field : 'rowCheckBox',
-						title : '${requestScope.rb.query_customerMsg_txt_14}',
-						width : 10,
-						checkbox : true,
-						align : 'center'
-					}, {
-						field : 'stCode',
-						title : Msg.sys_user_code,
-						width : 200,
-						align : 'center'
-					}, {
-						field : 'stName',
-						title : Msg.sys_user_name,
-						width : 200,
-						align : 'center'
-					}, {
-						field : 'createTm',
-						title : Msg.sys_user_create_tm,
-						width : 200,
-						align : 'center',
-						formatter: function(value, row){
-							return $.fn.timestampFormat(value,'yyyy-MM-dd HH:mm:ss');
-						}
-					}, {
-						field : 'stId',
-						hidden : true,
-						width : 350,
-						align : 'center'
-					} ] ],
+					columns : [ cols ],
 					onLoadSuccess : function(data) {
+						drag();
 						if (data.total == '0') { // 查询无记录时提醒
 							$("#not_exist").show();
 						} else {
@@ -199,13 +303,86 @@
 					}
 				});
 		_doResize($('#user_table'));
-	});
-	
+	}
+
+	//拖动drag和drop都是datagrid的头的datagrid-cell
+	function drag() {
+		$('.datagrid-header-inner .datagrid-cell').draggable({
+			revert : true,
+			proxy : 'clone'
+		}).droppable({
+			accept : '.datagrid-header-inner .datagrid-cell',
+			onDrop : function(e, source) {
+// 				debugger;
+				//取得拖动源的html值
+				var src = $(e.currentTarget.innerHTML).html();
+				//取得拖动目标的html值
+				var sou = $(source.innerHTML).html();
+				var tempcolsrc;//拖动后源和目标列交换
+				var tempcolsou;
+				var tempcols = [];
+				var tempcolsFMT = [];
+				for (var i = 0; i < cols.length; i++) {
+					if (cols[i].title == sou) {
+						tempcolsrc = cols[i];//循环读一遍列把源和目标列都记下来
+					} else if (cols[i].title == src) {
+						tempcolsou = cols[i];
+					}
+				}
+				for (var i = 0; i < cols.length; i++) {
+					//再循环一遍，把源和目标的列对换
+					var col = {
+						field : cols[i].field,
+						hidden : cols[i].hidden,
+						title : cols[i].title,
+						align : cols[i].align,
+						checkbox : cols[i].checkbox,
+						width : cols[i].width,
+						formatter : cols[i].formatter
+					};
+					var colFMT; 
+					if(cols[i].formatter!=null){
+						colFMT = {
+							field : cols[i].field,
+							hidden : cols[i].hidden,
+							title : cols[i].title,
+							align : cols[i].align,
+							checkbox : cols[i].checkbox,
+							width : cols[i].width,
+							formatter : 'formatter-'+cols[i].field
+						};
+					}else{
+						colFMT = {
+								field : cols[i].field,
+								hidden : cols[i].hidden,
+								title : cols[i].title,
+								align : cols[i].align,
+								checkbox : cols[i].checkbox,
+								width : cols[i].width,
+								formatter : cols[i].formatter
+							};
+					}
+					if (cols[i].title == sou) {
+						col = tempcolsou;
+					} else if (cols[i].title == src) {
+						col = tempcolsrc;
+					}
+					tempcols.push(col);
+					tempcolsFMT.push(colFMT);
+				}
+				cols = tempcols;
+				//延时执行重绑定datagrid操作。revert需要时间,避免没有做延时就直接重绑会出错
+				timeid = setTimeout("init()", 100);
+				setCookie("cols", JSON.stringify(tempcolsFMT));
+			}
+		});
+	}
+
 	//控制页面大小不随展示行数变化
-	$(window).resize(function(){
-		 _doResize($('#user_table'));
+	$(window).resize(function() {
+		_doResize($('#user_table'));
 	});
-	     
+
 	// 查询按钮点击事件 		
 	$('#search_linkbutton').click(function() {
 		querySysUserList();
@@ -217,7 +394,7 @@
 	});
 	// 重置按钮点击事件
 	$('#reset_linkbutton_set').click(function() {
-		 $('#role_form').form('clear');  
+		$('#role_form').form('clear');
 	});
 	// 按条件查询角色信息列表
 	function querySysUserList() {
@@ -297,7 +474,6 @@
 			}
 		});
 	}
-	
 
 	// 修改按钮点击事件
 	$('#update_linkbutton').click(function() {
@@ -317,12 +493,12 @@
 			});
 		}
 	});
-	
-	
+
 	// 打开修改用户弹出框
 	function openUpdateDialog(stId) {
 		$.ajax({
-			url : '${ctx}/sysUser/getSysUserById?random=' + new Date().getTime(),
+			url : '${ctx}/sysUser/getSysUserById?random='
+					+ new Date().getTime(),
 			type : "post",
 			data : {
 				"stId" : stId
@@ -333,273 +509,337 @@
 				var uform = $('#update_dialog_form');
 				$('#update_dialog_div').dialog('open');
 				$('#update_dialog_form').form('clear');
-				$('#update_dialog_form').form('load', {stId:data.stId,stCode:data.stCode, stName_update:data.stName});
+				$('#update_dialog_form').form('load', {
+					stId : data.stId,
+					stCode : data.stCode,
+					stName_update : data.stName
+				});
 			}
 		});
 	}
-	
-	  // 修改用户窗口保存按钮点击事件
-    $('#update_dialog_linkbutton_save').click(function (){
-        updateSysUser();
-    });
-    
-    // 修改用户窗口关闭按钮点击事件
-    $('#update_dialog_linkbutton_cancel').click(function (){
-        $('#update_dialog_div').dialog('close');
-    });
-    
- 	// 提交保存录入的修改用户信息
-	function updateSysUser() {
-		$('#update_dialog_form').form('submit', {
-			url : '${ctx}/sysUser/updateSysUser?random=' + new Date().getTime(),
-			onSubmit : function() {
-				$("#stName_update_h").val(encodeURI($("#stName_update").val()));
-				return $(this).form('validate');
-			},
-			success : function(resultData) {
-				resultData = eval('(' + resultData + ')');
-				if (resultData == 'SUCCESS') {
-					$.messager.show({
-						title : Msg.sys_remaind1,
-						msg : Msg.sys_save_txt
-					});
-					$('#update_dialog_div').dialog('close'); // 关闭新增窗口
-					querySysUserList(); // 重新查询用户列表
-				} else if (resultData == 'IS_REPEAT') {
-					$.messager.show({
-						title : Msg.sys_remaind1,
-						msg : Msg.sys_userMgr_04
-					});
-				} else if(resultData == 'FAIL'){
-					$.messager.show({
-						title : Msg.sys_remaind1,
-						msg : Msg.sys_save_txt3
-					});
-              	  }else {
-              		if (resultData != null && resultData != undefined) {
-	      					var index = resultData.indexOf("/logout");
-	      					if (index != -1) {
-  	      					$.messager.show({
-	                                 title: Msg.sys_remaind1,
-	                                 msg:Msg.sys_no_permissions_txt1
-	                             });
-	  	      				setTimeout(function () { 
-	      						top.location.href = resultData;
-	      				    }, 3000);
-	      					}
-	      				}
-              	 }
-			}
-		});
-	}
- 	
-	// 删除按钮点击事件
-	  $('#delete_linkbutton').click(function(){
-		  var stId = "";  // 用户ID
-  	  var rows = $('#user_table').datagrid('getChecked'); // 获取选中的行数据
-  	  if(rows.length > 0){ 
-  		  $.messager.confirm( Msg.sys_confirm2,Msg.sys_deleate,function(flag){
-  			  if(flag){
-  				  $.each(rows, function(index, row){
-  	                  if(index+1 == rows.length){
-  	                	stId = stId + row.stId;
-  	                  }else{
-  	                	stId = stId + row.stId + ",";
-  	                  }
-  	              });
-  	              $.ajax({
-  	                  url:'${ctx}/sysUser/deleteSysUser?random=' + new Date().getTime(),
-  	                  type: "POST",
-  	                  data: {'stId':stId},
-  	                  async: false,
-  	                  success: function (resultData){
-  	                	  resultData = eval('(' + resultData + ')');
-  	                	  if (resultData == 'SUCCESS') {
-  	                		  $.messager.show({
-  	                			  title: Msg.sys_remaind1,
-  	                			  msg: Msg.sys_delete_txt1
-  	                		  });
-  	                		  querySysUserList(); // 重新查询用户列表
-  	                		  $('#user_table').datagrid('uncheckAll');
-  	                	  } else if(resultData == 'FAIL'){
-  	                		 $.messager.show({
-                                 title: Msg.sys_remaind1,
-                                 msg:Msg.sys_delete_txt2
-                             });
-  	                	  }else {
-  	                		if (resultData != null && resultData != undefined) {
-	  	      					var index = resultData.indexOf("/logout");
-	  	      					if (index != -1) {
-		  	      					$.messager.show({
-	 	                                 title: Msg.sys_remaind1,
-	 	                                 msg:Msg.sys_no_permissions_txt1
-	 	                             });
-			  	      				setTimeout(function () { 
-			      						top.location.href = resultData;
-			      				    }, 3000);
-	  	      					}
-	  	      				}
-  	                	 }
-  	                  }
-  	              });
-  			  }
-  		  });
-  	  }else{
-  		  $.messager.show({
-  			  title:Msg.sys_remaind1,
-  			  msg: Msg.frequency_10
-  		  });
-  	  }
-	  });
-	  
-	   //--------------关联菜单---------------
-	    var userRoles;
-		var addMenus=new Array();
-		var removeMenus=new Array();
-		//----------菜单设置按钮点击事件----------
-		function setRole(){
-			userRoles=new Array();
-			addMenus=new Array();
-			removeMenus=new Array();
-			var items = $("#user_table").datagrid('getChecked');
-			if(items.length>1){ 
-				$.messager.show({
-					title:Msg.sys_remaind1,
-					msg:Msg.sys_only_select_one
-				});
-				return;
-			} else if(items.length==0){
-				$.messager.show({
-					title:Msg.sys_remaind1,
-					msg:Msg.frequency_11
-				});
-				return;
-			}		
 
-			$('#role_form').form('clear');
-			//加载菜单信息
-			role_form=$('#role_form').form();	
-			roleDg=$('#roleDg').datagrid({
-				url :'${ctx}/sysRole/sysRoleManage?random='+new Date().getTime(),  		
-				queryParams: {"roleName":$('#roleName').val(),"sysNameCode":$('#sysNameCode_search').val()},
-				    toolbar : '#tbRole',
-				    height : 400,
-				    nowrap : false,
-				    idField : 'roleId',
-				    pageList : [ 50, 100, 200 ],
-					pageSize : 50,
-				    singleSelect : false, //是否单选 
-					pagination : true,//分页控件 
-					rownumbers : true, //行号
-				    columns:[[
-				        {field:"ck",title:'选中',checkbox:true},
-				        {field:"roleId",hidden:true},
-				        {field:"roleName",title:Msg.sys_role_name},
-				        {field:"sysName",title:Msg.sys_name_code}
-				    ]],
-				    onLoadSuccess:function(){
-				    	//$("#roleDg").datagrid("clearChecked");
-				    	$.post('${ctx}/sysUser/getSysUserRoleList?random='+new Date().getTime(),{stId:items[0].stId},function(data){
-			    			if(data != null && data.length>0){
-			    				userRoles=data;
-				    			for(var i=0;i<userRoles.length;i++){
-				    				var rows = $('#roleDg').datagrid("getRows");
-				    				for(var j=0;j<rows.length;j++){
-				    					if(rows[j].roleId==userRoles[i].roleId){
-				    						var rowIndex = $('#roleDg').datagrid("getRowIndex",rows[j].roleId);
-				    						$('#roleDg').datagrid("checkRow",rowIndex)//选中行
-				    									.datagrid("refreshRow",rowIndex);//刷新行
-				    						
-				    					}
-				    				}
-				    			}
-			    			}
-			    		},"json");
-				    }
-			}); 
-			
-			$('#setRolePage').dialog('open');
-// 			$('#setRolePage').dialog({
-// 				title:Msg.set_associated_roles,
-// 				height:500,
-// 				width:550,
-// 				 onOpen:function(){   
-// 			          //dialog原始left  
-// 			          default_left=$('#setRolePage').panel('options').left;   
-// 			          //dialog原始top  
-// 			          default_top=$('#setRolePage').panel('options').top;  
-// 			        },  
-// 			        onMove:function(left,top){  //鼠标拖动时事件  
-// 			           var body_width=document.body.offsetWidth;//body的宽度  
-// 			           var body_height=document.body.offsetHeight;//body的高度  
-// 			           var dd_width= $('#setRolePage').panel('options').width;//dialog的宽度  
-// 			           var dd_height= $('#setRolePage').panel('options').height;//dialog的高度                     
-// 			           if(left<1||left>(body_width-dd_width)||top<1||top>(body_height-dd_height)){  
-// 			              $('#setRolePage').dialog('move',{      
-// 			                    //left:default_left,      
-// 			                    //top:default_top      
-// 			              });  
-// 			          }  
-// 			        }
-				
-// 			}).dialog('open');
+	// 修改用户窗口保存按钮点击事件
+	$('#update_dialog_linkbutton_save').click(function() {
+		updateSysUser();
+	});
+
+	// 修改用户窗口关闭按钮点击事件
+	$('#update_dialog_linkbutton_cancel').click(function() {
+		$('#update_dialog_div').dialog('close');
+	});
+
+	// 提交保存录入的修改用户信息
+	function updateSysUser() {
+		$('#update_dialog_form').form(
+				'submit',
+				{
+					url : '${ctx}/sysUser/updateSysUser?random='
+							+ new Date().getTime(),
+					onSubmit : function() {
+						$("#stName_update_h").val(
+								encodeURI($("#stName_update").val()));
+						return $(this).form('validate');
+					},
+					success : function(resultData) {
+						resultData = eval('(' + resultData + ')');
+						if (resultData == 'SUCCESS') {
+							$.messager.show({
+								title : Msg.sys_remaind1,
+								msg : Msg.sys_save_txt
+							});
+							$('#update_dialog_div').dialog('close'); // 关闭新增窗口
+							querySysUserList(); // 重新查询用户列表
+						} else if (resultData == 'IS_REPEAT') {
+							$.messager.show({
+								title : Msg.sys_remaind1,
+								msg : Msg.sys_userMgr_04
+							});
+						} else if (resultData == 'FAIL') {
+							$.messager.show({
+								title : Msg.sys_remaind1,
+								msg : Msg.sys_save_txt3
+							});
+						} else {
+							if (resultData != null && resultData != undefined) {
+								var index = resultData.indexOf("/logout");
+								if (index != -1) {
+									$.messager.show({
+										title : Msg.sys_remaind1,
+										msg : Msg.sys_no_permissions_txt1
+									});
+									setTimeout(function() {
+										top.location.href = resultData;
+									}, 3000);
+								}
+							}
+						}
+					}
+				});
+	}
+
+	// 删除按钮点击事件
+	$('#delete_linkbutton')
+			.click(
+					function() {
+						var stId = ""; // 用户ID
+						var rows = $('#user_table').datagrid('getChecked'); // 获取选中的行数据
+						if (rows.length > 0) {
+							$.messager
+									.confirm(
+											Msg.sys_confirm2,
+											Msg.sys_deleate,
+											function(flag) {
+												if (flag) {$.each(rows,
+																	function(index,row) {
+																		if (index + 1 == rows.length) {
+																			stId = stId+ row.stId;
+																		} else {
+																			stId = stId+ row.stId+ ",";
+																		}
+																	});
+													$.ajax({url : '${ctx}/sysUser/deleteSysUser?random='+ new Date().getTime(),
+																type : "POST",
+																data : {
+																	'stId' : stId
+																},
+																async : false,
+																success : function(resultData) {
+																	resultData = eval('('
+																			+ resultData
+																			+ ')');
+																	if (resultData == 'SUCCESS') {
+																		$.messager
+																				.show({
+																					title : Msg.sys_remaind1,
+																					msg : Msg.sys_delete_txt1
+																				});
+																		querySysUserList(); // 重新查询用户列表
+																		$(
+																				'#user_table')
+																				.datagrid(
+																						'uncheckAll');
+																	} else if (resultData == 'FAIL') {
+																		$.messager
+																				.show({
+																					title : Msg.sys_remaind1,
+																					msg : Msg.sys_delete_txt2
+																				});
+																	} else {
+																		if (resultData != null
+																				&& resultData != undefined) {
+																			var index = resultData
+																					.indexOf("/logout");
+																			if (index != -1) {
+																				$.messager
+																						.show({
+																							title : Msg.sys_remaind1,
+																							msg : Msg.sys_no_permissions_txt1
+																						});
+																				setTimeout(
+																						function() {
+																							top.location.href = resultData;
+																						},
+																						3000);
+																			}
+																		}
+																	}
+																}
+															});
+												}
+											});
+						} else {
+							$.messager.show({
+								title : Msg.sys_remaind1,
+								msg : Msg.frequency_10
+							});
+						}
+					});
+
+	//--------------关联菜单---------------
+	var userRoles;
+	var addMenus = new Array();
+	var removeMenus = new Array();
+	//----------菜单设置按钮点击事件----------
+	function setRole() {
+		userRoles = new Array();
+		addMenus = new Array();
+		removeMenus = new Array();
+		var items = $("#user_table").datagrid('getChecked');
+		if (items.length > 1) {
+			$.messager.show({
+				title : Msg.sys_remaind1,
+				msg : Msg.sys_only_select_one
+			});
+			return;
+		} else if (items.length == 0) {
+			$.messager.show({
+				title : Msg.sys_remaind1,
+				msg : Msg.frequency_11
+			});
+			return;
 		}
-		
-		
-		function searchRole(){		
-			roleDg.datagrid('reload', $.serializeObject(role_form));
-	    }
-		
-		 function closeMenu(){
-		    	$("#roleDg").datagrid("clearChecked");
-		    	$('#setRolePage').dialog('close')
-		    }
-		    
-		//----------保存角色设置按钮点击事件----------
-		function saveRole(){
-			var stIds="";
-			var roleIds="";
-			var users = $("#user_table").datagrid('getChecked');
-			var addRoles = $("#roleDg").datagrid("getChecked");
-			stIds = users[0].stId;
-			if(addRoles.length>0){
-				roleIds = addRoles[0].roleId;
-				if(addRoles.length >1){
-					for(var i=1;i<addRoles.length;i++){
-						roleIds+=","+addRoles[i].roleId;
+
+		$('#role_form').form('clear');
+		//加载菜单信息
+		role_form = $('#role_form').form();
+		roleDg = $('#roleDg')
+				.datagrid(
+						{
+							url : '${ctx}/sysRole/sysRoleManage?random='
+									+ new Date().getTime(),
+							queryParams : {
+								"roleName" : $('#roleName').val(),
+								"sysNameCode" : $('#sysNameCode_search').val()
+							},
+							toolbar : '#tbRole',
+							height : 400,
+							nowrap : false,
+							idField : 'roleId',
+							pageList : [ 50, 100, 200 ],
+							pageSize : 50,
+							singleSelect : false, //是否单选 
+							pagination : true,//分页控件 
+							rownumbers : true, //行号
+							columns : [ [ {
+								field : "ck",
+								title : '选中',
+								checkbox : true
+							}, {
+								field : "roleId",
+								hidden : true
+							}, {
+								field : "roleName",
+								title : Msg.sys_role_name
+							}, {
+								field : "sysName",
+								title : Msg.sys_name_code
+							} ] ],
+							onLoadSuccess : function() {
+								//$("#roleDg").datagrid("clearChecked");
+								$
+										.post(
+												'${ctx}/sysUser/getSysUserRoleList?random='
+														+ new Date().getTime(),
+												{
+													stId : items[0].stId
+												},
+												function(data) {
+													if (data != null
+															&& data.length > 0) {
+														userRoles = data;
+														for (var i = 0; i < userRoles.length; i++) {
+															var rows = $(
+																	'#roleDg')
+																	.datagrid(
+																			"getRows");
+															for (var j = 0; j < rows.length; j++) {
+																if (rows[j].roleId == userRoles[i].roleId) {
+																	var rowIndex = $(
+																			'#roleDg')
+																			.datagrid(
+																					"getRowIndex",
+																					rows[j].roleId);
+																	$('#roleDg')
+																			.datagrid(
+																					"checkRow",
+																					rowIndex)
+																			//选中行
+																			.datagrid(
+																					"refreshRow",
+																					rowIndex);//刷新行
+
+																}
+															}
+														}
+													}
+												}, "json");
+							}
+						});
+
+		$('#setRolePage').dialog('open');
+		// 			$('#setRolePage').dialog({
+		// 				title:Msg.set_associated_roles,
+		// 				height:500,
+		// 				width:550,
+		// 				 onOpen:function(){   
+		// 			          //dialog原始left  
+		// 			          default_left=$('#setRolePage').panel('options').left;   
+		// 			          //dialog原始top  
+		// 			          default_top=$('#setRolePage').panel('options').top;  
+		// 			        },  
+		// 			        onMove:function(left,top){  //鼠标拖动时事件  
+		// 			           var body_width=document.body.offsetWidth;//body的宽度  
+		// 			           var body_height=document.body.offsetHeight;//body的高度  
+		// 			           var dd_width= $('#setRolePage').panel('options').width;//dialog的宽度  
+		// 			           var dd_height= $('#setRolePage').panel('options').height;//dialog的高度                     
+		// 			           if(left<1||left>(body_width-dd_width)||top<1||top>(body_height-dd_height)){  
+		// 			              $('#setRolePage').dialog('move',{      
+		// 			                    //left:default_left,      
+		// 			                    //top:default_top      
+		// 			              });  
+		// 			          }  
+		// 			        }
+
+		// 			}).dialog('open');
+	}
+
+	function searchRole() {
+		roleDg.datagrid('reload', $.serializeObject(role_form));
+	}
+
+	function closeMenu() {
+		$("#roleDg").datagrid("clearChecked");
+		$('#setRolePage').dialog('close')
+	}
+
+	//----------保存角色设置按钮点击事件----------
+	function saveRole() {
+		var stIds = "";
+		var roleIds = "";
+		var users = $("#user_table").datagrid('getChecked');
+		var addRoles = $("#roleDg").datagrid("getChecked");
+		stIds = users[0].stId;
+		if (addRoles.length > 0) {
+			roleIds = addRoles[0].roleId;
+			if (addRoles.length > 1) {
+				for (var i = 1; i < addRoles.length; i++) {
+					roleIds += "," + addRoles[i].roleId;
+				}
+			}
+		}
+		var data = {
+			stId : stIds,
+			roleId : roleIds
+		};
+		$.post("${ctx}/sysUser/saveSysUserRole", data, function(resultData) {
+			resultData = eval('(' + resultData + ')');
+			if (resultData == 'SUCCESS') {
+				$.messager.show({
+					title : Msg.sys_remaind1,
+					msg : Msg.sys_success
+				});
+				$("#setRolePage").dialog("close");
+				$("#roleDg").datagrid("clearChecked");
+				$('#user_table').datagrid("clearChecked").datagrid("reload");
+			} else if (resultData == 'FAIL') {
+				$.messager.show({
+					title : Msg.sys_remaind1,
+					msg : Msg.sys_save_txt3
+				});
+			} else {
+				if (resultData != null && resultData != undefined) {
+					var index = resultData.indexOf("/logout");
+					if (index != -1) {
+						$.messager.show({
+							title : Msg.sys_remaind1,
+							msg : Msg.sys_no_permissions_txt1
+						});
+						setTimeout(function() {
+							top.location.href = resultData;
+						}, 3000);
 					}
 				}
 			}
-			var data = {stId:stIds,roleId:roleIds};
-			$.post("${ctx}/sysUser/saveSysUserRole", data, function(resultData) {
-				resultData = eval('(' + resultData + ')');
-				if (resultData == 'SUCCESS') {
-					$.messager.show({
-						title : Msg.sys_remaind1,
-						msg : Msg.sys_success
-					});
-					$("#setRolePage").dialog("close");
-					$("#roleDg").datagrid("clearChecked");
-					$('#user_table').datagrid("clearChecked").datagrid("reload");
-				}  else if(resultData == 'FAIL'){
-					$.messager.show({
-						title : Msg.sys_remaind1,
-						msg : Msg.sys_save_txt3
-					});
-              	  }else {
-              		if (resultData != null && resultData != undefined) {
-	      					var index = resultData.indexOf("/logout");
-	      					if (index != -1) {
-  	      					$.messager.show({
-	                                 title: Msg.sys_remaind1,
-	                                 msg:Msg.sys_no_permissions_txt1
-	                             });
-	  	      				setTimeout(function () { 
-	      						top.location.href = resultData;
-	      				    }, 3000);
-	      					}
-	      				}
-              	 }
 		});
 	}
 </script>

@@ -8,7 +8,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.its.common.crypto.simple.MD5SHACryptoUtil;
 import com.its.common.utils.BaseException;
 import com.its.core.mybatis.dao.mapper.SysUserMapper;
 import com.its.model.mybatis.dao.domain.SysUser;
@@ -36,8 +35,6 @@ public class SysUserServiceImpl implements SysUserService {
 	@Override
 	public void insertSysUser(SysUser sysUser) {
 		try {
-			String stPassword = MD5SHACryptoUtil.sha512Encrypt(sysUser.getStCode());
-			sysUser.setStPassword(stPassword);
 			sysUserMapper.insertSysUser(sysUser);
 		} catch (Exception e) {
 			log.error("后台用新增用户服务错误", e);
