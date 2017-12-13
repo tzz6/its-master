@@ -23,9 +23,6 @@ import com.its.common.crypto.Coder;
 /**
  * 证书组件
  * 
- * @author 梁栋
- * @version 1.0
- * @since 1.0
  */
 public abstract class CertificateCoder extends Coder {
 
