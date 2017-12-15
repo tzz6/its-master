@@ -18,7 +18,7 @@
 		http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
 		
 <!--     <mongo:mongo id="mongo"  replica-set="${mongoDB.replicaSet}">   -->
-    <mongo:mongo host="127.0.0.1" port="27017">  
+    <mongo:mongo host="192.168.117.128" port="27017">  
       <!--  
          connections-per-host: 每个主机答应的连接数（每个主机的连接池大小），当连接池被用光时，会被阻塞住   
          max-wait-time: 被阻塞线程从连接池获取连接的最长等待时间（ms）  

@@ -48,6 +48,6 @@
 		<module>its-service</module>
 		<module>its-service-facade</module>
 		<module>its-web</module>
-<!-- 		<module>its-test</module> -->
+		<module>its-test</module>
 	</modules>
 </project>
