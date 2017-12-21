@@ -1,4 +1,4 @@
-﻿*{margin:0;padding:0;}
+*{margin:0;padding:0;}
 a:hover{text-decoration:underline;}
 img{border:none;}
 form{border:none;}
@@ -9,12 +9,12 @@ body{font:14px/1.5 "\5FAE\8F6F\96C5\9ED1","Microsoft Yahei","Hiragino Sans GB",t
 .login{position:absolute;right:10px;}
 .logo-mod{height:72px;margin:0 auto;position:relative;background:#F0F0F0;}
 .logo{width:142px;height:52px;display:block;position:absolute;top:50px;left:0;}
-/*登录*/
+/*��¼*/
 .login-brand-box{width:928px;margin:0 auto;height:100%;background:#F0F0F0;}
 .login-brand{height:539px;background:transparent;}
-.login{height:350px;background:#F0F0F0;position:absolute;right:169px;top:50%;margin-top:-175px;z-index:9999;}
+.login{height:350px;background:#F0F0F0;position:absolute;right:369px;top:50%;margin-top:-175px;z-index:9999;}
 .login_btn {width:100%;height: 40px;line-height: 40px;background: #528CCC;font-size: 18px;font-weight:bold;color: #fff;border: none;}
-.login td{padding:12px 5px;}
+.login td{padding:5px 5px;}
 .login td.title{text-align:right;vertical-align:top;}
 .input_cls {height: 26px;line-height: 26px;width: 100%;font-size: 17px;outline:none;text-indent:5px;border:1px solid #E3E9EF;border-top:1px solid #ABADB3;}
 .error {color: #f00;padding-top: 2px;font-size: 12px;}

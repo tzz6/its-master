@@ -7,6 +7,25 @@ $(function() {
 
 	
 	$("#login_form").ajaxForm({
+		beforeSubmit : function(form_data, form, option) {
+			$("#errorInfo").html("");
+			var username = $("#username").val();
+			if(username == '' || username == '用户名' || username == 'Username'){
+				 $("#errorInfo").html($.i18n.prop("login.username.info"));
+				return false;
+			}
+			var password = $("#password").val();
+			if(password == '' || password == 'Password' || password == '密码'){
+				$("#errorInfo").html($.i18n.prop("login.password.info"));
+				return false;
+			}
+			var verifyCode = $("#verifyCode").val();
+			if(verifyCode == '' || verifyCode == 'VerifyCode' || verifyCode == '验证码'){
+				$("#errorInfo").html($.i18n.prop("login.verifycode.info"));
+				return false;
+			}
+			return true;
+		},
 		success : function(data) {
 			var json = eval('(' + data + ')');
 			if(json.status == 'success'){
@@ -15,9 +34,9 @@ $(function() {
 			}else{
 				$("#btn_login").attr('disabled',false);
 				if(json.status == 'verifyCodeError'){
-					$("#usernameInfo").html("验证码错误");
+					$("#errorInfo").html("验证码错误");
 				}else if(json.status == 'userError'){
-					$("#usernameInfo").html("用户名或密码不正确");
+					$("#errorInfo").html("用户名或密码不正确");
 				}else{
 					window.location.reload();
 				}
@@ -25,7 +44,7 @@ $(function() {
 			}
 		},
 		error : function() {
-			alert("error");
+			$("#errorInfo").html($.i18n.prop("login.error.info"));
 		},
 		timeout : 20000
 	});
@@ -36,21 +55,20 @@ $(function() {
 	}
 	
 	var language = GetCookie("lang");
-//	alert(language);
+	//	alert(language);
 });
 
 
 function loginSubmit(){
-	 $("#usernameInfo").html("");
-	 $("#passwordInfo").html("");
+	$("#errorInfo").html("");
 	var username = $("#username").val();
-	if(username == ''){
-		 $("#usernameInfo").html($.i18n.prop("login.username.info"));
+	if(username == '' || username == '用户名' || username == 'Username'){
+		 $("#errorInfo").html($.i18n.prop("login.username.info"));
 		return;
 	}
 	var password = $("#password").val();
-	if(password == ''){
-		$("#passwordInfo").html($.i18n.prop("login.password.info"));
+	if(password == '' || password == 'Password' || password == '密码'){
+		$("#errorInfo").html($.i18n.prop("login.password.info"));
 		return;
 	}
 	$("#btn_login").attr('disabled',true);

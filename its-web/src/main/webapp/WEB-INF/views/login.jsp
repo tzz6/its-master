@@ -29,69 +29,83 @@
 <script type="text/javascript" src="${ctx}/js/common/jquery.i18n.min.js"></script>
 <script type="text/javascript" src="${ctx}/js/common/jquery.form.js"></script>
 <script type="text/javascript" src="${ctx}/js/common/language.js"></script>
-<script type="text/javascript" src="${ctx}/js/login/login.js"></script>
+<script type="text/javascript" src="${ctx}/js/login/login.js?v=20171220002"></script>
+<link href="${ctx}/css/css.css?v=20171220000" rel="stylesheet" />
+<style>
+body{background:#fff;}
+.login-brand-box{background:#fff;}
+.logo-mod{background:#fff;}
+.header{width:888px;height:422px;margin:0 auto;}
+.footer{position:absolute;left:0;bottom:0;width:100%;}
+.login{border:1px solid #ccc;padding:0 20px;background:#F9F9F9;}
+.login h2 {margin:20px 5px;padding-bottom: 5px;color: #333;font-size: 18px;}
+.login table{width:300px;}
+.login table td{padding:5px\9;margin:5px\9;}
+.login-type label{display:inline-block;margin-right:15px;margin-left:5px;}
+br {display: block;margin: 1px 0;line-height:1px;}
+</style>
 </head>
 <body>
-	<div style="text-align: center;">
-		<input type="hidden" id="ctx" name="ctx" value="${ctx }">
-		<table border="1" width="560" height="300"
-			style="margin: auto; margin-top: 260px; text-align: center;">
-			<tr style="text-align: center;">
-				<td>
-					<form id="login_form" action="${ctx }/login" method="post">
-					<input type="hidden" id="lang" name="lang" value="${lang}" />
-						<table border="0" width="550">
-							<tr>
-								<td width="100"><fmt:message key="login.username" />：</td>
-								<td width="300"><input style="width: 186px;" type="text"
-									id="username" name="username" value="${username }" /></td>
-								<td id="usernameInfo" width="100" style="color: red;"></td>
-							</tr>
-							<tr>
-								<td width="100"><fmt:message key="login.password" />：</td>
-								<td width="300"><input style="width: 186px;"
-									type="password" id="password" name="password"
-									value="${password}" /></td>
-								<td id="passwordInfo" width="100" style="color: red;"></td>
-							</tr>
-							<tr>
-								<td width="100"><fmt:message key="login.language" />：</td>
-								<td width="300">
-								<select style="width: 192px;" name="language" id="language" onchange="changeLanguage();">
-										<option value="" <c:if test="${lang==''}">selected</c:if>><fmt:message key="login.language.opt" /></option>
-										<option value="zh" <c:if test="${lang=='zh'}">selected</c:if>><fmt:message key="login.language.cn" /></option>
-										<option value="en" <c:if test="${lang=='en'}">selected</c:if>><fmt:message key="login.language.en" /></option>
-								</select>
-								</td>
-								<td id="passwordInfo" width="100" style="color: red;"></td>
-							</tr>
-							<tr>
-								<td width="100"><fmt:message key="login.verifyCode" />：</td>
-								<td width="300">
-								<input style="width: 96px;" type="text" id="verifyCode" name="verifyCode" /> 
-								<img height="26" src="${ctx }/verifyCodeServlet" width="88" height="32" style="vertical-align: middle;" id="securityCodeImg"></td>
-								<td id="verifyCodeInfo" width="100" style="color: red;"></td>
-							</tr>
-							<tr>
-								<td width="100"></td>
-							<td width="300">
-<!-- 									<input type="checkbox" id="autologin" name="autologin" value="1" -->
-<%-- 									<c:if test="${autoLogin == '1' }">checked="checked"</c:if>> --%>
-<%-- 								<fmt:message key="login.autologin" /> --%>
-								<input type="checkbox" id="savePassword" name="savePassword" value="1"
-									<c:if test="${savePassword == '1' }">checked="checked"</c:if>>
-								<fmt:message key="login.savePassword" />
-							</td>
-							</tr>
-						</table>
-					</form>
-					<button id="btn_login" onclick="loginSubmit();">
-						<fmt:message key="login.button" />
-					</button>
-				</td>
+<input type="hidden" id="ctx" name="ctx" value="${ctx }">
+<div class="header">
+	<div class="brand-box login-brand-box">
+		<div class="brand login-brand">
+		<div class="login">
+		<h2>ITS后台管理平台</h2>
+		<form id="login_form" action="${ctx }/login" method="post">
+		<input type="hidden" id="lang" name="lang" value="${lang}" />
+		<table>
+			<tr>
+			<td>
+			<input class="input_cls" type="text" id="username" name="username" value="${username }" placeholder="<fmt:message key="login.username" />"/>
+			<br/><span class="error" id="usernameInfo"></span>
+			</td>
+			</tr>
+			<tr>
+			<td>
+			<input class="input_cls" type="password" id="password" name="password" value="${password}" placeholder="<fmt:message key="login.password" />"/>
+			<br/><span class="error" id="loginPsw-msg"></span>
+			</td>
+			</tr>
+			<tr>
+			<td>
+			<input class="input_cls" style="width: 90px;" type="text" id="verifyCode" name="verifyCode" placeholder="验证码"/> 
+			<img height="26" src="${ctx }/verifyCodeServlet" width="88" height="32" style="vertical-align: middle;" id="securityCodeImg">
+			</td>
+			</tr>
+			<tr>
+			<td>
+			<select class="input_cls" style="width: 90px;" name="language" id="language" onchange="changeLanguage();">
+			<option value="" <c:if test="${lang==''}">selected</c:if>><fmt:message key="login.language.opt" /></option>
+			<option value="zh" <c:if test="${lang=='zh'}">selected</c:if>><fmt:message key="login.language.cn" /></option>
+			<option value="en" <c:if test="${lang=='en'}">selected</c:if>><fmt:message key="login.language.en" /></option>
+			</select>
+			</td>
+			</tr>
+			<tr>
+			<td>
+			<input type="checkbox" id="savePassword" name="savePassword" value="1" 
+			<c:if test="${savePassword == '1' }">checked="checked"</c:if>> <fmt:message key="login.savePassword" />
+			</td>
+			</tr>
+			<tr>
+			<td>
+			<button id="btn_login" class="login_btn"> <fmt:message key="login.button" /></button>
+			</td>
+			</tr>
+			<tr>
+			<td id="errorInfo" style="color: red;"></td>
 			</tr>
 		</table>
+		</form>
+		</div>
+		<div class="people"></div>
 	</div>
+	</div>
+</div>
+<div class="footer">
+	<div class="footer-content"><ul><li>&copy;2018 ITS 版权所有</li></ul></div>
+</div>
 </body>
 </html>
 </fmt:bundle>
