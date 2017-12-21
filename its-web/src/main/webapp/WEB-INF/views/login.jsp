@@ -3,10 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:choose>
    <c:when test="${!(empty cookie.lang.value)}"> 
-    <c:set var="lang" value="${cookie.lang.value}"/> 
+   <c:set var="lang" value="${cookie.lang.value}"/> 
    </c:when>
    <c:otherwise>
- 	<%
+   <%
    	String language = request.getLocale().toString();
    	if (language.compareToIgnoreCase("zh_HK")==0 || language.compareToIgnoreCase("zh_TW")==0 || language.compareToIgnoreCase("zh_CN")==0){
    		language = "zh";
@@ -15,9 +15,7 @@
    <c:set var="lang" value="<%=language%>"/>
    </c:otherwise>
 </c:choose>
-
 <c:set var="ctx" value="${pageContext.request.contextPath}"></c:set>
-
 <fmt:setLocale value="${lang}" />
 <fmt:bundle basename="com.its.resource.lang">
 <!DOCTYPE html>
@@ -28,9 +26,9 @@
 <script type="text/javascript" src="${ctx}/js/common/jquery-2.1.4.js"></script>
 <script type="text/javascript" src="${ctx}/js/common/jquery.i18n.min.js"></script>
 <script type="text/javascript" src="${ctx}/js/common/jquery.form.js"></script>
-<script type="text/javascript" src="${ctx}/js/common/language.js"></script>
-<script type="text/javascript" src="${ctx}/js/login/login.js?v=20171220002"></script>
-<link href="${ctx}/css/css.css?v=20171220000" rel="stylesheet" />
+<script type="text/javascript" src="${ctx}/js/common/language.js?v=20171220001"></script>
+<script type="text/javascript" src="${ctx}/js/login/login.js?v=20171220001"></script>
+<link href="${ctx}/css/css.css?v=20171220001" rel="stylesheet" />
 <style>
 body{background:#fff;}
 .login-brand-box{background:#fff;}
