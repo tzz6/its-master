@@ -111,7 +111,10 @@ public class SysUserController {
 			sysUser.setCreateTm(currDate);
 			sysUser.setUpdateBy(currSysUser.getStCode());
 			sysUser.setCreateTm(currDate);
-			String stPassword = MD5SHACryptoUtil.sha512Encrypt(sysUser.getStCode());
+			String password = sysUser.getStCode();
+			String salt = sysUser.getStCode();
+			// SHA512加盐加密方式:密码+盐(盐可随机生成存储至数据库或使用用户名，当前使用简单方式即盐为用户名)
+			String stPassword = MD5SHACryptoUtil.sha512Encrypt(password + salt);
 			sysUser.setStPassword(stPassword);
 			sysUserFacade.insertSysUser(sysUser);
 			log.info("新增用户成功---用户名为" + stCode);

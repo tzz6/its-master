@@ -27,7 +27,8 @@
 <script type="text/javascript" src="${ctx}/js/common/jquery.i18n.min.js"></script>
 <script type="text/javascript" src="${ctx}/js/common/jquery.form.js"></script>
 <script type="text/javascript" src="${ctx}/js/common/language.js?v=20171220001"></script>
-<script type="text/javascript" src="${ctx}/js/login/login.js?v=20171220001"></script>
+<script type="text/javascript" src="${ctx}/js/jsencrypt.min.js?v=201801040001"></script>
+<script type="text/javascript" src="${ctx}/js/login/login.js?v=201801040001"></script>
 <link href="${ctx}/css/css.css?v=20171220001" rel="stylesheet" />
 <style>
 body{background:#fff;}
@@ -88,7 +89,8 @@ br {display: block;margin: 1px 0;line-height:1px;}
 			</tr>
 			<tr>
 			<td>
-			<button id="btn_login" class="login_btn"> <fmt:message key="login.button" /></button>
+<%-- 			<button id="btn_login" class="login_btn"> <fmt:message key="login.button" /></button> --%>
+			<input id="btn_login" type="button"  class="login_btn" value="<fmt:message key="login.button" />" onclick="ajaxSubmit()"/>
 			</td>
 			</tr>
 			<tr>

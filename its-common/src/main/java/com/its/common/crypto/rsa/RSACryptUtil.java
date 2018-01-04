@@ -38,7 +38,7 @@ public class RSACryptUtil {
 		return new BASE64Decoder().decodeBuffer(key);
 	}
 	
-	/**初始化密钥*/
+	/**初始化密钥(公钥/私钥)*/
 	public static Map<String, Object> initKey() {
 		KeyPairGenerator keyPairGen;
 		Map<String, Object> keyMap = new HashMap<String, Object>(2);

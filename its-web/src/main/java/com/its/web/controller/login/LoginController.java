@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.its.common.crypto.rsa.RSACryptUtil;
 import com.its.common.crypto.simple.MD5SHACryptoUtil;
 import com.its.common.utils.Constants;
 import com.its.model.mybatis.dao.domain.SysMenu;
@@ -81,7 +82,23 @@ public class LoginController extends BaseController {
 			if (verifyCode != null && sessVerifyCode.equals(verifyCode.toUpperCase())) {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("stCode", username);
-				map.put("stPassword", MD5SHACryptoUtil.sha512Encrypt(password));
+				//RAS私钥
+				String privateKey = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAOBIIIvxHcTZw0A7fxOQGyTpz9Da"
+						+ "0lc3CSq4Ya5j1+JZXI6Pub9PMa6rumsC7o+gC2KRcDxOAYwH9n8zFjPoF+iaUc8oCN+Okdd/gDmD"
+						+ "RGwccRLE0dET1A/iKv8wnk/BVUmADWJvDx2QfNfsgPd/7dX9d2oEeK7IQvCLuBqjslrrAgMBAAEC"
+						+ "gYAQvrHXYOglE1EVkZuaPU8ZgW9nm37KziwcCWoZmBC9MIjNiAOJOgNulBm19aEUDhHriQpFJlnN"
+						+ "N6b6tji5JWHrcwgJk2R8WlG3kArerWLHIq5V93SDI/OQdHTBA6c2gIK2HAJ+ZgpDzh56Mq3p+erl"
+						+ "Ud/fie/wmojn2cL6LeLWWQJBAP9FJOzjVYRIiae5RZ8g7k+xoclf1JKHlIcVZhENiGTWVdnO0eLI"
+						+ "T2AEJja4FyjVsVVtE1Zo1Jh0zZGiRwQQq8UCQQDg7Ey2niY5eZntn8eq7fDuasEYMi1ztgqogap4"
+						+ "3QAXG+DUM6kpno22IiQSmAceLV9e/fgzWOoekL7awTqYg+bvAkBTOsAnXJftYZlATnAcyifpZAlU"
+						+ "FyLAA+SxhpCYzsjB2AB127EjOBxpOfEbtjoW3lXLfJzpd5SZgLvl1/s/oA/hAkBUAi5M7xjb0r1Z"
+						+ "cZpED4czpY/ll6g+Vbn5YiTn67OC7hi1aW4/a0cGxg2vHDVcYhoDAtzXYNhg/jMqxY07NdjlAkEA"
+						+ "gtTLxrw1WrQQ3Qj76l556ihm9xTYr/OYm+rq+oXmULmk/ud9MzEQ8mP0Pz/DmxV3KmU73JOrCfR3"
+						+ "V9mrVTbe4Q==";
+				byte[] decodedData = RSACryptUtil.decryptByPrivateKey(RSACryptUtil.decryptBASE64(password), privateKey);
+				password = new String(decodedData);
+				// SHA512加盐加密方式:密码+盐(盐可随机生成存储至数据库或使用用户名，当前使用简单方式即盐为用户名)
+				map.put("stPassword", MD5SHACryptoUtil.sha512Encrypt(password + username));
 				SysUser sysUser = sysUserFacade.login(map);
 				if (sysUser != null) {
 					sysUser.setLanguage(lang);
