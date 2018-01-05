@@ -20,14 +20,17 @@ import javax.crypto.Cipher;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
-
+/**
+ * RSA非对称加密
+ *
+ */
 public class RSACryptUtil {
 
 	public static final String KEY_ALGORITHM = "RSA";
 	public static final String SIGNATURE_ALGORITHM = "MD5withRSA";
 	
-	private static final String PUBLIC_KEY = "RSAPublicKey";
-	private static final String PRIVATE_KEY = "RSAPrivateKey";
+	private static final String PUBLIC_KEY = "RSAPublicKey!@#$%^&*()";
+	private static final String PRIVATE_KEY = "RSAPrivateKey!@#$%^&*()";
 	
 	
 	public static String encryptBASE64(byte[] key) {  

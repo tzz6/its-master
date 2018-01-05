@@ -12,10 +12,14 @@ import javax.crypto.spec.DESKeySpec;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
+/**
+ * DES对称加密
+ *
+ */
 public class DESUtil {
 
 	public static String ALGORITHM = "DES";
-	public static String KEY = "QWE!@#123qwe123";
+	public static String KEY = "QWE!@#123qwe123@";
 
 	public static String encryptBASE64(byte[] key) {
 		return (new BASE64Encoder()).encodeBuffer(key);
@@ -90,8 +94,8 @@ public class DESUtil {
 	}
 
 	public static String encrypt(String content, String keyStr) {
+		System.out.println("加密前:" + content + "密钥:" + keyStr);
 		keyStr = initKey(keyStr);
-		System.out.println("原文:" + content + "密钥:" + keyStr);
 		Key key = createKey(decryptBASE64(keyStr));
 		byte[] encryptByte = encrypt(content.getBytes(), key);
 		String encryptStr = encryptBASE64(encryptByte);
@@ -99,8 +103,8 @@ public class DESUtil {
 	}
 
 	public static String decrypt(String content, String keyStr) {
+		System.out.println("加密后:" + content + "密钥:" + keyStr);
 		keyStr = initKey(keyStr);
-		System.out.println("原文:" + content + "密钥:" + keyStr);
 		Key key = createKey(decryptBASE64(keyStr));
 		byte[] decryptByte = decrypt(decryptBASE64(content), key);
 		String decryptStr = new String(decryptByte);

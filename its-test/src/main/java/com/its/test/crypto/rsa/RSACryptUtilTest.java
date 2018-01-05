@@ -5,13 +5,12 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.its.common.crypto.rsa.RSACryptUtil;
-import com.its.common.crypto.simple.MD5SHACryptoUtil;
 
 public class RSACryptUtilTest {
 
 	private static String publicKey;
 	private static String privateKey;
-	
+
 	static {
 		Map<String, Object> keyMap = RSACryptUtil.initKey();
 		publicKey = RSACryptUtil.getPublicKey(keyMap);
@@ -19,37 +18,36 @@ public class RSACryptUtilTest {
 		System.out.println("公钥: \n\r" + publicKey);
 		System.out.println("私钥： \n\r" + privateKey);
 	}
-	
+
 	@Test
-	public void test(){
+	public void test() {
 		try {
-			System.out.println("公钥加密---私钥解密");
-			String date = "123456公钥加密---私钥解密";
+			// 公钥加密---私钥解密
+			String date = "公钥加密---私钥解密Tzz123456~!@#$%^&*()_+-={}|[]:'<>?,./";
 			byte[] encodedData = RSACryptUtil.encryptByPublicKey(date.getBytes(), publicKey);
 			String encodedStr = RSACryptUtil.encryptBASE64(encodedData);
-			byte[] decodedData = RSACryptUtil.decryptByPrivateKey(RSACryptUtil.decryptBASE64(encodedStr), privateKey);
+			byte[] decodedData = RSACryptUtil.decryptByPrivateKey(RSACryptUtil.decryptBASE64(encodedStr), privateKey);// 公钥加密
 			String outputStr = new String(decodedData);
 			System.out.println("加密前: " + date + "\n\r" + "加密后: " + encodedStr + "\n\r" + "解密后: " + outputStr);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	@Test
 	public void testSign() throws Exception {
 		try {
 			System.out.println("私钥加密---公钥解密");
-			String inputStr = "123456";
+			String inputStr = "私钥加密---公钥解密Tzz123456~!@#$%^&*()_+-={}|[]:'<>?,./";
 			byte[] data = inputStr.getBytes();
-			
 			byte[] encodedData = RSACryptUtil.encryptByPrivateKey(data, privateKey);
-			
+			String encodedStr = RSACryptUtil.encryptBASE64(encodedData);
 			byte[] decodedData = RSACryptUtil.decryptByPublicKey(encodedData, publicKey);
-			
+
 			String outputStr = new String(decodedData);
-			System.out.println("加密前: " + inputStr + "\n\r" + "解密后: " + outputStr);
-			
+			System.out.println("加密前: " + inputStr + "\n\r" + "加密后: " + encodedStr + "\n\r" + "解密后: " + outputStr + "\n\r");
+
 			System.out.println("私钥签名——公钥验证签名");
 			// 产生签名
 			String sign = RSACryptUtil.sign(encodedData, privateKey);
@@ -57,15 +55,14 @@ public class RSACryptUtilTest {
 			// 验证签名
 			boolean status = RSACryptUtil.verify(encodedData, publicKey, sign);
 			System.out.println("状态:\r" + status);
-		
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	@Test
-	public void testPublic(){
+	public void testPublic() {
 		try {
 			System.out.println("公钥加密---私钥解密");
 			String date = "123456公钥加密---私钥解密";
@@ -82,14 +79,16 @@ public class RSACryptUtilTest {
 					+ "3QAXG+DUM6kpno22IiQSmAceLV9e/fgzWOoekL7awTqYg+bvAkBTOsAnXJftYZlATnAcyifpZAlU"
 					+ "FyLAA+SxhpCYzsjB2AB127EjOBxpOfEbtjoW3lXLfJzpd5SZgLvl1/s/oA/hAkBUAi5M7xjb0r1Z"
 					+ "cZpED4czpY/ll6g+Vbn5YiTn67OC7hi1aW4/a0cGxg2vHDVcYhoDAtzXYNhg/jMqxY07NdjlAkEA"
-					+ "gtTLxrw1WrQQ3Qj76l556ihm9xTYr/OYm+rq+oXmULmk/ud9MzEQ8mP0Pz/DmxV3KmU73JOrCfR3"
-					+ "V9mrVTbe4Q==";
-			byte[] decodedData = RSACryptUtil.decryptByPrivateKey(RSACryptUtil.decryptBASE64("CY/3yVGvkm6h2Im+cUl91kmKYfmhUyYoldytxr5E7htYlKz8G6xymItDvTprT5q6SoEd7dXH1x1s6/gaU8IeVYbfHoH1jgsOcI5ewZ3M5b2yP3A5NjLX2WCde081xm3Ju+bf+L+nUkpzVDm8iDcbxbxyHk/ZmAlPiyqQaf0uPKc="), priKey);
+					+ "gtTLxrw1WrQQ3Qj76l556ihm9xTYr/OYm+rq+oXmULmk/ud9MzEQ8mP0Pz/DmxV3KmU73JOrCfR3" + "V9mrVTbe4Q==";
+			byte[] decodedData = RSACryptUtil.decryptByPrivateKey(
+					RSACryptUtil.decryptBASE64(
+							"CY/3yVGvkm6h2Im+cUl91kmKYfmhUyYoldytxr5E7htYlKz8G6xymItDvTprT5q6SoEd7dXH1x1s6/gaU8IeVYbfHoH1jgsOcI5ewZ3M5b2yP3A5NjLX2WCde081xm3Ju+bf+L+nUkpzVDm8iDcbxbxyHk/ZmAlPiyqQaf0uPKc="),
+					priKey);
 			String outputStr = new String(decodedData);
 			System.out.println("加密前: " + date + "\n\r" + "加密后: " + encodedStr + "\n\r" + "解密后: " + outputStr);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 }
