@@ -22,15 +22,15 @@ public class SymmetryUtil {
 	/**
 	 * 创建密钥key对象
 	 * 
-	 * @param algorithm
-	 * @param keysize
-	 * @param key
+	 * @param algorithm 算法
+	 * @param keysize 密钥长度
+	 * @param key 密钥
 	 * @return
 	 * @throws NoSuchAlgorithmException
 	 */
 	public static SecretKey createKey(String algorithm, int keysize, String key) {
-		KeyGenerator keyGenerator = null;
-		SecretKey secretKey = null;
+		KeyGenerator keyGenerator = null;// 声明KeyGenerator对象
+		SecretKey secretKey = null;// 声明 密钥对象
 		try {
 			keyGenerator = KeyGenerator.getInstance(algorithm);
 			keyGenerator.init(keysize, new SecureRandom(key.getBytes()));
@@ -41,6 +41,14 @@ public class SymmetryUtil {
 		return secretKey;
 	}
 
+	/**
+	 * 加密
+	 * @param algorithm 算法
+	 * @param keysize 密钥长度
+	 * @param key 密钥
+	 * @param data 数据
+	 * @return
+	 */
 	public static byte[] encrypt(String algorithm, int keysize, String key, byte[] data) {
 		try {
 			SecretKey secretKey = createKey(algorithm, keysize, key);
@@ -54,6 +62,14 @@ public class SymmetryUtil {
 		return null;
 	}
 
+	/**
+	 * 解密
+	 * @param algorithm 算法
+	 * @param keysize 密钥长度
+	 * @param key 密钥
+	 * @param data 数据
+	 * @return
+	 */
 	public static byte[] decrypt(String algorithm, int keysize, String key, byte[] data) {
 		try {
 			SecretKey secretKey = createKey(algorithm, keysize, key);
@@ -67,12 +83,28 @@ public class SymmetryUtil {
 		return null;
 	}
 
+	/**
+	 * 加密
+	 * @param algorithm 算法
+	 * @param keysize 密钥长度
+	 * @param key 密钥
+	 * @param data 数据
+	 * @return
+	 */
 	public static String encrypt(String algorithm, int keysize, String key, String data) {
 		byte[] encryptByte = encrypt(algorithm, keysize, key, data.getBytes());
 		String encryptStr = encryptBASE64(encryptByte);
 		return encryptStr;
 	}
 
+	/**
+	 * 解密
+	 * @param algorithm 算法
+	 * @param keysize 密钥长度
+	 * @param key 密钥
+	 * @param data 数据
+	 * @return
+	 */
 	public static String decrypt(String algorithm, int keysize, String key, String data) {
 		byte[] decryptByte = decrypt(algorithm, keysize, key, decryptBASE64(data));
 		String decryptStr = new String(decryptByte);
