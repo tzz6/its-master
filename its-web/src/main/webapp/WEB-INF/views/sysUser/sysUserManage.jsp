@@ -42,6 +42,10 @@
 					data-options="iconCls:'icon-cancel'"><fmt:message
 							key="btn.delete" /></a></td>
 			</sc:security>
+			<sc:security property="SYS_USER_ADD">
+				<td style="padding: 2px 2px 2px 5px;"><a href="#" id="import_linkbutton" class="easyui-linkbutton"
+					data-options="iconCls:'icon-page_excel'"><fmt:message key="btn.import" /></a></td>
+			</sc:security>
 			<sc:security property="SYS_USER_ROLE">
 				<td class="content_linkbutton"><a id="setRole" href="javascript:setRole()" class="easyui-linkbutton" data-options="iconCls:'icon-search'"><fmt:message
 							key="btn.user.set.role" /></a></td>
@@ -110,6 +114,34 @@
 			<a href="#" id="update_dialog_linkbutton_cancel" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'"><fmt:message key="btn.close" /></a>
 		</div>
 	</div>
+	
+	<!--导入-->
+	<div id="import_dialog_div" class="easyui-dialog" style="width:900px;height:600px" data-options="modal:true, shadow:false, closed:true, 
+		buttons:'#upload_dialog_button_div', title:'<fmt:message key="btn.import" />'">
+	      <div>
+		        <form id="upload_dialog_form" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+		        <input type="hidden" name="agentServiceId" id="import_area_agentServiceId" value=""></input>
+		        	<table>
+					   <tr>
+					       <td><fmt:message key="user.select.file" />：</td>
+					       <td><input type="file" name="imptFile" id="uploadFile" style="height:24px;width:300px; border:1px solid #a5c3e0;border-top:1px solid #89accd;border-right:1px solid #89accd;padding:0px;"></td>
+					       <td>
+					          <a class="easyui-linkbutton" href="javascript:void(0)" id="importArea_dialog_linkbutton_save" data-options="iconCls:'icon-save'" ><fmt:message key="btn.upload" /></a>
+					       </td>
+					       <td style="padding-left: 10px;">
+					          <a class="easyui-linkbutton" href="${ctx}/file/download?fileName=service_coverage_templete_${MCS_USER_SESSION.language}.xlsx" data-options="iconCls:'icon-page_white_excel'"><fmt:message key="user.export.templet" /></a>
+					       </td>
+					       <td style="padding-left: 10px;">
+					          <span id="msg_uploading" style="color: red;"></span>
+					       </td>
+					   </tr>
+					</table>
+		        </form>
+		        <div id="resultTable" title="<fmt:message key="import.failure.record" />" style="padding:0px; margin: 0px;"></div>
+		</div>
+	</div>
+	<!-- 导入 end -->
+	
 	<!-- 设置用户角色    start -->
     <div id="tbRole" style="padding: 5px; display: none;">
 		<div>
@@ -526,6 +558,21 @@
 	// 修改用户窗口关闭按钮点击事件
 	$('#update_dialog_linkbutton_cancel').click(function() {
 		$('#update_dialog_div').dialog('close');
+	});
+	
+	// 打开导入弹出框
+	$('#import_linkbutton').click(function() {
+		if($(this).linkbutton("options").disabled){	//已禁用按钮
+			return;
+		}
+		$('#import_dialog_div').dialog('open');
+		$('#importServiceAreaForm').form('clear');
+		$('#resultTable').datagrid('loadData',{'total':0,'rows':[]}); 
+		var row = $("#agentservice_table").datagrid("getSelected");
+		if (row) {
+			var agentServiceId = row.agentServiceId;
+			$("#import_area_agentServiceId").val(agentServiceId);
+		}
 	});
 
 	// 提交保存录入的修改用户信息

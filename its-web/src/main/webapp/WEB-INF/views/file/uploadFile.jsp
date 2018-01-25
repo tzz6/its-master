@@ -7,7 +7,7 @@
 <fmt:setLocale value="${lang}" />
 <fmt:bundle basename="com.its.resource.lang">
 <div>commons.fileupload方式</div>
-<p style="color: red;">需要去掉spring-servlet中 支持上传文件的配置</p>
+<p style="color: red;">需要去掉spring-servlet中 支持上传文件的配置,修改jsp页面的form submit的form id</p>
 <br>
 	<form id="commons_upload_dialog_form" action="${ctx }/file/saveFile" method="post" enctype="multipart/form-data">
 		<div style="padding: 0px;" align="left">
@@ -62,6 +62,7 @@
 	//上传保存
 function uploadSaveFile() {
 	$("#upload_dialog_linkbutton_save").linkbutton('disable');
+// 	$("#commons_upload_dialog_form").form('submit',{
 	$("#springmvc_upload_dialog_form").form('submit',{
 // 		url : '${ctx}/file/saveFileSM?random='+ new Date().getTime(),
 		method : "post",

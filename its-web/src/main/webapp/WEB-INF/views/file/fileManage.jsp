@@ -147,6 +147,7 @@
 	// 打开新增弹出框
 	function openAddDialog() {
 		$('#upload_dialog_div').dialog('open');
+		$("#upload_dialog_linkbutton_save").linkbutton('enable');
 	}
  	
 	// 删除按钮点击事件

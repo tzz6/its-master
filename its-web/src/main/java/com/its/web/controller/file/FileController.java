@@ -102,9 +102,9 @@ public class FileController extends BaseController {
 	public @ResponseBody String saveFile(HttpServletRequest request) {
 		String successFlag = Constants.OPTION_FLAG_SUCCESS;
 		// 得到上传文件的保存目录，将上传的文件存放于WEB-INF目录下，不允许外界直接访问，保证上传文件的安全
-		String savePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");
+		String savePath = FileUtil.getPath(request, FileUtil.FILE_UPLOAD_DIR);
 		// 上传时生成的临时文件保存目录
-		String tempPath = request.getSession().getServletContext().getRealPath("/WEB-INF/temp");
+		String tempPath = FileUtil.getPath(request, FileUtil.FILE_UPLOAD_TEMP_DIR);
 		File tmpFile = new File(tempPath);
 		if (!tmpFile.exists()) {// 创建临时目录
 			tmpFile.mkdir();
@@ -201,7 +201,7 @@ public class FileController extends BaseController {
 	@RequestMapping(value = "/saveFileSM", method = RequestMethod.POST)
 	public @ResponseBody String saveFileSM(@RequestParam("file") MultipartFile[] files, HttpServletRequest request) {
 		String successFlag = Constants.OPTION_FLAG_SUCCESS;
-		String savePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");
+		String savePath = FileUtil.getPath(request, FileUtil.FILE_UPLOAD_DIR);
 		try {
 			for (int i = 0; i < files.length; i++) {
 				FileModel fileModel = new FileModel();

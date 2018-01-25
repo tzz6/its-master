@@ -22,8 +22,10 @@ public class FileUtil {
 	
 	private static Logger logger = Logger.getLogger(FileUtil.class);
 	
-	public final static String PDF_DIR = File.separator + "WEB-INF" + File.separator + "file" + File.separator + "pdf";
-	public final static String IMAGE_DIR = File.separator + "WEB-INF" + File.separator + "file" + File.separator + "image";
+	public final static String PDF_DIR = "/WEB-INF/file/pdf";
+	public final static String IMAGE_DIR = "/WEB-INF/file/image";
+	public final static String FILE_UPLOAD_DIR = "/WEB-INF/file/upload";
+	public final static String FILE_UPLOAD_TEMP_DIR = "/WEB-INF/file/temp";
 	
 	/**
 	 * 获取项目中目录的实际路径
