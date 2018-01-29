@@ -156,7 +156,7 @@ public class FileController extends BaseController {
 					// 获取item中的上传文件的输入流
 					InputStream in = item.getInputStream();
 					// 得到文件保存的名称
-					String saveFilename = FileUtil.makeFileName(filename);
+					String saveFilename = FileUtil.makeFileName(fileExtName);
 					// 得到文件的保存目录
 					String realSavePath = FileUtil.makePath(saveFilename, savePath);
 					// 创建一个文件输出流
@@ -211,11 +211,13 @@ public class FileController extends BaseController {
 					continue;
 				}
 				filename = filename.substring(filename.lastIndexOf("\\") + 1);
+				String fileExtName = filename.substring(filename.lastIndexOf(".") + 1);
+				log.info("上传的文件的扩展名是：" + fileExtName);
 				// 获取item中的上传文件的输入流
 				InputStream in = files[i].getInputStream();
-				// 得到文件保存的名称
+				// 生成文件保存的名称
 				String saveFilename = FileUtil.makeFileName(filename);
-				// 得到文件的保存目录
+				// 生成文件的保存目录
 				String realSavePath = FileUtil.makePath(saveFilename, savePath);
 				// 创建一个文件输出流
 				FileOutputStream out = new FileOutputStream(realSavePath + saveFilename);
@@ -278,6 +280,17 @@ public class FileController extends BaseController {
 		FileModel fileModel = fileModelService.getEntity(id);
 		String fileName = fileModel.getName();
 		String path = fileModel.getSavePath();
+		FileUtil.downloadFile(response, fileName, path);
+	}
+	
+	/** 模板下载 */
+	@RequestMapping(value = "/downloadPath", method = RequestMethod.GET)
+	public void downloadPath(@RequestParam(value = "path") String path,
+			@RequestParam(value = "fileName") String fileName, HttpServletRequest request,
+			HttpServletResponse response) {
+		path = FileUtil.getPath(request, path);
+		path = path + File.separator + fileName;
+		log.info(path);
 		FileUtil.downloadFile(response, fileName, path);
 	}
 

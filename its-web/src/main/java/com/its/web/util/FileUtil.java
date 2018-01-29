@@ -26,6 +26,7 @@ public class FileUtil {
 	public final static String IMAGE_DIR = "/WEB-INF/file/image";
 	public final static String FILE_UPLOAD_DIR = "/WEB-INF/file/upload";
 	public final static String FILE_UPLOAD_TEMP_DIR = "/WEB-INF/file/temp";
+	public final static String FILE_TEMPLATE_DIR = "/WEB-INF/file/template";
 	
 	/**
 	 * 获取项目中目录的实际路径

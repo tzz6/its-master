@@ -52,4 +52,23 @@ public class Constants {
 		public static final String ALTSLASH = "/";
 	}
 
+	public static class Excel {
+
+		/** 校验最大限制数 */
+		public static int MAXROW = 500;
+		/** Excel头部错误 ***/
+		public static final String EXCEL_HEADER_ERROR = "cil_common_commodity_headerFormatErro";
+		/** 列 ***/
+		public static final String EXCEL_HEADER_COLUMN = "cil_common_commodity_headerColumn";
+		/** 应该是 ***/
+		public static final String EXCEL_HEADER_SHOULD = "cil_common_commodity_headerShouldBe";
+		/** 用户名 ***/
+		public static final String ST_CODE = "st_code";
+		/** 没有成功记录 **/
+		public static final String NO_SUCCESS_RECORD = "cil_common_commodity_noRecord";
+		/** 导入异常 **/
+		public static final String IMPORT_EXCEPTION = "import_exception";
+
+	}
+
 }

@@ -8,19 +8,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+
 import org.apache.poi.ss.usermodel.DateUtil;
 
 /**
  * POIUtil
  */
 public class POIUtil {
-
+	private static final Log log = LogFactory.getLog(POIUtil.class);
+	
 	/** Excel导入 */
 	public static Map<String, List<String>> read(String path) {
 		Map<String, List<String>> maps = new HashMap<String, List<String>>();
@@ -34,11 +39,11 @@ public class POIUtil {
 			} else if (suffix.equals("xlsx")) {
 				wb = new XSSFWorkbook(inputStream);
 			} else {
-				System.out.println("您输入的excel格式不正确");
+				log.info("您输入的excel格式不正确");
 			}
 			Sheet sheet = wb.getSheetAt(0);
 			int rowsNum = sheet.getPhysicalNumberOfRows();
-			System.out.println("excel总行数：" + rowsNum);
+			log.info("excel总行数：" + rowsNum);
 			List<String> list = null;
 			for (Row row : sheet) {
 				list = new ArrayList<String>();
@@ -90,13 +95,13 @@ public class POIUtil {
 			} else if (fileType.equals("xlsx")) {
 				wb = new XSSFWorkbook();
 			} else {
-				System.out.println("您的文档格式不正确！");
+				log.info("您输入的excel格式不正确");
 			}
 			// 创建sheet对象
 			Sheet sheet1 = (Sheet) wb.createSheet("sheet1");
 			for (Map.Entry<String, List<String>> map : maps.entrySet()) {// 循环写入行数据
 				int rowNum = Integer.parseInt(map.getKey());
-				System.out.println("行号：" + rowNum);
+				log.info("行号：" + rowNum);
 				Row row = (Row) sheet1.createRow(rowNum);
 				List<String> list = map.getValue();
 				for (int i = 0; i < list.size(); i++) {// 循环写入列数据

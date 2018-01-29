@@ -120,16 +120,15 @@
 		buttons:'#upload_dialog_button_div', title:'<fmt:message key="btn.import" />'">
 	      <div>
 		        <form id="upload_dialog_form" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-		        <input type="hidden" name="agentServiceId" id="import_area_agentServiceId" value=""></input>
 		        	<table>
 					   <tr>
 					       <td><fmt:message key="user.select.file" />：</td>
 					       <td><input type="file" name="imptFile" id="uploadFile" style="height:24px;width:300px; border:1px solid #a5c3e0;border-top:1px solid #89accd;border-right:1px solid #89accd;padding:0px;"></td>
 					       <td>
-					          <a class="easyui-linkbutton" href="javascript:void(0)" id="importArea_dialog_linkbutton_save" data-options="iconCls:'icon-save'" ><fmt:message key="btn.upload" /></a>
+					          <a class="easyui-linkbutton" href="javascript:void(0)" id="import_dialog_linkbutton_save" data-options="iconCls:'icon-save'" ><fmt:message key="btn.upload" /></a>
 					       </td>
 					       <td style="padding-left: 10px;">
-					          <a class="easyui-linkbutton" href="${ctx}/file/download?fileName=service_coverage_templete_${MCS_USER_SESSION.language}.xlsx" data-options="iconCls:'icon-page_white_excel'"><fmt:message key="user.export.templet" /></a>
+					          <a class="easyui-linkbutton" href="${ctx}/file/downloadPath?path=/WEB-INF/file/template&fileName=user_template.xlsx" data-options="iconCls:'icon-page_white_excel'"><fmt:message key="user.export.templet" /></a>
 					       </td>
 					       <td style="padding-left: 10px;">
 					          <span id="msg_uploading" style="color: red;"></span>
@@ -137,7 +136,7 @@
 					   </tr>
 					</table>
 		        </form>
-		        <div id="resultTable" title="<fmt:message key="import.failure.record" />" style="padding:0px; margin: 0px;"></div>
+		        <div id="resultTable" title="<fmt:message key="user.import.failure.record" />" style="padding:0px; margin: 0px;"></div>
 		</div>
 	</div>
 	<!-- 导入 end -->
@@ -430,8 +429,7 @@
 	});
 	// 按条件查询角色信息列表
 	function querySysUserList() {
-		$('#user_table').datagrid('load',
-				$.serializeObject($('#search_form').form()));
+		$('#user_table').datagrid('load', $.serializeObject($('#search_form').form()));
 	}
 	// 重置查询列表框
 	function resetSearchForm() {
@@ -529,8 +527,7 @@
 	// 打开修改用户弹出框
 	function openUpdateDialog(stId) {
 		$.ajax({
-			url : '${ctx}/sysUser/getSysUserById?random='
-					+ new Date().getTime(),
+			url : '${ctx}/sysUser/getSysUserById?random='+ new Date().getTime(),
 			type : "post",
 			data : {
 				"stId" : stId
@@ -566,141 +563,101 @@
 			return;
 		}
 		$('#import_dialog_div').dialog('open');
-		$('#importServiceAreaForm').form('clear');
-		$('#resultTable').datagrid('loadData',{'total':0,'rows':[]}); 
-		var row = $("#agentservice_table").datagrid("getSelected");
-		if (row) {
-			var agentServiceId = row.agentServiceId;
-			$("#import_area_agentServiceId").val(agentServiceId);
-		}
+		$('#upload_dialog_form').form('clear');
+		$("#import_dialog_linkbutton_save").linkbutton('enable');
+// 		$('#resultTable').datagrid('loadData',{'total':0,'rows':[]}); 
+// 		var row = $("#agentservice_table").datagrid("getSelected");
+// 		if (row) {
+// 			var agentServiceId = row.agentServiceId;
+// 			$("#import_area_agentServiceId").val(agentServiceId);
+// 		}
 	});
+	
+	$('#import_dialog_linkbutton_save').click(function() {
+		if($(this).linkbutton("options").disabled){	//已禁用按钮
+			return;
+		}
+		uploadSaveFile();
+	});
+	// 从本地加载数据的分页方法
+	initResultTable();
 
 	// 提交保存录入的修改用户信息
 	function updateSysUser() {
-		$('#update_dialog_form').form(
-				'submit',
-				{
-					url : '${ctx}/sysUser/updateSysUser?random='
-							+ new Date().getTime(),
-					onSubmit : function() {
-						$("#stName_update_h").val(
-								encodeURI($("#stName_update").val()));
+		$('#update_dialog_form').form('submit',{
+		url : '${ctx}/sysUser/updateSysUser?random='+ new Date().getTime(),
+		onSubmit : function() {
+			$("#stName_update_h").val(encodeURI($("#stName_update").val()));
 						return $(this).form('validate');
-					},
-					success : function(resultData) {
-						resultData = eval('(' + resultData + ')');
-						if (resultData == 'SUCCESS') {
-							$.messager.show({
-								title : Msg.sys_remaind1,
-								msg : Msg.sys_save_txt
-							});
-							$('#update_dialog_div').dialog('close'); // 关闭新增窗口
-							querySysUserList(); // 重新查询用户列表
-						} else if (resultData == 'IS_REPEAT') {
-							$.messager.show({
-								title : Msg.sys_remaind1,
-								msg : Msg.sys_userMgr_04
-							});
-						} else if (resultData == 'FAIL') {
-							$.messager.show({
-								title : Msg.sys_remaind1,
-								msg : Msg.sys_save_txt3
-							});
-						} else {
-							if (resultData != null && resultData != undefined) {
-								var index = resultData.indexOf("/logout");
-								if (index != -1) {
-									$.messager.show({
-										title : Msg.sys_remaind1,
-										msg : Msg.sys_no_permissions_txt1
-									});
-									setTimeout(function() {
-										top.location.href = resultData;
-									}, 3000);
-								}
-							}
+		},
+		success : function(resultData) {
+			resultData = eval('(' + resultData + ')');
+			if (resultData == 'SUCCESS') {
+				$.messager.show({title : Msg.sys_remaind1,msg : Msg.sys_save_txt});
+				$('#update_dialog_div').dialog('close'); // 关闭新增窗口
+				querySysUserList(); // 重新查询用户列表
+			} else if (resultData == 'IS_REPEAT') {
+				$.messager.show({title : Msg.sys_remaind1,msg : Msg.sys_userMgr_04});
+			} else if (resultData == 'FAIL') {
+				$.messager.show({title : Msg.sys_remaind1,msg : Msg.sys_save_txt3});
+			} else {
+				if (resultData != null && resultData != undefined) {
+						var index = resultData.indexOf("/logout");
+						if (index != -1) {
+							$.messager.show({title : Msg.sys_remaind1,msg : Msg.sys_no_permissions_txt1});
+							setTimeout(function() {
+								top.location.href = resultData;
+							}, 3000);
 						}
-					}
-				});
+				}
+			}
+		}
+		});
 	}
 
 	// 删除按钮点击事件
-	$('#delete_linkbutton')
-			.click(
-					function() {
-						var stId = ""; // 用户ID
-						var rows = $('#user_table').datagrid('getChecked'); // 获取选中的行数据
-						if (rows.length > 0) {
-							$.messager
-									.confirm(
-											Msg.sys_confirm2,
-											Msg.sys_deleate,
-											function(flag) {
-												if (flag) {$.each(rows,
-																	function(index,row) {
-																		if (index + 1 == rows.length) {
-																			stId = stId+ row.stId;
-																		} else {
-																			stId = stId+ row.stId+ ",";
-																		}
-																	});
-													$.ajax({url : '${ctx}/sysUser/deleteSysUser?random='+ new Date().getTime(),
-																type : "POST",
-																data : {
-																	'stId' : stId
-																},
-																async : false,
-																success : function(resultData) {
-																	resultData = eval('('
-																			+ resultData
-																			+ ')');
-																	if (resultData == 'SUCCESS') {
-																		$.messager
-																				.show({
-																					title : Msg.sys_remaind1,
-																					msg : Msg.sys_delete_txt1
-																				});
-																		querySysUserList(); // 重新查询用户列表
-																		$(
-																				'#user_table')
-																				.datagrid(
-																						'uncheckAll');
-																	} else if (resultData == 'FAIL') {
-																		$.messager
-																				.show({
-																					title : Msg.sys_remaind1,
-																					msg : Msg.sys_delete_txt2
-																				});
-																	} else {
-																		if (resultData != null
-																				&& resultData != undefined) {
-																			var index = resultData
-																					.indexOf("/logout");
-																			if (index != -1) {
-																				$.messager
-																						.show({
-																							title : Msg.sys_remaind1,
-																							msg : Msg.sys_no_permissions_txt1
-																						});
-																				setTimeout(
-																						function() {
-																							top.location.href = resultData;
-																						},
-																						3000);
-																			}
-																		}
-																	}
-																}
-															});
-												}
-											});
+	$('#delete_linkbutton').click(
+		function() {
+		var stId = ""; // 用户ID
+		var rows = $('#user_table').datagrid('getChecked'); // 获取选中的行数据
+		if (rows.length > 0) {
+			$.messager.confirm(Msg.sys_confirm2,Msg.sys_deleate,
+			function(flag) {
+				if (flag) {$.each(rows,function(index,row) {
+						if (index + 1 == rows.length) {
+							stId = stId+ row.stId;
 						} else {
-							$.messager.show({
-								title : Msg.sys_remaind1,
-								msg : Msg.frequency_10
-							});
+							stId = stId+ row.stId+ ",";
 						}
-					});
+				});
+				$.ajax({url : '${ctx}/sysUser/deleteSysUser?random='+ new Date().getTime(),
+						type : "POST",
+						data : {'stId' : stId},
+						async : false,
+						success : function(resultData) {
+							resultData = eval('('+ resultData+ ')');
+							if (resultData == 'SUCCESS') {
+								$.messager.show({title : Msg.sys_remaind1,msg : Msg.sys_delete_txt1});
+								querySysUserList(); // 重新查询用户列表
+								$('#user_table').datagrid('uncheckAll');
+							} else if (resultData == 'FAIL') {
+								$.messager.show({title : Msg.sys_remaind1,msg : Msg.sys_delete_txt2});
+							} else {
+								if (resultData != null&& resultData != undefined) {
+									var index = resultData.indexOf("/logout");
+									if (index != -1) {
+										$.messager.show({title : Msg.sys_remaind1,msg : Msg.sys_no_permissions_txt1});
+											setTimeout(function() {top.location.href = resultData;},3000);
+									}
+								}
+							}
+						}
+				});
+				}
+			});
+		} else {
+		$.messager.show({title : Msg.sys_remaind1,msg : Msg.frequency_10});}
+	});
 
 	//--------------关联菜单---------------
 	var userRoles;
@@ -729,79 +686,54 @@
 		$('#role_form').form('clear');
 		//加载菜单信息
 		role_form = $('#role_form').form();
-		roleDg = $('#roleDg')
-				.datagrid(
-						{
-							url : '${ctx}/sysRole/sysRoleManage?random='
-									+ new Date().getTime(),
-							queryParams : {
-								"roleName" : $('#roleName').val(),
-								"sysNameCode" : $('#sysNameCode_search').val()
-							},
-							toolbar : '#tbRole',
-							height : 400,
-							nowrap : false,
-							idField : 'roleId',
-							pageList : [ 50, 100, 200 ],
-							pageSize : 50,
-							singleSelect : false, //是否单选 
-							pagination : true,//分页控件 
-							rownumbers : true, //行号
-							columns : [ [ {
-								field : "ck",
-								title : '选中',
-								checkbox : true
-							}, {
-								field : "roleId",
-								hidden : true
-							}, {
-								field : "roleName",
-								title : Msg.sys_role_name
-							}, {
-								field : "sysName",
-								title : Msg.sys_name_code
-							} ] ],
-							onLoadSuccess : function() {
-								//$("#roleDg").datagrid("clearChecked");
-								$
-										.post(
-												'${ctx}/sysUser/getSysUserRoleList?random='
-														+ new Date().getTime(),
-												{
-													stId : items[0].stId
-												},
-												function(data) {
-													if (data != null
-															&& data.length > 0) {
-														userRoles = data;
-														for (var i = 0; i < userRoles.length; i++) {
-															var rows = $(
-																	'#roleDg')
-																	.datagrid(
-																			"getRows");
-															for (var j = 0; j < rows.length; j++) {
-																if (rows[j].roleId == userRoles[i].roleId) {
-																	var rowIndex = $(
-																			'#roleDg')
-																			.datagrid(
-																					"getRowIndex",
-																					rows[j].roleId);
-																	$('#roleDg')
-																			.datagrid(
-																					"checkRow",
-																					rowIndex)
-																			//选中行
-																			.datagrid(
-																					"refreshRow",
-																					rowIndex);//刷新行
-
-																}
-															}
-														}
-													}
-												}, "json");
+		roleDg = $('#roleDg').datagrid({
+			url : '${ctx}/sysRole/sysRoleManage?random='+ new Date().getTime(),
+			queryParams : {
+				"roleName" : $('#roleName').val(),
+				"sysNameCode" : $('#sysNameCode_search').val()
+			},
+			toolbar : '#tbRole',
+			height : 400,
+			nowrap : false,
+			idField : 'roleId',
+			pageList : [ 50, 100, 200 ],
+			pageSize : 50,
+			singleSelect : false, //是否单选 
+			pagination : true,//分页控件 
+			rownumbers : true, //行号
+			columns : [ [ {
+				field : "ck",
+				title : '选中',
+				checkbox : true
+			}, {
+				field : "roleId",
+				hidden : true
+			}, {
+				field : "roleName",
+				title : Msg.sys_role_name
+			}, {
+				field : "sysName",
+				title : Msg.sys_name_code
+			} ] ],
+			onLoadSuccess : function() {
+				//$("#roleDg").datagrid("clearChecked");
+				$.post('${ctx}/sysUser/getSysUserRoleList?random='+ new Date().getTime(),{stId : items[0].stId},
+				function(data) {
+					if (data != null&& data.length > 0) {
+						userRoles = data;
+						for (var i = 0; i < userRoles.length; i++) {
+							var rows = $('#roleDg').datagrid("getRows");
+							for (var j = 0; j < rows.length; j++) {
+								if (rows[j].roleId == userRoles[i].roleId) {
+									var rowIndex = $('#roleDg').datagrid("getRowIndex",rows[j].roleId);
+									$('#roleDg').datagrid("checkRow",rowIndex).datagrid("refreshRow",rowIndex);//刷新行
+								}
 							}
-						});
+						}
+					}
+				}, "json");
+			}
+		});
 
 		$('#setRolePage').dialog('open');
 		// 			$('#setRolePage').dialog({
@@ -889,6 +821,87 @@
 			}
 		});
 	}
+	
+	//导入上传保存
+	function uploadSaveFile() {
+		var filepath = $("#uploadFile").val();
+		if (!filepath) {
+			$.messager.alert(Msg.sys_remaind1, Msg.msg_upload_selectFileFirst);
+			return;
+		}
+		var fileType = filepath.substring(filepath.lastIndexOf(".")).toUpperCase();
+		if ('.XLSX' != fileType && '.XLS' != fileType) {
+			$.messager.alert(Msg.sys_remaind1, Msg.msg_upload_fileFormatWrong);
+			return;
+		}
+		$("#import_dialog_linkbutton_save").linkbutton('disable');
+		$("#msg_uploading").html(Msg.msg_uploading);
+		//清空datagrid
+// 		$('#resultTable').datagrid('loadData',{'total':0,'rows':[]}); 
+		$("#upload_dialog_form").form('submit',{
+			url : '${ctx}/excel/import?random='+ new Date().getTime(),
+			method : "post",
+			success : function(result) {
+			checkResultJson = eval('(' + result + ')');
+			$("#msg_uploading").html("");
+			$("#import_dialog_linkbutton_save").linkbutton('enable');
+			$("#upload_dialog_form")[0].reset();
+			if (checkResultJson.success) {
+				$.messager.show({title : Msg.title_tip,msg : Msg.upload_success + "[" + checkResultJson.count+"]"+ Msg.records});
+				$('#import_dialog_div').dialog('close');
+				querySysUserList();
+			} else {
+				if (checkResultJson.singleMsg) {
+					$.messager.alert(Msg.sys_remaind1,checkResultJson.singleMsg);
+				} else {
+						var ajaxData = getAjaxData(1, 10);
+						$('#resultTable').datagrid('loadData', ajaxData);
+						}
+					}
+				}
+			});
+	}
+	
+	function initResultTable() {
+		$('#resultTable').datagrid({
+			pagination : true,
+			width : 880,
+			height : 400,
+			pageNumber : 1,
+			pageSize : 10,
+			pageList : [ 50, 100, 200 ],
+			fitColumns : true,
+			columns : [ [
+					{
+						field : 'rowNum',
+						width : 25,
+						align : 'center',
+						halign : 'center',
+						title : Msg.title_upload_lineNo
+					},
+					{
+						field : 'errorInfo',
+						width : 260,
+						align : 'left',
+						halign : 'center',
+						title : Msg.title_upload_failReason
+					} ] ],
+			onLoadSuccess : function() {
+				 $(this).datagrid("fixRownumber");
+// 				_resize($('#resultTable'));
+			}
+		});
+
+		$('#resultTable').datagrid('getPager').pagination({
+			onSelectPage : function(pageIndex, pageSize) {
+				var gridOpts = $('#resultTable').datagrid('options');
+				gridOpts.pageNumber = pageIndex;
+				gridOpts.pageSize = pageSize;
+				var ajaxData = getAjaxData(pageIndex, pageSize);
+				$('#resultTable').datagrid('loadData', ajaxData);
+			}
+		});
+	}	
 </script>
 </html>
 </fmt:bundle>

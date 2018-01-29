@@ -134,30 +134,6 @@ var Msg = {
 		btn_role_set_menu:'设置关联权限',
 		sys_pls_select: '请选择',
 		
-		//重量段模板
-		weightTemplate_eq_weight:'开始重量必须小于等于结束重量',
-		weightTemplate_status_invalid: '失效',
-		weightTemplate_status_draft: '草稿',
-		weightTemplate_status_valid: '生效',
-		weightTemplate_not_exist:'重量段模板不存在',
-		weightTemplate_del_not_draft: '只有草稿状态才可以进行删除',
-		weightTemplate_syserror: '系统异常',
-		weightTemplate_not_null_id_status: 'ID与状态不能为空',
-		weightTemplate_not_exist: '重量段模板不存在',
-		weightTemplate_updateinvalid: '不能操作失效的数据',
-		weightTemplate_status_error: '状态异常',
-		weightTemplate_exist: '代理服务与货物类型不能重复',
-		weightTemplate_update_draft: '只有草稿状态才能修改',
-		weightTemplate_id_not_null:'重量模板ID不能为空',
-		weightTemplate_start_end_not_null:'开始重量与结束重量不能为空',
-		weightTemplate_tmplid_not_null: '重量模板ID不能为空',
-		weightTemplate_detail_exist: '重量段标题不能重复，并且重量段不能重叠',
-		weightTemplate_valid2invalid:'状态为草稿只能转为生效',
-		weightTemplate_draft2valid:'状态为生效只能转为失效',
-		weightTemplate_eq_greater_zero: '必须大于0',
-		weightTemplate_eq_date_out_six_month: '时间间隔不能超过半年',
-		weightTemplate_detail_not_empty: '重量段不能为空',
-		weightTemplate_must_total: '续单价前必须为总价',
 		
 		sys_name_code:'系统名称',
 		//角色管理
@@ -169,20 +145,6 @@ var Msg = {
 		sys_menu_parent_menu:'上级菜单',
 		sys_menu_type_button:'按钮',
 		
-		//代理服务
-		mgr_agent_service_01:'未设置特殊属性',
-		mgr_agent_service_02:'未设置服务范围',
-		
-		//服务范围
-		mgr_channel_29:'开始邮编不能为空',
-		mgr_channel_30:'结束邮编不能为空',
-		mgr_channel_31:'邮编范围只能使用英文字符和数字',
-		mgr_channel_32:'开始邮编不能大于结束邮编',
-		mgr_channel_33:'邮编为字符则开始邮编与结束邮编要一致',
-		mgr_channel_34:'开始邮编与结束邮编长度要一致',
-		mgr_check_30:'与已存在的国家邮编段重复',
-		mgr_check_02:'原寄地代码错误',
-		mgr_check_12:'目的地代码错误',
 		//服务范围导入
 		title_upload_lineNo:"行号",
 		title_upload_failReason:"失败原因",
@@ -197,29 +159,4 @@ var Msg = {
 	    country_name:"国家全称",
 	    post_start:"开始邮编",
 	    post_end:"结束邮编",
-		
-		//账单模板
-		accountTemplate_setDefaultValue: "设置默认值",
-		accountTemplate_cannot_setDefaultValue: "不能设置默认值",
-		accountTemplate_not_null_defaultValue: "不能设置默认值",
-		accountTemplate_not_null_defaultValue_mappingField: "映射字段与默认值不能同时为空",
-		accountTemplate_not_null_file: "文件不能为空",
-		accountTemplate_file_max_out: "文件大小不能超过2MB",
-		accountTemplate_invalid_file_type: "目前只支持xlsx、xls、csv类型导入",
-		accountTemplate_id_not_null: "ID不能为空",
-		accountTemplate_not_exist: "账单模板不存在",
-		accountTemplate_exist: "账单模板已经存在",
-		accountTemplate_invalidValue: "无效的值",
-		accountTemplate_repeatValue: "已选择，不能重复",
-		//分区方案
-		partition_cannot_empty:"流向不能为空",
-		partition_country_empty:"流向下的国家不能为空",
-		partition_post_empty:"流向下的邮编不能为空",
-		partition_idOrstatus_empty:"ID与状态不能为空",
-		partition_not_exist:"分区方案不存在",
-		partition_operate_data:"不能操作失效的数据",
-		partition_abnormal_state:"状态异常",
-		partition_name_repeated:"分区方案名称不能重复",
-		partition_success:"成功",
-		partition_schemeName_repeated:"分区方案里的流向名称不能重复"
 }

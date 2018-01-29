@@ -112,29 +112,6 @@ var Msg = {
 		btn_role_set_menu:'Set Permissions Associated',
 		sys_pls_select: 'Please select',
 
-		//重量段模板
-		weightTemplate_eq_weight:'Start weight must be less than end weight',
-		weightTemplate_status_invalid: 'Disable',
-		weightTemplate_status_draft: 'Draft',
-		weightTemplate_status_valid: 'Enable',
-		weightTemplate_not_exist:'Weight template does not exist.',
-		weightTemplate_del_not_draft: 'Only drafts can be deleted.',
-		weightTemplate_syserror: 'System error',
-		weightTemplate_not_null_id_status: 'ID and status cannot be empty.',
-		weightTemplate_updateinvalid: 'Cannot operat invalid data.',
-		weightTemplate_status_error: 'Status error',
-		weightTemplate_exist: 'Agent service and goods type cannot repeat.',
-		weightTemplate_update_draft: 'Only drafts can be update.',
-		weightTemplate_id_not_null:'ID does not exist.',
-		weightTemplate_start_end_not_null:'Start weight and end weight cannot be empty.',
-		weightTemplate_tmplid_not_null: 'Weight template ID does not exist.',
-		weightTemplate_detail_exist: 'Weight Period already exists.',
-		weightTemplate_valid2invalid:'The status of the draft can only be turned into effect',
-		weightTemplate_draft2valid:'The status of the effective can only be turned into invalid',
-		weightTemplate_eq_greater_zero: 'Must be greater than 0',
-		weightTemplate_eq_date_out_six_month: 'The time interval can not exceed half a year',
-		weightTemplate_detail_not_empty: 'Weight Period cannot be empty',
-		weightTemplate_must_total: 'Before the unit price must be the total price',
 		
 		sys_name_code:'System Name',
 		//角色管理
@@ -146,20 +123,6 @@ var Msg = {
 		sys_menu_parent_menu:'Superior Menu',
 		sys_menu_type_button:'Button',
 		
-		//代理服务
-		mgr_agent_service_01:'Not set special properties',
-		mgr_agent_service_02:'Not set service coverage',
-		
-		//服务范围
-		mgr_channel_29: 'began to zip code can not be empty',
-		mgr_channel_30: 'end zip code can not be empty',
-		mgr_channel_31: 'scope of zip code can only use English characters and Numbers',
-		mgr_channel_32: 'began to zip code is not greater than the end of the zip code',
-		mgr_channel_33:'Zip code for the start of the zip code is consistent with the zip code to end character',
-		mgr_channel_34:'Start zip code length and the end of the zip code',
-		mgr_check_30: 'zip code segment repetitive with existing countries',
-		mgr_check_02:'The original send code errors',
-		mgr_check_12:'The destination code error',
 		//服务范围导入
 		title_upload_lineNo: 'line',
 		title_upload_failReason: 'the reason for failure',
@@ -174,38 +137,4 @@ var Msg = {
 	    country_name:"Country Name",
 	    post_start:"Starting Postal Code",
 	    post_end:"Ending Postal Code",
-		
-		
-		//服务范围
-		mgr_channel_29: 'began to zip code can not be empty',
-		mgr_channel_30: 'end zip code can not be empty',
-		mgr_channel_31: 'scope of zip code can only use English characters and Numbers',
-		mgr_channel_32: 'began to zip code is not greater than the end of the zip code',
-		mgr_check_30:'With existing country zip code repetition',
-		
-		//账单模板
-		accountTemplate_setDefaultValue: "Set the default value",
-		accountTemplate_cannot_setDefaultValue: "Can not set default values",
-		accountTemplate_not_null_defaultValue: "Default value cannot be empty.",
-		accountTemplate_not_null_defaultValue_mappingField: "'Field of Mapping' and 'Default value' Can not be empty at the same time",
-		accountTemplate_not_null_file: "The file can not be empty",
-		accountTemplate_file_max_out: "The file size can not exceed 2MB",
-		accountTemplate_invalid_file_type: "Currently only support xlsx, xls, csv type import",
-		accountTemplate_id_not_null: "ID cannot be empty",
-		accountTemplate_not_exist: "Billing Template does not exist.",
-		accountTemplate_exist: "Billing Template already exists",
-		accountTemplate_invalidValue: "Invalid Value",
-		accountTemplate_repeatValue: " cannot be repeated",
-			
-		//分区方案
-		partition_cannot_empty: "Flow cannot be empty",
-		partition_country_empty: "Countries under the flow can not be empty",
-		partition_post_empty: "The zip code can not be empty",
-		partition_idOrstatus_empty: "ID and status cannot be empty",
-		partition_not_exist: "Partition scheme does not exist",
-		partition_operate_data: "Fail to operate data",
-		partition_abnormal_state: "Abnormal state",
-		partition_name_repeated: "Partition scheme name cannot be repeated",
-		partition_success:"Success"	,
-		partition_schemeName_repeated:"The name of the flow in the partition scheme cannot be repeated"		
 	}

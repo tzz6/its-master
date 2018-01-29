@@ -3,6 +3,9 @@ package com.its.model.mybatis.dao.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.its.model.annotation.Import;
+
+
 /**
  * SysUser
  *
@@ -14,10 +17,13 @@ public class SysUser implements Serializable {
 	/** ID */
 	private String stId;
 	/** 用户名 */
+	@Import(columnIndex = 0, description = "st_code", required = true)
 	private String stCode;
 	/** 用户姓名 */
+	@Import(columnIndex = 1, description = "st_name", required = true)
 	private String stName;
 	/** 密码 */
+	@Import(columnIndex = 2, description = "st_password", required = true)
 	private String stPassword;
 	/** 语言 */
 	private String language;
