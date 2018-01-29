@@ -121,7 +121,15 @@
 	      <div>
 		        <form id="upload_dialog_form" method="post" accept-charset="utf-8" enctype="multipart/form-data">
 		        	<table>
-					   <tr>
+		        		<tr>
+							<td>解析方式:</td>
+							<td>
+								<label><input name="imptType" type="radio" value="SAX"  checked="checked"/>POI(SAX)</label> 
+								<label><input name="imptType" type="radio" value="POI" />POI</label> 
+								<label><input name="imptType" type="radio" value="JXL" />JXL</label> 
+							</td>
+		        		</tr>
+					    <tr>
 					       <td><fmt:message key="user.select.file" />：</td>
 					       <td><input type="file" name="imptFile" id="uploadFile" style="height:24px;width:300px; border:1px solid #a5c3e0;border-top:1px solid #89accd;border-right:1px solid #89accd;padding:0px;"></td>
 					       <td>
@@ -564,6 +572,7 @@
 		}
 		$('#import_dialog_div').dialog('open');
 		$('#upload_dialog_form').form('clear');
+		$('input[name="imptType"][value="SAX"]').prop("checked",true);
 		$("#import_dialog_linkbutton_save").linkbutton('enable');
 // 		$('#resultTable').datagrid('loadData',{'total':0,'rows':[]}); 
 // 		var row = $("#agentservice_table").datagrid("getSelected");
@@ -847,12 +856,12 @@
 			$("#import_dialog_linkbutton_save").linkbutton('enable');
 			$("#upload_dialog_form")[0].reset();
 			if (checkResultJson.success) {
-				$.messager.show({title : Msg.title_tip,msg : Msg.upload_success + "[" + checkResultJson.count+"]"+ Msg.records});
+				$.messager.show({title : Msg.sys_remaind1,msg : Msg.upload_success + "[" + checkResultJson.count+"]"+ Msg.records});
 				$('#import_dialog_div').dialog('close');
 				querySysUserList();
 			} else {
 				if (checkResultJson.singleMsg) {
-					$.messager.alert(Msg.sys_remaind1,checkResultJson.singleMsg);
+					$.messager.show({title : Msg.sys_remaind1,msg : checkResultJson.singleMsg});
 				} else {
 						var ajaxData = getAjaxData(1, 10);
 						$('#resultTable').datagrid('loadData', ajaxData);
@@ -901,7 +910,21 @@
 				$('#resultTable').datagrid('loadData', ajaxData);
 			}
 		});
-	}	
+	}
+//获取分页数据
+function getAjaxData(pageIndex, pageSize) {
+	var ajaxData = new Object();
+	ajaxData.total = checkResultJson.errors.length;
+	var rowArray = new Array();
+	var firstIndex = (pageIndex - 1) * pageSize;
+	var lastIndex = firstIndex + pageSize;
+	lastIndex = lastIndex > ajaxData.total ? ajaxData.total : lastIndex;
+	for (var i = firstIndex, j = 0; i < lastIndex; i++, j++) {
+		rowArray[j] = checkResultJson.errors[i];
+	}
+	ajaxData.rows = rowArray;
+	return ajaxData;
+}
 </script>
 </html>
 </fmt:bundle>

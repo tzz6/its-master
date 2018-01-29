@@ -28,6 +28,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import com.its.common.utils.Constants;
 import com.its.common.utils.ImportError;
 import com.its.common.utils.ImportResult;
+import com.its.common.utils.poi.POIUtil;
 import com.its.model.mybatis.dao.domain.SysUser;
 import com.its.web.controller.login.BaseController;
 import com.its.web.util.DBHelper;
@@ -54,16 +55,16 @@ public class ExcelController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/import")
 	public ImportResult saxImport(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam("imptFile") CommonsMultipartFile file, ModelMap model) {
+			@RequestParam("imptType") String imptType, @RequestParam("imptFile") CommonsMultipartFile file,
+			ModelMap model) {
 		long start = System.currentTimeMillis();
-		SysUser sysUser = UserSession.getUser();
-		String lang = sysUser.getLanguage();
+		SysUser currSysUser = UserSession.getUser();
+		String lang = currSysUser.getLanguage();
 		ImportResult msg = null;// 导入的结果信息
 		int count = 0;// 成功数量
 		List<ImportError> errors = new ArrayList<ImportError>();
 		List<SysUser> list = null;
 		File targetFile = null;
-		ImportExcelHandler excelReader = null;
 		try {
 			// 1.将上传的文件到本地
 			String savePath = FileUtil.getPath(request, FileUtil.FILE_UPLOAD_DIR);
@@ -77,54 +78,50 @@ public class ExcelController extends BaseController {
 				targetFile.mkdirs();
 			}
 			file.transferTo(targetFile);// 文件写入目标文件
-			// 2.读入数据
-			SimpleDateFormat f = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-			Date date = new Date();
-			String batchCode = f.format(date);
-			excelReader = new ImportExcelHandler(lang);
-			excelReader.setBatchCode(batchCode);
-			excelReader.process(realSavePath + saveFilename, 1);
-			// 3.错误信息
-			errors = excelReader.getErrors();
-			// 4.对errors按照行号进行排序
-			if (CollectionUtils.isNotEmpty(errors)) {
-				Collections.sort(errors);
+			// 2.读入Excel数据
+			log.info("Excel解析方式：" + imptType);
+			ImportExcelHandler excelReader = new ImportExcelHandler(lang);
+			if (imptType.equals("SAX")) {
+				excelReader.process(realSavePath + saveFilename, 1);
+				errors = excelReader.getErrors();// 错误信息
+				if (CollectionUtils.isNotEmpty(errors)) {// 对errors按照行号进行排序
+					Collections.sort(errors);
+				}
+				if (!errors.isEmpty()) {
+					msg = new ImportResult(false, errors, count);
+					return msg;
+				}
+				list = excelReader.getDatas();// Excel数据
 			}
-			if (!errors.isEmpty()) {
-				msg = new ImportResult(false, errors, count);
-				return msg;
+			if (imptType.equals("POI")) {
+				Map<String, List<String>> maps = POIUtil.read(realSavePath + saveFilename);
+				list = new ArrayList<SysUser>();
+				for (Map.Entry<String, List<String>> entry : maps.entrySet()) {
+					SysUser sysUser = excelReader.setSysUser(maps.get(entry.getKey()),
+							Integer.parseInt(entry.getKey()));
+					list.add(sysUser);// Excel数据
+				}
 			}
-			// 5.Excel数据
-			list = excelReader.getDatas();
 			long excelDataEnd = System.currentTimeMillis();
-			log.info("Excel数据处理共耗时：" + (excelDataEnd - start));
-
-			Map<String, String> maps = new HashMap<String, String>();// 提示信息
-			maps.put(Constants.Excel.ST_CODE, ResourceBundleHelper.get(lang, Constants.Excel.ST_CODE));
-
-			// 6.保存Excel数据
-			msg = saveData(list, sysUser.getStCode(), maps);
-			if (msg != null) {
-				return msg;
+			log.info("Excel数据处理共耗时：" + (System.currentTimeMillis() - start));
+			// 3.保存Excel数据
+			if (list == null || list.size() == 0) {// 数据为空
+				msg = new ImportResult(false, ResourceBundleHelper.get(lang, Constants.Excel.NO_SUCCESS_RECORD), count);
+			} else {
+				Map<String, String> maps = new HashMap<String, String>();// 提示信息
+				maps.put(Constants.Excel.IMPORT_EXCEPTION,
+						ResourceBundleHelper.get(lang, Constants.Excel.IMPORT_EXCEPTION));
+				msg = saveData(list, currSysUser.getStCode(), maps);
 			}
+			log.info("Excel数据批处理耗时：" + (System.currentTimeMillis() - excelDataEnd));
 		} catch (Exception e) {
 			log.error("导入异常", e);
-			// 错误信息返回
-			errors = excelReader.getErrors();
-			if (!errors.isEmpty()) {
-				msg = new ImportResult(false, errors, count);
-				return msg;
-			}
+			msg = new ImportResult(false, ResourceBundleHelper.get(lang, Constants.Excel.IMPORT_EXCEPTION), count);
 		} finally {
-			// 删除文件
-			// targetFile.delete();
-			long end = System.currentTimeMillis();
-			log.info("Excel数据导入共耗时：" + (end - start));
+			// targetFile.delete();// 删除文件
+			log.info("Excel数据导入共耗时：" + (System.currentTimeMillis() - start));
 		}
-		if (null != list) {
-			count = list.size();
-		}
-		return new ImportResult(true, errors, count);
+		return msg;
 	}
 
 	/**
@@ -140,20 +137,14 @@ public class ExcelController extends BaseController {
 		List<ImportError> errors = new ArrayList<ImportError>();
 		try {
 			int count = 0;// 成功数量
-			// 把集合放入临时表
-			long jdbcBatchSaveStart = System.currentTimeMillis();
-			jdbcBatchSave(list, stCode, "sys_user");
-			long jdbcBatchSaveEnd = System.currentTimeMillis();
-			log.info("保存数据共耗时：" + (jdbcBatchSaveEnd - jdbcBatchSaveStart));
-			if (list.size() == 0) {
-				msg = new ImportResult(false, maps.get(Constants.Excel.NO_SUCCESS_RECORD), count);
-			} else {
-				count = list.size();
-				msg = new ImportResult(true, "success", count);
+			Map<Integer, List<SysUser>> map = makeMapPage(list);// 构造分页数据
+			for (Map.Entry<Integer, List<SysUser>> entry : map.entrySet()) {
+				int batchSaveSize = batchSave(map.get(entry.getKey()), stCode, "sys_user");// 保存数据
+				count = count + batchSaveSize;
 			}
+			msg = new ImportResult(true, "success", count);
 		} catch (Exception e) {
 			log.error("导入异常", e);
-			// 错误信息返回
 			ImportError importError = new ImportError(maps.get(Constants.Excel.IMPORT_EXCEPTION), e.getMessage());
 			errors.add(importError);
 			msg = new ImportResult(false, errors, 0);
@@ -161,41 +152,28 @@ public class ExcelController extends BaseController {
 		return msg;
 	}
 
-	/***
-	 * 分页处理数据
+	/**
+	 * 构造分页数据
 	 * 
 	 * @param list
-	 * @param stCode
-	 * @param tableName
 	 * @return
 	 */
-	public int jdbcBatchSave(List<SysUser> list, String stCode, String tableName) {
-		try {
-			int batchNum = 50000;
-			int count = 0;
-			Map<Integer, List<SysUser>> map = new HashMap<Integer, List<SysUser>>(); // 用map存起来新的分页后数据
-			int index = 1;
-			int listSize = list.size();
-			for (int i = 0; i < listSize; i += batchNum) {
-				log.info("Map分页--分数)" + batchNum + "页号：" + index);
-				if (list.size() - i < batchNum) {
-					map.put(index, list.subList(i, i + (listSize - i)));
-					index++;
-				} else {
-					map.put(index, list.subList(i, index * batchNum));
-					index++;
-				}
+	public Map<Integer, List<SysUser>> makeMapPage(List<SysUser> list) {
+		int batchNum = 50000;
+		Map<Integer, List<SysUser>> map = new HashMap<Integer, List<SysUser>>(); // 用map存起来新的分页后数据
+		int index = 1;
+		int listSize = list.size();
+		for (int i = 0; i < listSize; i += batchNum) {
+			log.info("构造Map分页--页编号" + index + "--分页数" + batchNum);
+			if (list.size() - i < batchNum) {
+				map.put(index, list.subList(i, i + (listSize - i)));
+				index++;
+			} else {
+				map.put(index, list.subList(i, index * batchNum));
+				index++;
 			}
-
-			for (Map.Entry<Integer, List<SysUser>> entry : map.entrySet()) {
-				batchSave(map.get(entry.getKey()), stCode, tableName);// 保存数据
-			}
-
-			return count;
-		} catch (Exception e) {
-			log.error("保存错误", e);
-			throw new RuntimeException("保存错误");
 		}
+		return map;
 	}
 
 	/**
@@ -205,10 +183,8 @@ public class ExcelController extends BaseController {
 	 * @param stCode
 	 * @param tableName
 	 */
-	public void batchSave(List<SysUser> list, String stCode, String tableName) {
-		if (null == list || list.size() == 0) {
-			return;
-		}
+	public int batchSave(List<SysUser> list, String stCode, String tableName) {
+		int size = list.size();
 		StringBuffer sqlSb = new StringBuffer();
 		sqlSb.append("insert into ").append(tableName).append(
 				"(ST_ID,ST_Code,ST_Name,ST_Password,CREATE_BY,CREATE_TM,UPDATE_BY,UPDATE_TM) values(?,?,?,?,?,?,?,?)");
@@ -219,7 +195,7 @@ public class ExcelController extends BaseController {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String currDate = format.format(new Date());
 			// 构建完整sql
-			for (int i = 0; i < list.size(); i++) {
+			for (int i = 0; i < size; i++) {
 				SysUser sysUser = list.get(i);
 				pst.setString(1, sysUser.getStId());
 				pst.setString(2, sysUser.getStCode());
@@ -234,9 +210,7 @@ public class ExcelController extends BaseController {
 				// pst.executeBatch();
 				// pst.clearBatch();
 				// }
-
 			}
-
 			// 添加执行
 			// pst.addBatch(sqlSb.toString());
 			// 执行操作
@@ -250,6 +224,6 @@ public class ExcelController extends BaseController {
 		} finally {
 			dbHelper.close();
 		}
+		return size;
 	}
-
 }

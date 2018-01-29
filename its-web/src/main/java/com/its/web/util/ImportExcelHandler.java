@@ -24,16 +24,6 @@ public class ImportExcelHandler extends SAXExcelHandler {
 
 	private List<ImportError> errors = new ArrayList<ImportError>();
 
-	private String batchCode;
-
-	public String getBatchCode() {
-		return batchCode;
-	}
-
-	public void setBatchCode(String batchCode) {
-		this.batchCode = batchCode;
-	}
-
 	/** excel解析后的数据 */
 	private List<SysUser> datas = new ArrayList<SysUser>();
 
@@ -89,8 +79,7 @@ public class ImportExcelHandler extends SAXExcelHandler {
 		try {
 			errorForm = uploadUtil.checkHead(SysUser.class, rowList, this.lang);// 校验Excel表头
 		} catch (Exception e) {
-			errors.add(
-					new ImportError(1 + "", ResourceBundleHelper.get(this.lang, Constants.Excel.EXCEL_HEADER_ERROR)));
+			errors.add(new ImportError(1 + "", ResourceBundleHelper.get(this.lang, Constants.Excel.EXCEL_HEADER_ERROR)));
 			iFlag = false;
 		}
 		if (errorForm != null) {
@@ -134,7 +123,7 @@ public class ImportExcelHandler extends SAXExcelHandler {
 	 * @param curRow
 	 * @return
 	 */
-	private SysUser setSysUser(List<String> rowList, int rowNum) {
+	public SysUser setSysUser(List<String> rowList, int rowNum) {
 		if (null == rowList || rowList.size() < 3) {
 			errors.add(new ImportError(rowNum + "", "数据行为空或缺少列"));
 			return null;
