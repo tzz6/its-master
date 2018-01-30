@@ -126,7 +126,6 @@
 							<td>
 								<label><input name="imptType" type="radio" value="SAX"  checked="checked"/>POI(SAX)</label> 
 								<label><input name="imptType" type="radio" value="POI" />POI</label> 
-								<label><input name="imptType" type="radio" value="JXL" />JXL</label> 
 							</td>
 		        		</tr>
 					    <tr>
@@ -574,7 +573,7 @@
 		$('#upload_dialog_form').form('clear');
 		$('input[name="imptType"][value="SAX"]').prop("checked",true);
 		$("#import_dialog_linkbutton_save").linkbutton('enable');
-// 		$('#resultTable').datagrid('loadData',{'total':0,'rows':[]}); 
+		$('#resultTable').datagrid('loadData',{'total':0,'rows':[]}); 
 // 		var row = $("#agentservice_table").datagrid("getSelected");
 // 		if (row) {
 // 			var agentServiceId = row.agentServiceId;

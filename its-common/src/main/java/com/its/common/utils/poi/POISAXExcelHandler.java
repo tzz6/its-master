@@ -1,4 +1,4 @@
-package com.its.web.util;
+package com.its.common.utils.poi;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * xml，需要继承DefaultHandler，在遇到文件内容时，事件会触发，这种做法可以大大降低 内存的耗费，特别使用于大数据量的文件。
  * 
  */
-public abstract class SAXExcelHandler extends DefaultHandler {
+public abstract class POISAXExcelHandler extends DefaultHandler {
 
 	private int sheetIndex = -1;
 	private StylesTable stylesTable;
@@ -83,7 +83,8 @@ public abstract class SAXExcelHandler extends DefaultHandler {
 	/**
 	 * 只遍历一个Sheet，其中sheetId为要遍历的sheet索引，从1开始，1-3
 	 * 
-	 * @param path 文件路径
+	 * @param path
+	 *            文件路径
 	 * @param sheetId
 	 * @throws Exception
 	 */
@@ -188,11 +189,11 @@ public abstract class SAXExcelHandler extends DefaultHandler {
 		// Do now, as characters() may be called more than once
 		if (nextIsString) {
 			try {
-			int idx = Integer.parseInt(lastContents);
-			lastContents = new XSSFRichTextString(sst.getEntryAt(idx)).toString();
-			nextIsString = false;
+				int idx = Integer.parseInt(lastContents);
+				lastContents = new XSSFRichTextString(sst.getEntryAt(idx)).toString();
+				nextIsString = false;
 			} catch (Exception e) {
-//				logger.info(nextIsString);
+				// logger.info(nextIsString);
 			}
 		}
 

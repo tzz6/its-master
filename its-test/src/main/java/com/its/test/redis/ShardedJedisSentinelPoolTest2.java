@@ -14,6 +14,7 @@ import redis.clients.jedis.exceptions.JedisConnectionException;
 
 public class ShardedJedisSentinelPoolTest2 extends TestCase {
 
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testxxX() {
 

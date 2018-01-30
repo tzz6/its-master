@@ -60,6 +60,7 @@ public class RegexUtils {
 		return decimal.matches(regex);
 	}
 
+	@SuppressWarnings("unused")
 	private static boolean isChinese(char c) {
 		Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
 		if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS

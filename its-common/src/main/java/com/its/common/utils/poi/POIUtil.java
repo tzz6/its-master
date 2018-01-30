@@ -1,6 +1,8 @@
 package com.its.common.utils.poi;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,7 +19,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-
 import org.apache.poi.ss.usermodel.DateUtil;
 
 /**
@@ -25,23 +26,12 @@ import org.apache.poi.ss.usermodel.DateUtil;
  */
 public class POIUtil {
 	private static final Log log = LogFactory.getLog(POIUtil.class);
-	
+
 	/** Excel导入 */
 	public static Map<String, List<String>> read(String path) {
 		Map<String, List<String>> maps = new HashMap<String, List<String>>();
-		String suffix = path.substring(path.lastIndexOf(".") + 1, path.length());
-		InputStream inputStream = null;
 		try {
-			inputStream = new FileInputStream(path);
-			Workbook wb = null;
-			if (suffix.equals("xls")) {
-				wb = new HSSFWorkbook(inputStream);
-			} else if (suffix.equals("xlsx")) {
-				wb = new XSSFWorkbook(inputStream);
-			} else {
-				log.info("您输入的excel格式不正确");
-			}
-			Sheet sheet = wb.getSheetAt(0);
+			Sheet sheet = getSheet(path, 0);
 			int rowsNum = sheet.getPhysicalNumberOfRows();
 			log.info("excel总行数：" + rowsNum);
 			List<String> list = null;
@@ -58,7 +48,32 @@ public class POIUtil {
 		return maps;
 	}
 
+	/**
+	 * 获取Sheet
+	 * 
+	 * @param path
+	 * @param sheetIndex
+	 * @return
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	public static Sheet getSheet(String path, int sheetIndex) throws FileNotFoundException, IOException {
+		Workbook wb = null;
+		InputStream inputStream = new FileInputStream(path);
+		String suffix = path.substring(path.lastIndexOf(".") + 1, path.length());
+		if (suffix.equals("xls")) {
+			wb = new HSSFWorkbook(inputStream);
+		} else if (suffix.equals("xlsx")) {
+			wb = new XSSFWorkbook(inputStream);
+		} else {
+			log.info("您输入的excel格式不正确");
+		}
+		Sheet sheet = wb.getSheetAt(sheetIndex);
+		return sheet;
+	}
+
 	/** 获取单元格数据 */
+	@SuppressWarnings("deprecation")
 	public static String getCellValue(Cell cell) {
 		String value = "";
 		switch (cell.getCellType()) {

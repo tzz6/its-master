@@ -81,7 +81,7 @@ public class ExcelController extends BaseController {
 			// 2.读入Excel数据
 			log.info("Excel解析方式：" + imptType);
 			ImportExcelHandler excelReader = new ImportExcelHandler(lang);
-			if (imptType.equals("SAX")) {
+			if (imptType.equals("SAX")) {//POI SAX方式解析Excel
 				excelReader.process(realSavePath + saveFilename, 1);
 				errors = excelReader.getErrors();// 错误信息
 				if (CollectionUtils.isNotEmpty(errors)) {// 对errors按照行号进行排序
@@ -93,7 +93,7 @@ public class ExcelController extends BaseController {
 				}
 				list = excelReader.getDatas();// Excel数据
 			}
-			if (imptType.equals("POI")) {
+			if (imptType.equals("POI")) {//POI方式解析Excel
 				Map<String, List<String>> maps = POIUtil.read(realSavePath + saveFilename);
 				list = new ArrayList<SysUser>();
 				for (Map.Entry<String, List<String>> entry : maps.entrySet()) {
