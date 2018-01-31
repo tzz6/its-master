@@ -115,8 +115,7 @@ public class POIUtil {
 			// 创建sheet对象
 			Sheet sheet1 = (Sheet) wb.createSheet("sheet1");
 			for (Map.Entry<String, List<String>> map : maps.entrySet()) {// 循环写入行数据
-				int rowNum = Integer.parseInt(map.getKey());
-				log.info("行号：" + rowNum);
+				int rowNum = Integer.parseInt(map.getKey());//行号
 				Row row = (Row) sheet1.createRow(rowNum);
 				List<String> list = map.getValue();
 				for (int i = 0; i < list.size(); i++) {// 循环写入列数据

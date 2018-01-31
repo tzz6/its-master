@@ -1,6 +1,8 @@
 package com.its.web.controller.file;
 
 import java.io.File;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +35,7 @@ import com.its.common.utils.ImportError;
 import com.its.common.utils.ImportResult;
 import com.its.common.utils.poi.POIUtil;
 import com.its.model.mybatis.dao.domain.SysUser;
+import com.its.servers.facade.dubbo.sys.service.SysUserFacade;
 import com.its.web.controller.login.BaseController;
 import com.its.web.util.DBHelper;
 import com.its.web.util.FileUtil;
@@ -46,10 +52,11 @@ import com.its.web.util.UserSession;
 public class ExcelController extends BaseController {
 
 	private static final Log log = LogFactory.getLog(ExcelController.class);
+	@Autowired
+	private SysUserFacade sysUserFacade;
 
 	/**
-	 * 
-	 *
+	 * 导入
 	 * @param request
 	 * @param response
 	 * @param model
@@ -230,5 +237,38 @@ public class ExcelController extends BaseController {
 			dbHelper.close();
 		}
 		return size;
+	}
+	
+	/** 导出 */
+	@RequestMapping(value = "/export")
+	public void export(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			List<SysUser> sysUsers = sysUserFacade.getAllSysUserList();
+			Map<String, List<String>> maps = new LinkedHashMap<String, List<String>>();
+			List<String> excelHead = new ArrayList<String>();
+			excelHead.add("用户名");
+			excelHead.add("姓名");
+			excelHead.add("密码");
+			maps.put("0", excelHead);
+			int rowNum = 1;
+			for (SysUser sysUser : sysUsers) {
+				List<String> list = new ArrayList<String>();
+				list.add(sysUser.getStCode());
+				list.add(sysUser.getStName());
+				list.add(sysUser.getStPassword());
+				maps.put(rowNum + "", list);
+				rowNum++;
+			}
+			Workbook workbook = POIUtil.writer("xlsx", maps);
+			String fileName = "用户列表.xlsx";
+			response.setContentType("text/html;charset=UTF-8");
+			response.setContentType("application/x-msdownload");
+			response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+			OutputStream out = response.getOutputStream();
+			workbook.write(out);
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

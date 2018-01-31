@@ -31,4 +31,6 @@ public interface SysUserMapper {
 
 	public void updateSysUserPassword(SysUser sysUser);
 
+	public List<SysUser> getAllSysUserList();
+
 }

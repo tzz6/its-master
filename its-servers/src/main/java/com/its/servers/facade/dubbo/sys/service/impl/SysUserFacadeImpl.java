@@ -65,5 +65,10 @@ public class SysUserFacadeImpl implements SysUserFacade {
 	public void updateSysUserPassword(SysUser sysUser) {
 		sysUserService.updateSysUserPassword(sysUser);
 	}
+
+	@Override
+	public List<SysUser> getAllSysUserList() {
+		return sysUserService.getAllSysUserList();
+	}
 	
 }

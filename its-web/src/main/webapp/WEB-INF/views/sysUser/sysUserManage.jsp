@@ -45,6 +45,8 @@
 			<sc:security property="SYS_USER_ADD">
 				<td style="padding: 2px 2px 2px 5px;"><a href="#" id="import_linkbutton" class="easyui-linkbutton"
 					data-options="iconCls:'icon-page_excel'"><fmt:message key="btn.import" /></a></td>
+				<td style="padding: 2px 2px 2px 5px;"><a href="#" id="export_linkbutton" class="easyui-linkbutton"
+					data-options="iconCls:'icon-page_excel'"><fmt:message key="btn.export" /></a></td>
 			</sc:security>
 			<sc:security property="SYS_USER_ROLE">
 				<td class="content_linkbutton"><a id="setRole" href="javascript:setRole()" class="easyui-linkbutton" data-options="iconCls:'icon-search'"><fmt:message
@@ -665,6 +667,11 @@
 			});
 		} else {
 		$.messager.show({title : Msg.sys_remaind1,msg : Msg.frequency_10});}
+	});
+	
+	// Excel导出
+	$('#export_linkbutton').click(function() {
+		window.location.href = "${ctx}/excel/export";
 	});
 
 	//--------------关联菜单---------------

@@ -115,4 +115,14 @@ public class SysUserServiceImpl implements SysUserService {
 		}
 	}
 
+	@Override
+	public List<SysUser> getAllSysUserList() {
+		try {
+			return sysUserMapper.getAllSysUserList();
+		} catch (Exception e) {
+			log.error("后台查询用户服务错误", e);
+			throw new BaseException("后台查询用户服务错误", e);
+		}
+	}
+
 }

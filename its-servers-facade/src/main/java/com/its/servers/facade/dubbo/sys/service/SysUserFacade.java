@@ -26,4 +26,6 @@ public interface SysUserFacade {
 	public SysUser login(Map<String, Object> map);
 	
 	public void updateSysUserPassword(SysUser sysUser);
+	
+	public List<SysUser> getAllSysUserList();
 }

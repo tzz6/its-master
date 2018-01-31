@@ -112,5 +112,13 @@
 		update sys_user set 
 		ST_Password = #{stPassword, jdbcType=VARCHAR} where ST_Code =  #{stCode,jdbcType=VARCHAR}
 	</update>
+	<select id="getAllSysUserList" resultMap="SysUser">
+		SELECT
+		ST_ID, ST_Code, ST_Name,CREATE_BY,ST_Password,
+		DATE_FORMAT(CREATE_TM,'%Y-%m-%d %H:%i:%S') CREATE_TM,
+		UPDATE_BY,
+		DATE_FORMAT(UPDATE_TM,'%Y-%m-%d %H:%i:%S') UPDATE_TM 
+		FROM sys_user order by CREATE_BY ASC
+	</select>
 	
 </mapper>
