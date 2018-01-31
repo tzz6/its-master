@@ -45,7 +45,10 @@
 	<import resource="classpath:spring-hibernate.xml"/>
 	<!-- Mybatis-->
 	<import resource="classpath:spring-mybatis.xml"/>
-	
+	<!-- Mongodb-->
+	<import resource="classpath:spring-mongodb.xml"/>
+	<!-- remote-client-->
+	<import resource="classpath:remote-client.xml"/>
 	<!-- dubbo-consumer-消费端-->
 	<import resource="classpath:dubbo/dubbo-consumer.xml"/>
 	

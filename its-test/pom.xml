@@ -13,7 +13,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
+
 	<parent>
 		<groupId>com.its.parent</groupId>
 		<artifactId>its-parent</artifactId>
@@ -65,7 +65,12 @@
 			<artifactId>its-web</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 		<!--cxf -->
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
@@ -99,9 +104,15 @@
 		</dependency>
 		<!-- redis -->
 		<dependency>
-		    <groupId>redis.clients</groupId>
-		    <artifactId>jedis</artifactId>
-		    <version>2.9.0</version>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.9.0</version>
+		</dependency>
+		<!-- jexl -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-jexl</artifactId>
+			<version>2.0</version>
 		</dependency>
 	</dependencies>
 </project>

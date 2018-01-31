@@ -37,6 +37,10 @@ import com.its.web.util.ImportExcelHandler;
 import com.its.web.util.ResourceBundleHelper;
 import com.its.web.util.UserSession;
 
+/**
+ * Excel
+ *
+ */
 @Controller
 @RequestMapping("/excel")
 public class ExcelController extends BaseController {
@@ -44,8 +48,7 @@ public class ExcelController extends BaseController {
 	private static final Log log = LogFactory.getLog(ExcelController.class);
 
 	/**
-	 * Excel超大数据读取，抽象Excel2007读取器 excel2007的底层数据结构是xml文件，采用SAX的事件驱动的方法解析
-	 * xml，需要继承DefaultHandler，在遇到文件内容时，事件会触发，这种做法可以大大降低 内存的耗费，特别使用于大数据量的文件。
+	 * 
 	 *
 	 * @param request
 	 * @param response
@@ -82,6 +85,8 @@ public class ExcelController extends BaseController {
 			log.info("Excel解析方式：" + imptType);
 			ImportExcelHandler excelReader = new ImportExcelHandler(lang);
 			if (imptType.equals("SAX")) {//POI SAX方式解析Excel
+				//Excel超大数据读取，抽象Excel2007读取器 excel2007的底层数据结构是xml文件，采用SAX的事件驱动的方法解析xml，
+				//需要继承DefaultHandler，在遇到文件内容时，事件会触发，这种做法可以大大降低 内存的耗费，特别使用于大数据量的文件。
 				excelReader.process(realSavePath + saveFilename, 1);
 				errors = excelReader.getErrors();// 错误信息
 				if (CollectionUtils.isNotEmpty(errors)) {// 对errors按照行号进行排序

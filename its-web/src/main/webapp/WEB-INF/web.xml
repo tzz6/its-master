@@ -8,7 +8,7 @@
 	<!-- 配置contextConfigLocation 通过上下文参数指定spring配置文件的位置 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:applicationContext.xml,classpath:spring-mongodb.xml,classpath:remote-client.xml</param-value>
+		<param-value>classpath:applicationContext.xml</param-value>
 	</context-param>
 	
 	<!-- 配置ContextLoaderListener 保证服务启动时完成spring初始化 -->

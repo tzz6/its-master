@@ -1,4 +1,4 @@
-package com.its.common.utils.poi;
+package com.its.common.utils.bean;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -11,23 +11,42 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
+import com.its.common.utils.poi.POIUtil;
 import com.its.model.annotation.Import;
 
 /**
- * 根据Sheet构造Bean数据
+ * Bean数据处理
  */
-public class POIBeanUtil<T> {
+public class BeanUtil<T> {
 
-	private static final Log log = LogFactory.getLog(POIBeanUtil.class);
+	private static final Log log = LogFactory.getLog(BeanUtil.class);
 
 	/**
-	 * 根据Sheet构造Bean数据
+	 * 根据Excel的Sheet构造Bean数据
 	 * 
 	 * @param sheet
 	 * @param clazz
 	 * @return
 	 */
-	public List<T> getFormList(Sheet sheet, Class<T> clazz) {
+	public List<T> getExcelPathFormList(String path, Class<T> clazz) {
+		List<T> formList = null;
+		try {
+			Sheet sheet = POIUtil.getSheet(path, 0);
+			formList = getExcelSheetFormList(sheet, clazz);
+		} catch (Exception e) {
+			log.error(e);
+		}
+		return formList;
+	}
+	
+	/**
+	 * 根据Excel的Sheet构造Bean数据
+	 * 
+	 * @param sheet
+	 * @param clazz
+	 * @return
+	 */
+	public List<T> getExcelSheetFormList(Sheet sheet, Class<T> clazz) {
 		List<T> formList = null;
 		try {
 			int rownum = sheet.getLastRowNum();

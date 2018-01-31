@@ -25,6 +25,10 @@ import com.its.web.util.FileUtil;
 
 import sun.misc.BASE64Decoder;
 
+/**
+ * 拍照
+ *
+ */
 @Controller
 @RequestMapping("/webcam")
 public class WebcamController extends BaseController {

@@ -102,6 +102,12 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+		<!-- spring-mongodb -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>1.10.1.RELEASE</version>
+		</dependency>
 		<!-- 使用SpringMVC需配置 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -314,13 +320,6 @@
 			<version>2.6</version>
 		</dependency>
 		
-		<!-- spring-mongodb -->
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-mongodb</artifactId>
-			<version>1.10.1.RELEASE</version>
-		</dependency>
-
 		<!-- Dubbo需要的包 start -->
 		<dependency>
 			<groupId>com.alibaba</groupId>

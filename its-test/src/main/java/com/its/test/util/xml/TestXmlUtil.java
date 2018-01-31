@@ -3,7 +3,6 @@ package com.its.test.util.xml;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.dom4j.DocumentException;
 import org.junit.Test;
 
 import com.its.common.utils.xml.XmlUtil;
@@ -17,13 +16,9 @@ public class TestXmlUtil {
 				+ "<province><name>广东省</name><provCity>广州市</provCity><citys><city><name>白云区</name></city><city><name>xx区</name></city></citys></province>"
 				+ "<province><name>湖南省</name><provCity>长沙市</provCity><citys><city><name>xx区1</name></city><city><name>xx区2</name></city></citys></province>"
 				+ "</provinces>" + "</country>";
-		try {
-			Map<String, Object> map = XmlUtil.xmlToMap(xml);
-			for (Map.Entry<String, Object> entry : map.entrySet()) {
-				System.out.println(entry.getKey() + "---" + entry.getValue());
-			}
-		} catch (DocumentException e) {
-			e.printStackTrace();
+		Map<String, Object> map = XmlUtil.xmlToMap(xml);
+		for (Map.Entry<String, Object> entry : map.entrySet()) {
+			System.out.println(entry.getKey() + "---" + entry.getValue());
 		}
 	}
 
@@ -72,22 +67,18 @@ public class TestXmlUtil {
 					+ "</xav:XAVResponse>" 
 					+ "</soapenv:Body>"
 				+ "</soapenv:Envelope>";
-		try {
-			Map<String, Object> map = XmlUtil.xmlToMap(xml);
-			for (Map.Entry<String, Object> entry : map.entrySet()) {
-				System.out.println(entry.getKey() + "---" + entry.getValue());
-				if (entry.getValue() instanceof HashMap) {
-					HashMap<String, Object> m = (HashMap<String, Object>) entry.getValue();
-					for (Map.Entry<String, Object> me : m.entrySet()) {
-						System.out.println(me.getKey() + "---" + me.getValue());
-					}
+		Map<String, Object> map = XmlUtil.xmlToMap(xml);
+		for (Map.Entry<String, Object> entry : map.entrySet()) {
+			System.out.println(entry.getKey() + "---" + entry.getValue());
+			if (entry.getValue() instanceof HashMap) {
+				HashMap<String, Object> m = (HashMap<String, Object>) entry.getValue();
+				for (Map.Entry<String, Object> me : m.entrySet()) {
+					System.out.println(me.getKey() + "---" + me.getValue());
 				}
 			}
-			
-			System.out.println(XmlUtil.getMapValue(map, "CustomerContext"));
-		} catch (DocumentException e) {
-			e.printStackTrace();
 		}
+
+		System.out.println(XmlUtil.getMapValue(map, "CustomerContext"));
 	}
 	
 }

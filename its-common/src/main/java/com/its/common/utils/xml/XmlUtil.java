@@ -21,28 +21,33 @@ public class XmlUtil {
 
 	/**
 	 * 解析xml生成Map--支持N层子节点
+	 * 
 	 * @param xml
 	 * @return
 	 * @throws DocumentException
 	 */
 	@SuppressWarnings("unchecked")
-	public static Map<String, Object> xmlToMap(String xml) throws DocumentException {
+	public static Map<String, Object> xmlToMap(String xml) {
 		Map<String, Object> map = null;
-		if (xml != null && !"".equals(xml)) {
-			map = new HashMap<String, Object>();
-			Element root = DocumentHelper.parseText(xml).getRootElement();
-			List<Element> elements = root.elements();
-			for (Element element : elements) {
-				List<Element> childElements = element.elements();
-				if (childElements.size() > 0) {
-					map.put(element.getName(), xmlToMap(element));
-				} else
-					map.put(element.getName(), element.getText());
+		try {
+			if (xml != null && !"".equals(xml)) {
+				map = new HashMap<String, Object>();
+				Element root = DocumentHelper.parseText(xml).getRootElement();
+				List<Element> elements = root.elements();
+				for (Element element : elements) {
+					List<Element> childElements = element.elements();
+					if (childElements.size() > 0) {
+						map.put(element.getName(), xmlToMap(element));
+					} else
+						map.put(element.getName(), element.getText());
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return map;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static Map<String, Object> xmlToMap(Element element) {
 		Map<String, Object> xmlMap = new HashMap<String, Object>();

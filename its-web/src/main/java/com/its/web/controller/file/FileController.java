@@ -35,6 +35,10 @@ import com.its.web.controller.login.BaseController;
 import com.its.web.model.Datagrid;
 import com.its.web.util.FileUtil;
 
+/**
+ * 文件管理
+ *
+ */
 @Controller
 @RequestMapping("/file")
 public class FileController extends BaseController {

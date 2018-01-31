@@ -1,6 +1,7 @@
 package com.its.test.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class TestUserService extends BaseTest{
 		user.setPassword("123456");
 		user.setRegDate(new Date());
 		userService.addUser(user);
-		userService.findAllUser();
+		List<User> users = userService.findAllUser();
+		for (User user2 : users) {
+			System.out.println(user2.getName());
+		}
 	}
 }
