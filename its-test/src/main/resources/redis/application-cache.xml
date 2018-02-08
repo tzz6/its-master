@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context-4.0.xsd
+         http://cxf.apache.org/jaxws
+ 		 http://cxf.apache.org/schemas/jaxws-4.0.xsd
+ 		 http://cxf.apache.org/jaxrs    
+ 		 http://www.springframework.org/schema/aop
+         http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+ 		 http://cxf.apache.org/schemas/jaxrs.xsd">
+
+	<bean id="redisConfig" class="com.its.framework.cacheproxy.redis.RedisConfig">
+		<property name="servers" value="vm-01-ip:26379,vm-02-ip:26379,vm-03-ip:26379"></property>
+		<property name="masters" value="its_sentinel"></property>
+		<property name="password" value="123456"></property>
+	</bean>
+
+	<bean id="redisCache" class="com.its.framework.cacheproxy.redis.RedisCache">
+		<constructor-arg ref="redisConfig" type="com.its.framework.cacheproxy.redis.RedisConfig" index="0"></constructor-arg>
+	</bean>
+
+</beans>

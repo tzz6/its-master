@@ -9,13 +9,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 import redis.clients.jedis.Jedis;
-
+/**
+ * 单机简单例子程序
+ *
+ */
 public class JedisTest {
 	private Jedis jedis;
 
 	@Before
 	public void initJedis() {
-		jedis = new Jedis("192.168.117.128", 6379);
+		jedis = new Jedis("vm-01-ip", 6379);
+		jedis.auth("123456");//设置密码
 	}
 
 	/** 添加 */
@@ -50,10 +54,14 @@ public class JedisTest {
 
 	@Test
 	public void testAddValue() {
-		String key = "key";
-		addValue(key, "abc");
-		String value = getValue(key);
-		System.out.println(value);
+		try {
+			String key = "key";
+			addValue(key, "abc");
+			String value = getValue(key);
+			System.out.println(value);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test

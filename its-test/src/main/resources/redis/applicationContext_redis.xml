@@ -20,17 +20,17 @@
 		<property name="maxWaitMillis" value="5000" />
 		<property name="testOnBorrow" value="true" />
 	</bean>
-    <bean id="shardedJedisPool" class="com.its.test.redis.ShardedJedisSentinelPool">
+    <bean id="shardedJedisPool" class="com.its.common.redis.ShardedJedisSentinelPool">
 		<constructor-arg index="0">
 			<list>
-				<value>redis.shard1</value> 
- 				<value>redis.shard2</value> 
+ 				<value>its_sentinel</value> 
 			</list>
 		</constructor-arg>
 		<constructor-arg index="1">
 			<set>
-				<value>192.168.117.128:6379</value>
-                <value>10.118.66.69:6379</value>
+				<value>vm-01-ip:26379</value>
+				<value>vm-02-ip:26379</value>
+				<value>vm-03-ip:26379</value>
 			</set>
 		</constructor-arg>
 		<constructor-arg index="2" ref="jedisPoolConfig" />

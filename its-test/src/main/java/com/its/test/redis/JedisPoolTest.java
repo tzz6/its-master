@@ -19,11 +19,12 @@ public class JedisPoolTest {
 		jedisPoolConfig.setMaxWaitMillis(1000);
 		jedisPoolConfig.setTestOnBorrow(true);
 		jedisPoolConfig.setTestOnReturn(true);
-		String host = "192.168.117.128";
+		String host = "vm-01-ip";
 		int port = 6379;
 		int timeout = 1000;
+		String password = "123456";
 		// 构造连接池
-		jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout);
+		jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, password);
 	}
 
 	@SuppressWarnings("deprecation")

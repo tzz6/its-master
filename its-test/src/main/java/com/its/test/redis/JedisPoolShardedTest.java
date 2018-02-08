@@ -23,16 +23,22 @@ public class JedisPoolShardedTest {
 		jedisPoolConfig.setMaxWaitMillis(1000);
 		jedisPoolConfig.setTestOnBorrow(true);
 		jedisPoolConfig.setTestOnReturn(true);
-		String host1 = "192.168.117.128";
-		String host2 = "10.118.66.69";
+		String host1 = "vm-01-ip";
+		String host2 = "vm-02-ip";
+		String host3 = "vm-03-ip";
 		int port = 6379;
 		int timeout = 1000;
+		String auth = "123456";
 		// 构造连接池
 		JedisShardInfo jedisShardInfo1 = new JedisShardInfo(host1, port, timeout);
+//		jedisShardInfo1.setPassword(auth);
 		JedisShardInfo jedisShardInfo2 = new JedisShardInfo(host2, port, timeout);
+//		jedisShardInfo1.setPassword(auth);
+		JedisShardInfo jedisShardInfo3 = new JedisShardInfo(host3, port, timeout);
 		List<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
 		shards.add(jedisShardInfo1);
 		shards.add(jedisShardInfo2);
+		shards.add(jedisShardInfo3);
 		shardedJedisPool = new ShardedJedisPool(jedisPoolConfig, shards);
 	}
 

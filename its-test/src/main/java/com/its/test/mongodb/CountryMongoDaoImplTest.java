@@ -72,10 +72,12 @@ public class CountryMongoDaoImplTest {
 		Query query = new Query(Criteria.where("id").is(params.get("id")).and("name").is(params.get("name")));
 		Country country = countryMongoDao.findOne(query);
 //		Country country = countryMongoDao.findOne(query, collectionName);
-		List<City> citys = country.getCitys();
-		System.out.println(country);
-		for (City city : citys) {
-			System.out.println(city.toString());
+		if(country!=null){
+			List<City> citys = country.getCitys();
+			System.out.println(country);
+			for (City city : citys) {
+				System.out.println(city.toString());
+			}
 		}
 	}
 
