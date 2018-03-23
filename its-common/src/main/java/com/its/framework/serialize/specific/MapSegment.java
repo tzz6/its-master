@@ -1,5 +1,13 @@
 package com.its.framework.serialize.specific;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.its.framework.serialize.SerializeException;
 import com.its.framework.serialize.reader.ILargeMapReader;
 import com.its.framework.serialize.reader.ILargeSetReader;
@@ -7,15 +15,7 @@ import com.its.framework.serialize.reader.Reader;
 import com.its.framework.serialize.writer.ILargeMapWriter;
 import com.its.framework.serialize.writer.ILargeSetWriter;
 import com.its.framework.serialize.writer.Writer;
-import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+@SuppressWarnings({"rawtypes","unchecked"})
 class MapSegment<K, V> {
 	private static Logger logger = LoggerFactory.getLogger(MapSegment.class);
 	private SerialData serialData;

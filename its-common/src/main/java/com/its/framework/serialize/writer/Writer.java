@@ -3,7 +3,6 @@ package com.its.framework.serialize.writer;
 import com.esotericsoftware.kryo.io.Output;
 import com.its.framework.serialize.ClassUtils;
 import com.its.framework.serialize.EhSerializer;
-import com.its.framework.serialize.IEhSerializer;
 import com.its.framework.serialize.bit.BitWriter;
 import com.its.framework.serialize.specific.BigDecimalSerializer;
 import com.its.framework.serialize.specific.BitSetSerializer;
@@ -18,8 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
-
+@SuppressWarnings({"rawtypes","unchecked"})
 public final class Writer {
 	public static final boolean OPTIMIZE = true;
 	private final Output output = new Output(4096, -1);

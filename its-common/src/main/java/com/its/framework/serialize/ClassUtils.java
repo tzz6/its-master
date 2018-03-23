@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import sun.reflect.generics.reflectiveObjects.GenericArrayTypeImpl;
 import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 import sun.reflect.generics.reflectiveObjects.WildcardTypeImpl;
-
+@SuppressWarnings({"rawtypes","unchecked","unused"})
 public class ClassUtils {
     private static Map<String, Class<?>> clazzMapper = new ConcurrentHashMap();
     private static Map<Type, String> clazzNameMapper = new ConcurrentHashMap();

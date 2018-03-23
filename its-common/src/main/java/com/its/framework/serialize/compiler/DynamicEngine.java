@@ -15,7 +15,7 @@ import javax.tools.ToolProvider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+@SuppressWarnings({"rawtypes","unchecked","resource"})
 public class DynamicEngine {
 	private static final Logger logger = LoggerFactory.getLogger(DynamicEngine.class);
 	private static DynamicEngine instance = new DynamicEngine();

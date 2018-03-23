@@ -1,5 +1,5 @@
 package com.its.framework.serialize.compiler;
-
+@SuppressWarnings({"unchecked"})
 public class DynamicClassUtil {
 	public static <T> T javaCodeToObject(String javaCode) {
 		try {

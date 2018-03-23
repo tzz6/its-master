@@ -4,7 +4,7 @@ import com.its.framework.serialize.reader.Reader;
 import com.its.framework.serialize.writer.Writer;
 import java.util.HashMap;
 import java.util.Map;
-
+@SuppressWarnings({"rawtypes","unchecked"})
 public class EnumSerialize<T extends Enum<?>> implements IEhSerializer<T> {
 	private static Map<Class<? extends Enum<?>>, IEhSerializer<?>> enumSerializers = new HashMap();
 	private Enum<?>[] enums;

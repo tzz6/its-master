@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-
+@SuppressWarnings({"rawtypes","unchecked"})
 public final class Reader {
 	private static final int BIT_TRUE = 1;
 	private final Input input;

@@ -15,7 +15,7 @@ import java.util.Set;
 import sun.reflect.generics.reflectiveObjects.GenericArrayTypeImpl;
 import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 import sun.reflect.generics.reflectiveObjects.TypeVariableImpl;
-
+@SuppressWarnings({"rawtypes","unchecked"})
 public class ClassMetaParser {
 	private ClassMetas cms;
 	private ClassMeta cm;

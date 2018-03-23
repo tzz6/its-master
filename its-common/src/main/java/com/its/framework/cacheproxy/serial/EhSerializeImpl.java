@@ -6,7 +6,7 @@ import com.its.framework.serialize.EhSerializer;
 import com.its.framework.serialize.IEhSerializer;
 import com.its.framework.serialize.reader.Reader;
 import com.its.framework.serialize.writer.Writer;
-
+@SuppressWarnings({"rawtypes","unchecked"})
 public class EhSerializeImpl implements ICacheSerialize {
 	public byte[] encode(Object obj) {
 		try {

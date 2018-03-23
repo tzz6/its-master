@@ -28,7 +28,7 @@ public class JedisPoolShardedTest {
 		String host3 = "vm-03-ip";
 		int port = 6379;
 		int timeout = 1000;
-		String auth = "123456";
+//		String auth = "123456";
 		// 构造连接池
 		JedisShardInfo jedisShardInfo1 = new JedisShardInfo(host1, port, timeout);
 //		jedisShardInfo1.setPassword(auth);

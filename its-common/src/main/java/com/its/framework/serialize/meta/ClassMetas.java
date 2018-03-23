@@ -2,7 +2,7 @@ package com.its.framework.serialize.meta;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@SuppressWarnings({"rawtypes","unchecked"})
 public class ClassMetas {
 	private List<ClassMeta> classes;
 

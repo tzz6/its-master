@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+@SuppressWarnings({"rawtypes","unchecked"})
 public class EhSerializer {
 	private static Logger logger = LoggerFactory.getLogger(EhSerializer.class);
 	private Map<Class<?>, IEhSerializer<?>> serializers;

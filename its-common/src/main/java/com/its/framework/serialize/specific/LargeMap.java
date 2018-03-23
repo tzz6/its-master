@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
+@SuppressWarnings({"rawtypes","unchecked"})
 public class LargeMap<K, V> implements Map<K, V> {
 	static Object NULL = new Object();
 	private MapSegment<K, V>[] segments;

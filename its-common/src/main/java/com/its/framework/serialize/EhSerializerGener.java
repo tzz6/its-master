@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.lang.StringUtils;
 
 import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
-
+@SuppressWarnings({"rawtypes","unchecked","unused"})
 class EhSerializerGener {
 	private static final String SERIALIZER_PACKAGE = "com.its.omp.core.serial.impl.eh";
 	private static final String SERIALIZER_PACKAGE_DOT = "com.its.omp.core.serial.impl.eh.";

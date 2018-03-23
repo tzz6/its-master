@@ -7,7 +7,7 @@ import com.its.framework.serialize.writer.Writer;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
-
+@SuppressWarnings({"rawtypes","unchecked"})
 public class LargeSet<T> implements Set<T> {
 	private LargeMap<T, Object> map;
 

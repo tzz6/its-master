@@ -8,7 +8,7 @@ import com.its.framework.serialize.meta.FieldTypeHelper;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.lang.StringUtils;
-
+@SuppressWarnings({"unused"})
 public class EhSerializerGenerNew {
 	private static final String SERIALIZER_PACKAGE = "package com.its.framework.serialize;\n";
 	private static final String SERIALIZER_IMPORT = "import com.its.framework.serialize.reader.*;\nimport com.its.framework.serialize.writer.*;\n";

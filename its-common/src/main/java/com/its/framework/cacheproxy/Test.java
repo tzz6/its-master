@@ -2,7 +2,6 @@ package com.its.framework.cacheproxy;
 
 import com.its.framework.cacheproxy.redis.RedisCache;
 import com.its.framework.cacheproxy.redis.RedisConfig;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import redis.clients.jedis.Jedis;
-
+@SuppressWarnings({"rawtypes","unchecked","resource","unused"})
 public class Test {
 	public static final String SCRIPT_1 = "local keys = redis.call(\"keys\", KEYS[1]);\nlocal MAX_TTL = tonumber(KEYS[2]);\nlocal count = 1; \nlocal result = {};\nif (keys and (table.maxn(keys) > 0)) then\n  for index, key in ipairs(keys) do\n    local key = keys[index];\n    local ttl = redis.call(\"ttl\", key);\n    if (ttl > MAX_TTL) then\n      result[count] = key;\n      count = count +  1; \n    end\n  end \nend \nreturn result;";
 	public static final String SCRIPT_2 = "local MAX_TTL = tonumber(ARGV[2]);\nlocal resultSet = {};\nlocal keys = {};\nlocal done = false;\nlocal cursor = \"0\"\nlocal index = 1;\nrepeat\n  local result = redis.call(\"SCAN\", cursor, \"match\", ARGV[1], \"count\", 1000)\n  cursor = result[1];\n  keys = result[2];\n  for i, key in ipairs(keys) do\n    local ttl = redis.call(\"ttl\", key);\n    if ttl > MAX_TTL then\n      resultSet[index] = key;\n      index = index + 1;\n    end\n  end\n  if cursor == \"0\" then\n    done = true;\n  end\nuntil done\nreturn resultSet;";

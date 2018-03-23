@@ -32,7 +32,7 @@ import redis.clients.jedis.ShardedJedisPool;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 import redis.clients.util.Pool;
 import redis.clients.util.SafeEncoder;
-
+@SuppressWarnings({"rawtypes","unchecked","deprecation"})
 public class RedisCache implements ICache, InitializingBean {
 	private static Logger logger = LoggerFactory.getLogger(RedisCache.class);
 	private static final int DEFAULT_IDLE_COUNT = 10;
