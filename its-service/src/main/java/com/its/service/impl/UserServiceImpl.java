@@ -48,11 +48,11 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		}
 		return userList;
 	}
-	
+
 	public void addUser(User user) {
 		saveEntity(user);
 	}
-	
+
 	@Override
 	public User login(String userName, String password) {
 		String hql = "FROM User WHERE name = ? and password = ?";
@@ -62,17 +62,19 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		}
 		return null;
 	}
-	
+
 	@Override
 	public Set<Role> queryRoleByUserName(String userName) {
+		Set<Role> roles = null;
 		String hql = "FROM User WHERE name = ?";
 		List<User> users = findEntityByHQL(hql, userName);
 		if (users != null && users.size() > 0) {
-			return users.get(0).getRoles();
+			User user = users.get(0);
+			roles =user.getRoles();
 		}
-		return null;
+		return roles;
 	}
-	
+
 	@Override
 	public QueryResultData<User> queryUserByPage(int pageNum, int pageSize, Map<String, Object> conditionMap) {
 		String hql = builderQueryUserWhere(conditionMap);
@@ -86,12 +88,12 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		}
 		int offset = pageSize * (pageNum - 1);
 		int endOffset = pageSize;
-		
+
 		List<User> users = findEntityByPageHQL(hql, offset, endOffset);
 		QueryResultData<User> page = new QueryResultData<User>(totalCount, users);
 		return page;
 	}
-	
+
 	@Override
 	public QueryResultData<User> queryAllUser(Map<String, Object> conditionMap) {
 		String hql = builderQueryUserWhere(conditionMap);
@@ -131,9 +133,9 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		}
 		return hql;
 	}
-	
+
 	private boolean whereAddAnd(StringBuilder whereStr, boolean isAnd) {
-		if(isAnd){
+		if (isAnd) {
 			whereStr.append(" and ");
 		}
 		return true;

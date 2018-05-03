@@ -129,9 +129,9 @@ public class RedisCache implements ICache, InitializingBean {
 	 * @param value
 	 * @param ttl 有效的秒数
 	 */
-	public void set(String key, Object value, int ttl) throws CPException {
-		byte[] keydata = encodeKey(key);
-		byte[] valuedata = encodeValue(value);
+	public void set(String key, Object value, final int ttl) throws CPException {
+		final byte[] keydata = encodeKey(key);
+		final byte[] valuedata = encodeValue(value);
 
 		call(new IJedisCallback() {
 			public void onCall(ShardedJedis sjedis) throws CPException {
@@ -147,18 +147,16 @@ public class RedisCache implements ICache, InitializingBean {
 		set(kv, this.config.getTtl());
 	}
 
-	public void set(Map<String, ?> kv, int ttl) throws CPException {
+	public void set(final Map<String, ?> kv, final int ttl) throws CPException {
 		call(new IJedisCallback() {
 			public void onCall(ShardedJedis sjedis) throws CPException {
 				Map<Jedis, List<byte[]>> shardedKvs = RedisCache.this.shardKeyValues(kv, sjedis);
-
 				if (ttl > 0)
 					for (Map.Entry<Jedis, List<byte[]>> entry : shardedKvs.entrySet()) {
 						byte[][] keysvalues = (byte[][]) ((List) entry.getValue())
 								.toArray(new byte[((List) entry.getValue()).size()][]);
 						Pipeline pipeline = ((Jedis) entry.getKey()).pipelined();
 						pipeline.mset(keysvalues);
-
 						boolean isKey = false;
 						for (byte[] key : keysvalues) {
 							isKey = !isKey;
@@ -183,9 +181,9 @@ public class RedisCache implements ICache, InitializingBean {
 		return setnx(key, value, this.config.getTtl());
 	}
 
-	public boolean setnx(String key, Object value, int ttl) throws CPException {
-		byte[] keydata = encodeKey(key);
-		byte[] valuedata = encodeValue(value);
+	public boolean setnx(String key, Object value, final int ttl) throws CPException {
+		final byte[] keydata = encodeKey(key);
+		final byte[] valuedata = encodeValue(value);
 
 		return ((Boolean) call(new IJedisResultCallback() {
 			public Boolean onCall(ShardedJedis sjedis) throws CPException {
@@ -203,9 +201,9 @@ public class RedisCache implements ICache, InitializingBean {
 		return getSet(key, value, this.config.getTtl());
 	}
 
-	public <T> T getSet(String key, Object value, int ttl) throws CPException {
-		byte[] keydata = encodeKey(key);
-		byte[] valuedata = encodeValue(value);
+	public <T> T getSet(String key, Object value, final int ttl) throws CPException {
+		final byte[] keydata = encodeKey(key);
+		final byte[] valuedata = encodeValue(value);
 
 		return call(new IJedisResultCallback<T>() {
 			public T onCall(ShardedJedis sjedis) throws CPException {
@@ -222,7 +220,7 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public <T> T get(String key) throws CPException {
-		byte[] keydata = encodeKey(key);
+		final byte[] keydata = encodeKey(key);
 
 		return call(new IJedisResultCallback<T>() {
 			public T onCall(ShardedJedis sjedis) throws CPException {
@@ -235,7 +233,7 @@ public class RedisCache implements ICache, InitializingBean {
 		});
 	}
 
-	public <T> Map<String, T> get(Collection<String> keys) throws CPException {
+	public <T> Map<String, T> get(final Collection<String> keys) throws CPException {
 		return (Map) call(new IJedisResultCallback() {
 			public Map<String, T> onCall(ShardedJedis sjedis) throws CPException {
 				Map result = new HashMap();
@@ -263,8 +261,8 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public Collection<String> keys(String pattern) throws CPException {
-		Set<String> result = new HashSet<String>();
-		byte[] patterndata = encodePattern(pattern);
+		final Set<String> result = new HashSet<String>();
+		final byte[] patterndata = encodePattern(pattern);
 
 		call(new IJedisCallback() {
 			public void onCall(ShardedJedis sjedis) throws CPException {
@@ -279,8 +277,8 @@ public class RedisCache implements ICache, InitializingBean {
 		return result;
 	}
 
-	public void keys(String pattern, IKeyVisitor keyVisitor) throws CPException {
-		ScanParams params = new ScanParams();
+	public void keys(String pattern, final IKeyVisitor keyVisitor) throws CPException {
+		final ScanParams params = new ScanParams();
 		params.match(encodePattern(pattern));
 		params.count(1000);
 
@@ -307,7 +305,7 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public boolean exists(String key) throws CPException {
-		byte[] keydata = encodeKey(key);
+		final byte[] keydata = encodeKey(key);
 
 		return ((Boolean) call(new IJedisResultCallback() {
 			public Boolean onCall(ShardedJedis sjedis) throws CPException {
@@ -317,7 +315,7 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public long ttl(String key) throws CPException {
-		byte[] keydata = encodeKey(key);
+		final byte[] keydata = encodeKey(key);
 
 		return ((Long) call(new IJedisResultCallback() {
 			public Long onCall(ShardedJedis sjedis) throws CPException {
@@ -326,8 +324,8 @@ public class RedisCache implements ICache, InitializingBean {
 		})).longValue();
 	}
 
-	public void setTtl(String key, int ttl) throws CPException {
-		byte[] keydata = encodeKey(key);
+	public void setTtl(String key, final int ttl) throws CPException {
+		final byte[] keydata = encodeKey(key);
 
 		call(new IJedisCallback() {
 			public void onCall(ShardedJedis sjedis) throws CPException {
@@ -337,7 +335,7 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public void remove(String key) throws CPException {
-		byte[] keydata = encodeKey(key);
+		final byte[] keydata = encodeKey(key);
 
 		call(new IJedisCallback() {
 			public void onCall(ShardedJedis sjedis) throws CPException {
@@ -346,7 +344,7 @@ public class RedisCache implements ICache, InitializingBean {
 		});
 	}
 
-	public void remove(Collection<String> keys) throws CPException {
+	public void remove(final Collection<String> keys) throws CPException {
 		call(new IJedisCallback() {
 			public void onCall(ShardedJedis sjedis) throws CPException {
 				Map<Jedis, List<byte[]>> shardedKeys = RedisCache.this.shardKeys(keys, sjedis);
@@ -360,8 +358,8 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public void push(String key, String[] values) {
-		byte[] keydata = encodeKey(key);
-		byte[][] valuedatas = encodeKeys(values);
+		final byte[] keydata = encodeKey(key);
+		final byte[][] valuedatas = encodeKeys(values);
 
 		call(new IJedisCallback() {
 			public void onCall(ShardedJedis sjedis) throws CPException {
@@ -370,9 +368,9 @@ public class RedisCache implements ICache, InitializingBean {
 		});
 	}
 
-	public void push(String key, int ttl, String[] values) {
-		byte[] keydata = encodeKey(key);
-		byte[][] valuedatas = encodeKeys(values);
+	public void push(String key, final int ttl, String[] values) {
+		final byte[] keydata = encodeKey(key);
+		final byte[][] valuedatas = encodeKeys(values);
 
 		call(new IJedisCallback() {
 			public void onCall(ShardedJedis sjedis) throws CPException {
@@ -384,7 +382,7 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public String pop(String key) {
-		byte[] keydata = encodeKey(key);
+		final byte[] keydata = encodeKey(key);
 
 		return (String) call(new IJedisResultCallback() {
 			public String onCall(ShardedJedis sjedis) throws CPException {
@@ -395,7 +393,7 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public List<String> members(String key) {
-		byte[] keydata = encodeKey(key);
+		final byte[] keydata = encodeKey(key);
 
 		return (List) call(new IJedisResultCallback() {
 			public List<String> onCall(ShardedJedis sjedis) throws CPException {
@@ -414,7 +412,7 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public long getCounter(String key) {
-		byte[] keydata = encodeKey(key);
+		final byte[] keydata = encodeKey(key);
 
 		return ((Long) call(new IJedisResultCallback() {
 			public Long onCall(ShardedJedis sjedis) throws CPException {
@@ -425,7 +423,7 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public long incCounter(String key) {
-		byte[] keydata = encodeKey(key);
+		final byte[] keydata = encodeKey(key);
 
 		return ((Long) call(new IJedisResultCallback() {
 			public Long onCall(ShardedJedis sjedis) throws CPException {
@@ -434,8 +432,8 @@ public class RedisCache implements ICache, InitializingBean {
 		})).longValue();
 	}
 
-	public long incCounter(String key, int ttl) {
-		byte[] keydata = encodeKey(key);
+	public long incCounter(String key, final int ttl) {
+		final byte[] keydata = encodeKey(key);
 
 		return ((Long) call(new IJedisResultCallback() {
 			public Long onCall(ShardedJedis sjedis) throws CPException {
@@ -447,7 +445,7 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public long decCounter(String key) {
-		byte[] keydata = encodeKey(key);
+		final byte[] keydata = encodeKey(key);
 
 		return ((Long) call(new IJedisResultCallback() {
 			public Long onCall(ShardedJedis sjedis) throws CPException {
@@ -456,8 +454,8 @@ public class RedisCache implements ICache, InitializingBean {
 		})).longValue();
 	}
 
-	public long decCounter(String key, int ttl) {
-		byte[] keydata = encodeKey(key);
+	public long decCounter(String key, final int ttl) {
+		final byte[] keydata = encodeKey(key);
 
 		return ((Long) call(new IJedisResultCallback() {
 			public Long onCall(ShardedJedis sjedis) throws CPException {
@@ -472,9 +470,9 @@ public class RedisCache implements ICache, InitializingBean {
 		zadd(key, value, score, this.config.getTtl());
 	}
 
-	public void zadd(String key, String value, double score, int ttl) {
-		byte[] keydata = encodeKey(key);
-		byte[] valuedata = encodeKey(value);
+	public void zadd(String key, String value, final double score, final int ttl) {
+		final byte[] keydata = encodeKey(key);
+		final byte[] valuedata = encodeKey(value);
 
 		call(new IJedisCallback() {
 			public void onCall(ShardedJedis sjedis) throws CPException {
@@ -486,8 +484,8 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public void zrem(String key, String value) {
-		byte[] keydata = encodeKey(key);
-		byte[] valuedata = encodeKey(value);
+		final byte[] keydata = encodeKey(key);
+		final byte[] valuedata = encodeKey(value);
 
 		call(new IJedisCallback() {
 			public void onCall(ShardedJedis sjedis) throws CPException {
@@ -496,8 +494,8 @@ public class RedisCache implements ICache, InitializingBean {
 		});
 	}
 
-	public Set<String> zrange(String key, long start, long end) {
-		byte[] keydata = encodeKey(key);
+	public Set<String> zrange(String key, final long start, final long end) {
+		final byte[] keydata = encodeKey(key);
 
 		return (Set) call(new IJedisResultCallback() {
 			public Set<String> onCall(ShardedJedis sjedis) throws CPException {
@@ -514,8 +512,8 @@ public class RedisCache implements ICache, InitializingBean {
 		});
 	}
 
-	public Set<String> zrangeByScore(String key, double min, double max) {
-		byte[] keydata = encodeKey(key);
+	public Set<String> zrangeByScore(String key, final double min, final double max) {
+		final byte[] keydata = encodeKey(key);
 
 		return (Set) call(new IJedisResultCallback() {
 			public Set<String> onCall(ShardedJedis sjedis) throws CPException {
@@ -533,8 +531,8 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public long zrank(String key, String value) {
-		byte[] keydata = encodeKey(key);
-		byte[] valuedata = encodeKey(value);
+		final byte[] keydata = encodeKey(key);
+		final byte[] valuedata = encodeKey(value);
 
 		return ((Long) call(new IJedisResultCallback() {
 			public Long onCall(ShardedJedis sjedis) throws CPException {
@@ -548,10 +546,10 @@ public class RedisCache implements ICache, InitializingBean {
 		hset(key, field, value, this.config.getTtl());
 	}
 
-	public void hset(String key, String field, String value, int ttl) {
-		byte[] keydata = encodeKey(key);
-		byte[] fielddata = encodeKey(field);
-		byte[] valuedata = encodeKey(value);
+	public void hset(String key, String field, String value, final int ttl) {
+		final byte[] keydata = encodeKey(key);
+		final byte[] fielddata = encodeKey(field);
+		final byte[] valuedata = encodeKey(value);
 
 		call(new IJedisCallback() {
 			public void onCall(ShardedJedis sjedis) throws CPException {
@@ -563,8 +561,8 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public void hdel(String key, String field) {
-		byte[] keydata = encodeKey(key);
-		byte[] fielddata = encodeKey(field);
+		final byte[] keydata = encodeKey(key);
+		final byte[] fielddata = encodeKey(field);
 
 		call(new IJedisCallback() {
 			public void onCall(ShardedJedis sjedis) throws CPException {
@@ -574,7 +572,7 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public Set<String> hkeys(String key) {
-		byte[] keydata = encodeKey(key);
+		final byte[] keydata = encodeKey(key);
 
 		return (Set) call(new IJedisResultCallback() {
 			public Set<String> onCall(ShardedJedis sjedis) throws CPException {
@@ -592,8 +590,8 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public String hget(String key, String field) {
-		byte[] keydata = encodeKey(key);
-		byte[] fielddata = encodeKey(field);
+		final byte[] keydata = encodeKey(key);
+		final byte[] fielddata = encodeKey(field);
 
 		return (String) call(new IJedisResultCallback() {
 			public String onCall(ShardedJedis sjedis) throws CPException {
@@ -604,7 +602,7 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public Map<String, String> hgetAll(String key) {
-		byte[] keydata = encodeKey(key);
+		final byte[] keydata = encodeKey(key);
 
 		return (Map) call(new IJedisResultCallback() {
 			public Map<String, String> onCall(ShardedJedis sjedis) throws CPException {
@@ -623,8 +621,8 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public void sadd(String key, String member) {
-		byte[] keydata = encodeKey(key);
-		byte[] memberdata = encodeKey(member);
+		final byte[] keydata = encodeKey(key);
+		final byte[] memberdata = encodeKey(member);
 
 		call(new IJedisCallback() {
 			public void onCall(ShardedJedis sjedis) throws CPException {
@@ -634,8 +632,8 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public void srem(String key, String member) {
-		byte[] keydata = encodeKey(key);
-		byte[] memberdata = encodeKey(member);
+		final byte[] keydata = encodeKey(key);
+		final byte[] memberdata = encodeKey(member);
 
 		call(new IJedisCallback() {
 			public void onCall(ShardedJedis sjedis) throws CPException {
@@ -645,7 +643,7 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public Set<String> smembers(String key) {
-		byte[] keydata = encodeKey(key);
+		final byte[] keydata = encodeKey(key);
 
 		return (Set) call(new IJedisResultCallback() {
 			public Set<String> onCall(ShardedJedis sjedis) throws CPException {
@@ -663,8 +661,8 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	public boolean sismember(String key, String member) {
-		byte[] keydata = encodeKey(key);
-		byte[] memberdata = encodeKey(member);
+		final byte[] keydata = encodeKey(key);
+		final byte[] memberdata = encodeKey(member);
 
 		return ((Boolean) call(new IJedisResultCallback() {
 			public Boolean onCall(ShardedJedis sjedis) throws CPException {
@@ -685,7 +683,7 @@ public class RedisCache implements ICache, InitializingBean {
 	}
 
 	private byte[][] encodeKeys(String[] keys) {
-		byte[][] keydatas = new byte[keys.length][];
+		final byte[][] keydatas = new byte[keys.length][];
 
 		int i = 0;
 		for (int n = keys.length; i < n; i++) {
@@ -819,8 +817,8 @@ public class RedisCache implements ICache, InitializingBean {
 		return encodeKey(pattern);
 	}
 
-	public void testShard(String key) {
-		byte[] keydata = encodeKey(key);
+	public void testShard(final String key) {
+		final byte[] keydata = encodeKey(key);
 
 		call(new IJedisCallback() {
 			public void onCall(ShardedJedis sjedis) throws CPException {

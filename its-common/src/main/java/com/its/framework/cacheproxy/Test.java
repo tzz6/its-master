@@ -45,7 +45,7 @@ public class Test {
 	public static void test2() {
 		RedisConfig cfg = new RedisConfig().setServers("10.0.14.64:6390,10.0.14.64:6391,10.0.14.64:6392")
 				.setMasters("shard1,shard2").setEhSerialize(true);
-		ICache cache = new RedisCache(cfg);
+		final ICache cache = new RedisCache(cfg);
 
 		Map<String, String> kv = new HashMap<String, String>();
 		for (int i = 0; i < 1000; i++) {
@@ -55,7 +55,7 @@ public class Test {
 		}
 		cache.set(kv);
 
-		AtomicInteger counter = new AtomicInteger();
+		final AtomicInteger counter = new AtomicInteger();
 		cache.keys("key_1*", new IKeyVisitor() {
 			public void onVisi(String key) {
 				System.out.println(key);
@@ -86,12 +86,12 @@ public class Test {
 
 	public static void test4() {
 		for (int i = 0; i < 200; i++) {
-			int index = new Random().nextInt(10);
 			new Thread(new Runnable() {
 				public void run() {
 					Jedis jedis = new Jedis("10.0.132.15", 8084, 1000000);
 					for (int x = 0; x < 10; x++) {
 						Map mem = new HashMap();
+						int index = new Random().nextInt(10);
 						String keyPre = "key_" + index + "_";
 						for (int i = 0; i < 10000; i++) {
 							mem.put(keyPre + i, Double.valueOf(System.currentTimeMillis()));

@@ -79,20 +79,21 @@ public class JsonMapper {
 	 * @see #fromJson(String, JavaType)
 	 */
 	public <T> T fromJson(String jsonString, Class<T> clazz) {
-		if (jsonString != null && jsonString.length() > 0) {
+		if (jsonString == null || jsonString.length() == 0) {
 			return null;
 		}
 
 		try {
 			return mapper.readValue(jsonString, clazz);
 		} catch (IOException e) {
+			e.printStackTrace();
 			logger.warn("parse json string error:" + jsonString, e);
 			return null;
 		}
 	}
-
+	
 	public <T> T fromJsonClass(String jsonString, Class<T> clazz) {
-		if (jsonString != null && jsonString.length() > 0) {
+		if (jsonString == null || jsonString.length() == 0) {
 			return null;
 		}
 
@@ -112,7 +113,7 @@ public class JsonMapper {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T fromJson(String jsonString, JavaType javaType) {
-		if (jsonString != null && jsonString.length() > 0) {
+		if (jsonString == null || jsonString.length() == 0) {
 			return null;
 		}
 

@@ -36,10 +36,17 @@ public class JexlTest {
 		}
 	}
 
+	/** 自定义条件表达式方法-数据打印 */
 	public String printUser(JexlTest.user user) {
 		String str = user.getId() + "----" + user.getName();
 		System.out.println(str);
 		return str;
+	}
+
+	/** 自定义条件表达式方法-字符串包含 */
+	public boolean indexOf(String str, String value) {
+		int result = str.indexOf(value);
+		return result >= 0 ? true : false;
 	}
 
 	public Object convertToCode(String jexlExp, Map<String, Object> map) {
@@ -56,11 +63,17 @@ public class JexlTest {
 	}
 
 	@Test
-	public void test1() {
+	public void testConvertToCode() {
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("money", 2100);
-			String expression = "money>=2000&&money<=4000";
+			String expression = "money>=2000&&money<=4000||jexlTest.indexOf(strKay,strValue)";
+			map.put("money", 1900);
+			map.put("strKay", "aa;bb;cc;dd;ee");
+			map.put("strValue", "aa");
+//			String expression = "money>=2000&&money<=4000";
+//			map.put("money", 2100);
+			JexlTest jexlTest = new JexlTest();
+			map.put("jexlTest", jexlTest);
 			Object code = convertToCode(expression, map);
 			System.out.println(code);
 		} catch (Exception e) {
@@ -112,7 +125,7 @@ public class JexlTest {
 			JexlTest jexlTest = new JexlTest();
 			map.put("user", user);
 			map.put("jexlTest", jexlTest);
-			
+
 			String expression = "jexlTest.printUser(user)";
 			Object code = convertToCode(expression, map);
 			System.out.println(code);

@@ -18,7 +18,7 @@ public class JedisTest {
 
 	@Before
 	public void initJedis() {
-		jedis = new Jedis("vm-01-ip", 6379);
+		jedis = new Jedis("vm-02-ip", 6379);
 		jedis.auth("123456");//设置密码
 	}
 
