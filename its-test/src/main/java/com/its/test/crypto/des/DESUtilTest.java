@@ -10,7 +10,7 @@ public class DESUtilTest {
 
 	@Test
 	public void testDesEncrypt() {
-		String jdbUrl = "jdbc:mysql://localhost:3306/webdemo?useUnicode=true&amp;characterEncoding=UTF8";
+		String jdbUrl = "jdbc:mysql://localhost:3306/webdemo?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8";
 		String jdbcUsername = "root";
 		String jdbcPassword = "root123";
 		String data = "Tzz123456~!@#$%^&*()_+-={}|[]:'<>?,./";
