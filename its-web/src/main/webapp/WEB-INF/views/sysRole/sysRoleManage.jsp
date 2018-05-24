@@ -285,7 +285,7 @@
 		$('#add_dialog_form').form('submit', {
 			url : '${ctx}/sysRole/addSysRole?random=' + new Date().getTime(),
 			onSubmit : function() {
-				$("#roleName_add_h").val(encodeURI($("#roleName_add").val()));
+				$("#roleName_add_h").val($("#roleName_add").val());
 				return $(this).form('validate');
 			},
 			success : function(resultData) {
@@ -375,7 +375,7 @@
 		$('#update_dialog_form').form('submit', {
 			url : '${ctx}/sysRole/updateSysRole?random=' + new Date().getTime(),
 			onSubmit : function() {
-				$("#roleName_update_h").val(encodeURI($("#roleName_update").val()));
+				$("#roleName_update_h").val($("#roleName_update").val());
 				return $(this).form('validate');
 			},
 			success : function(resultData) {

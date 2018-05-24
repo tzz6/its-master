@@ -1,6 +1,5 @@
 package com.its.web.controller.sys;
 
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,6 +14,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -97,7 +97,8 @@ public class SysUserController {
 		String successFlag = Constants.OPTION_FLAG_SUCCESS;
 		try {
 			SysUser currSysUser = UserSession.getUser();// 当前登录用户
-			sysUser.setStName(URLDecoder.decode(sysUser.getStName(), "UTF-8"));
+//			sysUser.setStName(URLDecoder.decode(sysUser.getStName(), "UTF-8"));
+			sysUser.setStName(sysUser.getStName());
 			// 判断用户工号重复性
 			String stCode = sysUser.getStCode();
 			List<SysUser> sysUsers = sysUserFacade.getSysUserListByStCode(stCode);
@@ -133,14 +134,14 @@ public class SysUserController {
 	 * @param sysUser
 	 * @return
 	 */
-	@RequestMapping(value = "/getSysUserById")
-	public @ResponseBody Map<String, Object> getSysUserById(HttpServletRequest request, SysUser sysUser) {
+	@RequestMapping(value = "/getSysUserById", method={RequestMethod.POST},produces={"application/x-user;charset=utf-8"}, consumes={"application/x-user;charset=utf-8"})
+	public @ResponseBody SysUser getSysUserById(@RequestBody SysUser sysUser) {
 		sysUser = sysUserFacade.getSysUserByStId(sysUser);
 		Map<String, Object> userMap = new HashMap<String, Object>();
 		userMap.put("stId", sysUser.getStId());
 		userMap.put("stCode", sysUser.getStCode());
 		userMap.put("stName", sysUser.getStName());
-		return userMap;
+		return sysUser;
 	}
 
 	/**
@@ -158,7 +159,7 @@ public class SysUserController {
 			SysUser currSysUser = UserSession.getUser();// 当前登录用户
 			String stName =  sysUser.getStName();
 			if (stName != null && !"".equals(stName)) {
-				sysUser.setStName(URLDecoder.decode(stName, "UTF-8"));
+				sysUser.setStName(stName);
 			}
 			// 判断用户工号重复性
 			String stCode = sysUser.getStCode();

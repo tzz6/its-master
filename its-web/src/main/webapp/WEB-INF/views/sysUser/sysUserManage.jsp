@@ -474,7 +474,7 @@
 			type: 'post', 
 			dataType: 'json', 
 			onSubmit : function() {
-				$("#stName_add_h").val(encodeURI($("#stName_add").val()));
+				$("#stName_add_h").val($("#stName_add").val());
 				return $(this).form('validate');
 			},
 			success : function(resultData) {
@@ -540,9 +540,12 @@
 			type : "post",
 			data : {
 				"stId" : stId
+				
 			},
 			async : true,
 			dataType : "json",
+			type:"POST",
+			contentType:"application/x-user",
 			success : function(data) {
 				var uform = $('#update_dialog_form');
 				$('#update_dialog_div').dialog('open');
@@ -597,7 +600,8 @@
 		$('#update_dialog_form').form('submit',{
 		url : '${ctx}/sysUser/updateSysUser?random='+ new Date().getTime(),
 		onSubmit : function() {
-			$("#stName_update_h").val(encodeURI($("#stName_update").val()));
+// 			$("#stName_update_h").val(encodeURI($("#stName_update").val()));
+			$("#stName_update_h").val($("#stName_update").val());
 						return $(this).form('validate');
 		},
 		success : function(resultData) {

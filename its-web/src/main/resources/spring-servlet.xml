@@ -14,18 +14,25 @@
 
 	<!-- 以下为SpringMVC配置 -->
 	<mvc:annotation-driven>
-		<!-- 返回json数据，@response使用 -->
 		<mvc:message-converters register-defaults="true">
-			<bean
-				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+			<!-- 返回json数据，@response使用 -->
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 				<property name="supportedMediaTypes">
 					<list>
 						<value>text/html;charset=UTF-8</value>
 						<value>application/json;charset=UTF-8</value>
 					</list>
 				</property>
-
 			</bean>
+			<!-- 自定义消息转换器 -->
+			<bean class="com.its.web.common.springframework.http.converter.SysUserHttpMessageConverter">
+            	<property name="defaultCharset" value="UTF-8"/>
+            	<property name="supportedMediaTypes">    
+                    <list>                          
+                        <value>application/x-user;charset=UTF-8</value>
+                    </list>    
+                </property> 
+            </bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 	<!-- 用于jetty下web.xml中的welcome-file-list配置无效，无法默认跳转至index.jsp页面，tomcat无许配置 -->

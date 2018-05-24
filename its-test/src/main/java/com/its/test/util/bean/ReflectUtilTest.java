@@ -14,6 +14,15 @@ public class ReflectUtilTest {
 		user.setName("AAA");
 		User user2 = new User();
 		ReflectUtil.fieldCopy(user, user2);
+		System.out.println("*****************");
+		System.out.println(user2.getId());
+		System.out.println(user2.getName());
+		System.out.println("*****************");
 		ReflectUtil.getFields(user2);
+		System.out.println("*****************");
+		ReflectUtil.setFieldValue(user2, "id", 2L);
+		ReflectUtil.setFieldValue(user2, "name", "BBB");
+		System.out.println(user2.getId());
+		System.out.println(user2.getName());
 	}
 }

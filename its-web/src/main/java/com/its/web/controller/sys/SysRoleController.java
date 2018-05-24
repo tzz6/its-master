@@ -1,6 +1,5 @@
 package com.its.web.controller.sys;
 
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -126,7 +125,7 @@ public class SysRoleController {
 		String successFlag = Constants.OPTION_FLAG_SUCCESS;
 		try {
 			SysUser currSysUser = UserSession.getUser();// 当前登录用户
-			sysRole.setRoleName(URLDecoder.decode(sysRole.getRoleName(), "UTF-8"));
+			sysRole.setRoleName(sysRole.getRoleName());
 			sysRole.setRoleId(PrimaryKeyUtil.genPrimaryKey());
 			Date currDate = new Date();
 			sysRole.setCreateBy(currSysUser.getStCode());
@@ -172,7 +171,7 @@ public class SysRoleController {
 	public @ResponseBody String updateSysRole(HttpServletRequest request, SysRole sysRole) {
 		String successFlag = Constants.OPTION_FLAG_SUCCESS;
 		try {
-			sysRole.setRoleName(URLDecoder.decode(sysRole.getRoleName(), "UTF-8"));
+			sysRole.setRoleName(sysRole.getRoleName());
 			SysUser currSysUser = UserSession.getUser();// 当前登录用户
 			Date currDate = new Date();
 			sysRole.setUpdateBy(currSysUser.getStCode());
