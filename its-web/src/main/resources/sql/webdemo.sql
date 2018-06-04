@@ -745,3 +745,35 @@ INSERT INTO `user_role` VALUES ('15', '3');
 INSERT INTO `user_role` VALUES ('21', '3');
 INSERT INTO `user_role` VALUES ('23', '3');
 INSERT INTO `user_role` VALUES ('25', '3');
+
+
+DROP TABLE IF EXISTS `tab_job_manager`;
+CREATE TABLE `tab_job_manager` (
+  `JOB_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'JOB_ID定时任务分片ID',
+  `SERVICE_TYPE` varchar(16) NOT NULL COMMENT '业务数据类型',
+  `SERVICE_ID` varchar(32) NOT NULL COMMENT '业务数据ID',
+  `STATUS` varchar(8) DEFAULT '0' COMMENT '状态0:定时任务未处理 1:定时任务已处理',
+  `JOB_COUNT` int(10) DEFAULT '0' COMMENT 'JOB调用次数',
+  `IP` varchar(16) DEFAULT '0' COMMENT '数据IP',
+  `JOB_IP` varchar(16) DEFAULT '0' COMMENT 'JOB执行IP',
+  PRIMARY KEY (`JOB_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='定时任务业务数据管理表';
+
+
+-- 测试数据批量insert
+DROP PROCEDURE tab_job_manager_insert; 
+CREATE PROCEDURE tab_job_manager_insert () 
+BEGIN 
+DECLARE i INT DEFAULT 1;
+WHILE i<1000 
+DO 
+INSERT INTO `tab_job_manager` (service_type,service_id,status,ip,job_ip)  VALUES ('sys_user', 'DA499AED4E9243049B8AA8BCC76CE4C0', '0', '10.118.53.59', null);
+SET i=i+1; 
+END WHILE ; 
+commit; 
+END;
+
+CALL tab_job_manager_insert();
+
+
+

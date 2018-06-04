@@ -23,11 +23,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.its.common.crypto.simple.MD5SHACryptoUtil;
 import com.its.common.utils.Constants;
 import com.its.common.utils.PrimaryKeyUtil;
+import com.its.model.mybatis.dao.domain.JobManager;
 import com.its.model.mybatis.dao.domain.SysUser;
 import com.its.model.mybatis.dao.domain.SysUserRole;
 import com.its.servers.facade.dubbo.sys.service.SysUserFacade;
 import com.its.servers.facade.dubbo.sys.service.SysUserRoleFacade;
+import com.its.service.mybatis.JobManagerService;
 import com.its.web.model.Datagrid;
+import com.its.web.util.IpUtil;
 import com.its.web.util.UserSession;
 
 
@@ -45,6 +48,9 @@ public class SysUserController {
 	private SysUserFacade sysUserFacade;
 	@Autowired
 	private SysUserRoleFacade sysUserRoleFacade;
+	
+	@Autowired
+	private JobManagerService jobManagerService;
 
 	/**
 	 * 用户管理列表页面
@@ -119,6 +125,12 @@ public class SysUserController {
 			sysUser.setStPassword(stPassword);
 			sysUserFacade.insertSysUser(sysUser);
 			log.info("新增用户成功---用户名为" + stCode);
+			JobManager jobManager = new JobManager();
+			jobManager.setServiceId(sysUser.getStId());
+			jobManager.setServiceType("sys_user");
+			jobManager.setStatus("0");
+			jobManager.setIp(IpUtil.getLocalIp());
+			jobManagerService.insertJobManager(jobManager);
 			return successFlag;
 		} catch (Exception e) {
 			log.error("新增用户失败：", e);

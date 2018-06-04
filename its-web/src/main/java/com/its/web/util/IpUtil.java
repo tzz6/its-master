@@ -40,4 +40,15 @@ public class IpUtil {
 		}
 		return ip;
 	}
+
+	/** 获取本机IP */
+	public static String getLocalIp() {
+		String ip = null;
+		try {
+			ip = InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return ip;
+	}
 }
