@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.its.common.utils.SortUtil;
 
-public class TestSortUtil {
+public class SortUtilTest {
 
 	/** 1.选择排序 */
 	@Test

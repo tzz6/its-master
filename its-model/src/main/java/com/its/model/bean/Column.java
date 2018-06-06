@@ -3,7 +3,6 @@ package com.its.model.bean;
 
 /**
  * Column
- * @author 01115486
  *
  */
 @SuppressWarnings("unused")

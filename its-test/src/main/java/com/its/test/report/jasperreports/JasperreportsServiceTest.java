@@ -12,7 +12,7 @@ import com.its.web.common.report.jasperreports.JasperreportsService;
 import com.its.web.common.report.jasperreports.impl.JasperreportsServiceImpl;
 
 
-public class TestJasperreportsService {
+public class JasperreportsServiceTest {
 
    public static void main(String [] args){
 		try {

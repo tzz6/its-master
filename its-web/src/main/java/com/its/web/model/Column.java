@@ -3,7 +3,6 @@ package com.its.web.model;
 
 /**
  * Column
- * @author 01115486
  *
  */
 @SuppressWarnings("unused")

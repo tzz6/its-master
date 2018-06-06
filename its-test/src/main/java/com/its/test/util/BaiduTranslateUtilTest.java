@@ -5,7 +5,7 @@ import org.junit.Test;
 import com.its.common.utils.BaiduTranslateUtil;
 
 
-public class TestBaiduTranslateUtil {
+public class BaiduTranslateUtilTest {
 
 
 	@Test

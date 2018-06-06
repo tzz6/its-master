@@ -43,7 +43,6 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * 
  * 3. POI以SAX解析excel2007文件
  * 
- * @author 01115486
  *
  */
 public class SAXExcelHandler {

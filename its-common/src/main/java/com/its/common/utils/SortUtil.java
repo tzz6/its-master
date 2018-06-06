@@ -2,7 +2,6 @@ package com.its.common.utils;
 
 /**
  * 常用排序工具类
- * @author 01115486
  *
  */
 public class SortUtil {

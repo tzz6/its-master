@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.its.common.utils.xml.XmlUtil;
 
-public class TestXmlUtil {
+public class XmlUtilTest {
 
 	@Test
 	public void testXmlToMap() {

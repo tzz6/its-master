@@ -10,7 +10,7 @@ import com.its.model.dao.domain.User;
 import com.its.service.UserService;
 import com.its.test.base.BaseTest;
 
-public class TestUserService extends BaseTest{
+public class UserServiceTest extends BaseTest{
 
 	@Autowired
 	private UserService userService;

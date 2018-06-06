@@ -10,7 +10,7 @@ import com.its.common.utils.xml.XStreamXmlUtil;
 import com.its.test.util.xml.entity.Role;
 import com.its.test.util.xml.entity.User;
 
-public class TestXStreamXmlUtil {
+public class XStreamXmlUtilTest {
 
 	@Test
 	public void testBeanToXml() {

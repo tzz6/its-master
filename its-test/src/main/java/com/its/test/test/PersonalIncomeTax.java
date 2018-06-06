@@ -36,12 +36,21 @@ public class PersonalIncomeTax {
 		return tax;
 	}
 
+	
 	public static void main(String[] args) {
-		double salary = 14910;// 收入
-		double socialSecurity = 220.56 + 13.51 + 10.15 + 116.80;// 各项社会保险费
+		double salary_2017 = 14910;// 工资
+		double salary_2018 = 15656;// 工资
+		double makeUp = 0;// 补发工资
+		double salary = salary_2018 + makeUp;
+		// 个人基本养老保险:220.56
+		// 个人基本医疗保险:14.96
+		// 个人失业保险:10.65
+		// 个人住房公积金扣款:745.50
+		double socialSecurity = 220.56 + 14.96 + 10.65 + 745.50;// 各项社会保险费
 		double lowestTaxableLimit = 3500;// 起征点
-		System.out.println(
-				"salary:" + salary + ",socialSecurity" + socialSecurity + ",lowestTaxableLimit:" + lowestTaxableLimit);
+		System.out.println("salary_2018_add:" + (salary_2018 - salary_2017) + ",salary_2018_add_percentage:"
+				+ (salary_2018 - salary_2017) / salary_2017 * 100 + "%" + ",salary:" + salary + ",socialSecurity:"
+				+ socialSecurity + ",lowestTaxableLimit:" + lowestTaxableLimit);
 		double tax = calculate(salary, socialSecurity, lowestTaxableLimit);
 		System.out.println("实发工资：" + (salary - socialSecurity - tax) + "应缴税款:" + tax);
 	}

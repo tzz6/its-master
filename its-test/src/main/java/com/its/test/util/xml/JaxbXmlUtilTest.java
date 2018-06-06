@@ -11,7 +11,7 @@ import com.its.common.utils.xml.JaxbXmlUtil;
 import com.its.test.util.xml.entity.Country;
 import com.its.test.util.xml.entity.Province;
 
-public class TestJaxbBeanToXmlUtil {
+public class JaxbXmlUtilTest {
 
 	@Test
 	public void testBeanToXml() {

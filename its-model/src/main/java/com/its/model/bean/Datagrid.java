@@ -8,7 +8,6 @@ import java.util.Map;
 /**
  * Datagrid
  * 
- * @author 01115486
  *
  * @param <T>
  */
