@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.quartz.Scheduler;
 
 /**
  * 定时任务表
@@ -26,13 +25,15 @@ public class ScheduleJob implements Serializable{
 	private String jobName;
 	/**的任务组名 */
 	@Column(name="job_group")
-	private String jobGroup = Scheduler.DEFAULT_GROUP;
+//	private String jobGroup = Scheduler.DEFAULT_GROUP;
+	private String jobGroup = "DEFAULT";
 	/**0--删除，1--运行，2--暂停，3--删除后不可重新创建*/
 	private String jobStatus;
 	/**触发器名 */
 	private String triggerName;
 	/**触发器组名 */
-	private String triggerGroup = Scheduler.DEFAULT_GROUP;
+//	private String triggerGroup = Scheduler.DEFAULT_GROUP;
+	private String triggerGroup = "DEFAULT";
 	/**类名*/
 	private String className;
 	private String cronExpression;

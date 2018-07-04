@@ -34,6 +34,9 @@ import com.its.common.utils.Constants;
 import com.its.common.utils.ImportError;
 import com.its.common.utils.ImportResult;
 import com.its.common.utils.poi.POIUtil;
+import com.its.core.mongodb.dao.impl.CountryMongoDaoImpl;
+import com.its.model.mongodb.dao.domain.City;
+import com.its.model.mongodb.dao.domain.Country;
 import com.its.model.mybatis.dao.domain.SysUser;
 import com.its.servers.facade.dubbo.sys.service.SysUserFacade;
 import com.its.web.controller.login.BaseController;
@@ -54,6 +57,8 @@ public class ExcelController extends BaseController {
 	private static final Log log = LogFactory.getLog(ExcelController.class);
 	@Autowired
 	private SysUserFacade sysUserFacade;
+	@Autowired
+	private CountryMongoDaoImpl countryMongoDao;
 
 	/**
 	 * 导入
@@ -65,8 +70,8 @@ public class ExcelController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/import")
 	public ImportResult saxImport(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam("imptType") String imptType, @RequestParam("imptFile") CommonsMultipartFile file,
-			ModelMap model) {
+			@RequestParam("imptType") String imptType, @RequestParam("saveType") String saveType,
+			@RequestParam("imptFile") CommonsMultipartFile file, ModelMap model) {
 		long start = System.currentTimeMillis();
 		SysUser currSysUser = UserSession.getUser();
 		String lang = currSysUser.getLanguage();
@@ -123,7 +128,7 @@ public class ExcelController extends BaseController {
 				Map<String, String> maps = new HashMap<String, String>();// 提示信息
 				maps.put(Constants.Excel.IMPORT_EXCEPTION,
 						ResourceBundleHelper.get(lang, Constants.Excel.IMPORT_EXCEPTION));
-				msg = saveData(list, currSysUser.getStCode(), maps);
+				msg = saveData(list, currSysUser.getStCode(), maps, saveType);
 			}
 			log.info("Excel数据批处理耗时：" + (System.currentTimeMillis() - excelDataEnd));
 		} catch (Exception e) {
@@ -144,15 +149,23 @@ public class ExcelController extends BaseController {
 	 * @param maps
 	 * @return
 	 */
-	public ImportResult saveData(List<SysUser> list, String stCode, Map<String, String> maps) {
+	public ImportResult saveData(List<SysUser> list, String stCode, Map<String, String> maps, String saveType) {
 		ImportResult msg = null;
 		List<ImportError> errors = new ArrayList<ImportError>();
 		try {
 			int count = 0;// 成功数量
-			Map<Integer, List<SysUser>> map = makeMapPage(list);// 构造分页数据
-			for (Map.Entry<Integer, List<SysUser>> entry : map.entrySet()) {
-				int batchSaveSize = batchSave(map.get(entry.getKey()), stCode, "sys_user");// 保存数据
-				count = count + batchSaveSize;
+			if ("Mysql".equals(saveType)) {//保存Mysql数据库
+				Map<Integer, List<SysUser>> map = makeMapPage(list);// 构造分页数据
+				for (Map.Entry<Integer, List<SysUser>> entry : map.entrySet()) {
+					int batchSaveSize = batchSave(map.get(entry.getKey()), stCode, "sys_user");// 保存数据
+					count = count + batchSaveSize;
+				}
+			}
+			if ("MongDB".equals(saveType)) {//保存MongDB
+				mongdbSave(list);
+			}
+			if ("Cache".equals(saveType)) {//保存在内存
+				cacheSave(list);
 			}
 			msg = new ImportResult(true, "success", count);
 		} catch (Exception e) {
@@ -162,6 +175,48 @@ public class ExcelController extends BaseController {
 			msg = new ImportResult(false, errors, 0);
 		}
 		return msg;
+	}
+
+	private void mongdbSave(List<SysUser> list) {
+		List<Country> countries = new ArrayList<Country>();
+		for (int i = 0; i < list.size(); i++) {
+			SysUser sysUser = list.get(i);
+			Country country = new Country();
+			Integer id = 0;
+			country.setId(i);
+			country.setName(sysUser.getStCode());
+			country.setEnName(sysUser.getStName());
+			country.setCreateDate(new Date());
+			List<City> citys = new ArrayList<City>();
+			City city = new City();
+			city.setId(id);
+			city.setName("深圳");
+			citys.add(city);
+			country.setCitys(citys);
+			countries.add(country);
+		}
+		countryMongoDao.insertAll(countries);
+	}
+	
+	private void cacheSave(List<SysUser> list) {
+		List<Country> countries = new ArrayList<Country>();
+		for (int i = 0; i < list.size(); i++) {
+			SysUser sysUser = list.get(i);
+			Country country = new Country();
+			Integer id = 0;
+			country.setId(i);
+			country.setName(sysUser.getStCode());
+			country.setEnName(sysUser.getStName());
+			country.setCreateDate(new Date());
+			List<City> citys = new ArrayList<City>();
+			City city = new City();
+			city.setId(id);
+			city.setName("深圳");
+			citys.add(city);
+			country.setCitys(citys);
+			countries.add(country);
+		}
+		countryMongoDao.insertAll(countries);
 	}
 
 	/**

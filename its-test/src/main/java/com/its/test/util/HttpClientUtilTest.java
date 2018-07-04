@@ -300,4 +300,17 @@ public class HttpClientUtilTest {
 		System.out.println("success");
 	}
 	
+	
+	
+	@Test
+	public void testSendHttpPostDZ() {
+		for (int i = 0; i < 1; i++) {
+			String responseContent = HttpClientUtil.getInstance().sendHttpPost(
+					"http://imsp.sf-express.com/service/core/comment/zanCommentFromPc.pub",
+					"commentId=58920121801115486&empCode=TURFek11YzJNak4" + i);
+			System.out.println("reponse content:" + responseContent);
+		}
+
+	}
+
 }

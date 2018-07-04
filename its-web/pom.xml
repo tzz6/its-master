@@ -99,8 +99,13 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
-			<version>1.10.1.RELEASE</version>
+			<version>2.0.0.RELEASE</version>
 		</dependency>
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.springframework.data</groupId> -->
+<!-- 		    <artifactId>spring-data-mongodb</artifactId> -->
+<!-- 		    <version>2.0.8.RELEASE</version> -->
+<!-- 		</dependency> -->
 		<!-- 使用SpringMVC需配置 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -342,7 +347,7 @@
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
-			<version>2.2.2</version>
+			<version>${quartz.version}</version>
 		</dependency>
 
 		<!-- PDF -->
@@ -418,7 +423,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.13</version>
+			<version>${slf4japi.version}</version>
 		</dependency>
 
 		<!-- xstream -->
@@ -431,7 +436,7 @@
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
-			<version>2.6</version>
+			<version>${commonslang.version}</version>
 		</dependency>
 
 		<!-- httpclient -->

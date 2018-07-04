@@ -16,6 +16,7 @@ public interface MongoBaseDao<T> {
 	/** 添加 */
 	public void insert(T object, String collectionName);
 	public void insert(T object);
+	public void insertAll(List<T> object);
 
 	/** 根据条件查找一条数据 */
 	public T findOne(Query query, String collectionName);

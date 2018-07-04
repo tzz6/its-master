@@ -74,7 +74,7 @@ public class MongoDBController extends BaseController {
 			Criteria criteria = Criteria.where("enName").regex(enName);
 			query.addCriteria(criteria);
 		}
-		total = countryMongoDao.findByQuery(query).size();
+		total = 0;
 		query.skip(startNum);
 		query.limit(rows);
 		List<Country> result = countryMongoDao.findByQuery(query);

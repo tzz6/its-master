@@ -23,7 +23,7 @@
 
 	<!--当当elasticjob分布式定时任务 -->
 	<!--配置作业注册中心 -->
-	<reg:zookeeper id="regCenter" server-lists="127.0.0.1:2181" namespace="dd-job" base-sleep-time-milliseconds="1000"
+	<reg:zookeeper id="regCenter" server-lists="vm-01-ip:2181" namespace="dd-job" base-sleep-time-milliseconds="1000"
 		max-sleep-time-milliseconds="3000" max-retries="3" />
 
 	<!-- 配置简单作业-->

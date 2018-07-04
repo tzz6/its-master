@@ -46,13 +46,6 @@
 			<version>${ehcache.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- 定时任务 -->
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-			<version>2.2.2</version>
-			<scope>provided</scope>
-		</dependency>
 		<!-- spring-mongodb -->
 		<dependency>
 	        <groupId>org.springframework.data</groupId>

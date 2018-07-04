@@ -130,6 +130,13 @@
 								<label><input name="imptType" type="radio" value="POI" />POI</label> 
 							</td>
 		        		</tr>
+		        		<tr>
+							<td>保存方式:</td>
+							<td>
+								<label><input name="saveType" type="radio" value="Mysql"  checked="checked"/>Mysql</label> 
+								<label><input name="saveType" type="radio" value="MongDB" />MongDB</label> 
+							</td>
+		        		</tr>
 					    <tr>
 					       <td><fmt:message key="user.select.file" />：</td>
 					       <td><input type="file" name="imptFile" id="uploadFile" style="height:24px;width:300px; border:1px solid #a5c3e0;border-top:1px solid #89accd;border-right:1px solid #89accd;padding:0px;"></td>
@@ -577,6 +584,7 @@
 		$('#import_dialog_div').dialog('open');
 		$('#upload_dialog_form').form('clear');
 		$('input[name="imptType"][value="SAX"]').prop("checked",true);
+		$('input[name="saveType"][value="Mysql"]').prop("checked",true);
 		$("#import_dialog_linkbutton_save").linkbutton('enable');
 		$('#resultTable').datagrid('loadData',{'total':0,'rows':[]}); 
 // 		var row = $("#agentservice_table").datagrid("getSelected");

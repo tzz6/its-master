@@ -44,6 +44,10 @@ public abstract class MongoBaseDaoImpl<T> implements MongoBaseDao<T> {
 	public void insert(T object) {
 		mongoTemplate.insert(object);
 	}
+	
+	public void insertAll(List<T> object) {
+		mongoTemplate.insertAll(object);
+	}
 
 	/** 根据条件查找一条数据 */
 	public T findOne(Query query, String collectionName) {
