@@ -15,6 +15,7 @@
 
 	<!-- 用dubbo协议在20880端口暴露服务 -->
 	<dubbo:protocol name="dubbo" port="20880" />
+	<dubbo:protocol name="rmi" port="1099" />
 
 	<!--用户 -->
 	<dubbo:reference interface="com.its.servers.facade.dubbo.sys.service.SysUserFacade"
@@ -34,4 +35,7 @@
 	<!-- 菜单-->
 	<dubbo:reference interface="com.its.servers.facade.dubbo.sys.service.SysMenuFacade"
 		id="sysMenuFacade" check="false" timeout="60000" />
+	<!-- 报表服务接口 -->
+	<dubbo:reference id="sysReportFacade" interface="com.its.servers.facade.dubbo.sys.service.SysReportFacade"
+		retries="0" timeout="600000" protocol="rmi" />
 </beans>
