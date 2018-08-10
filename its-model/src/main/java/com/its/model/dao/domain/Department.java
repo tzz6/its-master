@@ -13,11 +13,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 /**
  * 部门
  */
 @Entity
 @Table(name = "tab_department")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region="com.its.model.dao.domain.Department")
 public class Department implements Serializable {
 
 	private static final long serialVersionUID = 4286472756753404035L;
@@ -46,6 +50,7 @@ public class Department implements Serializable {
 
 	/** 与员工User 一对多关系 */
 	@OneToMany(mappedBy = "department")
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region="com.its.model.dao.domain.User")
 	private Set<User> users = new HashSet<User>();
 
 	/** 与角角一对多的关联关系 */

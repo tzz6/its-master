@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.its.core.mybatis.dao.mapper.SysUserMapper">
+	<!--
+    ehcache已经配置好了,然后只需要在想要缓存的mapper配置文件里面加入以下内容,该查询语句得到的结果将会被缓存
+   	 以下两个<cache>标签都可以,第一个可以输出日志,第二个不输出日志
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+    select语句时：
+	flushCache默认为false，表示任何时候语句被调用，都不会去清空本地缓存和二级缓存。
+	useCache默认为true，表示会将本条语句的结果进行二级缓存。
+	insert、update、delete语句时：
+	flushCache默认为true，表示任何时候语句被调用，都会导致本地缓存和二级缓存被清空。
+	useCache属性在该情况下没有。
+	当为select语句的时候，如果没有去配置flushCache、useCache，那么默认是启用缓存的，所以，如果有必要，那么就需要人工修改配置，修改结果类似下面：
+    -->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>  
 	<resultMap type="com.its.model.mybatis.dao.domain.SysUser" id="SysUser">
 		<result property="stId" column="ST_ID" />
 		<result property="stCode" column="ST_Code" />
@@ -55,7 +69,7 @@
 		</if>
 	</select>
 	
-	<select id="getSysUserList" parameterType="map" resultMap="SysUser">
+	<select id="getSysUserList" parameterType="map" resultMap="SysUser" useCache="true">
 		SELECT
 		ST_ID, ST_Code, ST_Name,CREATE_BY,
 		DATE_FORMAT(CREATE_TM,'%Y-%m-%d %H:%i:%S') CREATE_TM,
@@ -85,7 +99,7 @@
 		</if>
 	</select>
 	
-	<delete id="deleteSysUser" parameterType="java.util.List">
+	<delete id="deleteSysUser" parameterType="java.util.List" flushCache="false">
      		DELETE FROM sys_user WHERE ST_ID in
      		<foreach collection="list" item="stId" index="index"
 	            open="(" separator="," close=")">

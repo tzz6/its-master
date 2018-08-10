@@ -13,11 +13,15 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 /**
  * 角色
  */
 @Entity
 @Table(name = "tab_role")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region="com.its.model.dao.domain.Role")
 public class Role implements Serializable{
 
 	private static final long serialVersionUID = 8888233717801480088L;
@@ -30,6 +34,7 @@ public class Role implements Serializable{
 
 	/** 与User多对多的双向关联关系 */
 	@ManyToMany(mappedBy = "roles")
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region="com.its.model.dao.domain.User")
 	private Set<User> users = new HashSet<User>();
 
 	/** Department与Role多对一的关系 */

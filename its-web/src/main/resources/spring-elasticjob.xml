@@ -27,7 +27,7 @@
 		max-sleep-time-milliseconds="3000" max-retries="3" />
 
 	<!-- 配置简单作业-->
-	<job:simple id="sysUserElasticJob" class="com.its.job.elasticjob.SysUserElasticJob" registry-center-ref="regCenter" sharding-total-count="2" cron="0/30 * * * * ?"
+	<job:simple id="sysUserElasticJob" class="com.its.job.elasticjob.SysUserElasticJob" registry-center-ref="regCenter" sharding-total-count="2" cron="* 0/3 * * * ?"
 		overwrite="true" sharding-item-parameters="0=A,1=B"/>
 		
 	<bean id="sysUserElasticDataflowJob" class="com.its.job.elasticjob.SysUserElasticDataflowJob">
@@ -37,7 +37,7 @@
 	<!-- 配置数据流作业 -->
 	<!-- streaming-process="true"  流式处理数据只有fetchData方法的返回值为null或集合长度为空时，作业才停止抓取，否则作业将一直运行下去； -->
 	<!-- streaming-process="false" 非流式处理数据则只会在每次作业执行过程中执行一次fetchData方法和processData方法，随即完成本次作业。 -->
-	<job:dataflow id="sysUserElasticDataflowJobId" job-ref="sysUserElasticDataflowJob" registry-center-ref="regCenter" sharding-total-count="2" cron="0/30 * * * * ?" 
+	<job:dataflow id="sysUserElasticDataflowJobId" job-ref="sysUserElasticDataflowJob" registry-center-ref="regCenter" sharding-total-count="2" cron="* 0/3 * * * ?" 
 	failover="true" overwrite="true" streaming-process="true" sharding-item-parameters="0=A,1=B">
 	</job:dataflow>
 

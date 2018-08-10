@@ -22,7 +22,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @Table(name = "tab_user")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region="javaClassName")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region="com.its.model.dao.domain.User")
 public class User implements Serializable{
 
 	private static final long serialVersionUID = 3236582489765951721L;
@@ -63,12 +63,12 @@ public class User implements Serializable{
 	/** Department 与 User ManyToOne 关系 */
 	@ManyToOne
 	@JoinColumn(name = "departmentid")
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region="javaClassName")
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region="com.its.model.dao.domain.Department")
 	private Department department;
 
 	/** 与Role多对多的双向关联关系 */
 	@ManyToMany()
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region="javaClassName")
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region="com.its.model.dao.domain.Role")
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "uid"), inverseJoinColumns = @JoinColumn(name = "rid"))
 	@OrderBy("id asc")
 	private Set<Role> roles = new HashSet<Role>();
