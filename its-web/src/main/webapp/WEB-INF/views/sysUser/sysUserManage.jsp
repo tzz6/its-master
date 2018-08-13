@@ -329,7 +329,7 @@
 				{
 					url : '${ctx}/sysUser/sysUserManage?random='
 							+ new Date().getTime(),
-					pageList : [ 50, 100, 200 ],
+					pageList : [ 50, 100, 200,10000,50000,100000,1000000 ],
 					pageSize : 50,
 					nowrap : true,
 					rownumbers : true,

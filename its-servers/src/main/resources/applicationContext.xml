@@ -47,5 +47,8 @@
 	<bean id="axisSysUserFacade" class="com.its.servers.facade.axis.sys.service.impl.AxisSysUserFacadeImpl" />
 	<bean id="applicationContext" class="org.apache.axis2.extensions.spring.receivers.ApplicationContextHolder" /> -->
 	
+	<!-- mybatis整合redis -->
+	<import resource="classpath:spring-redis.xml"/>
+	
 	
 </beans>

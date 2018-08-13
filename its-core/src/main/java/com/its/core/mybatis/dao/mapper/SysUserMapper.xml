@@ -99,7 +99,7 @@
 		</if>
 	</select>
 	
-	<delete id="deleteSysUser" parameterType="java.util.List" flushCache="false">
+	<delete id="deleteSysUser" parameterType="java.util.List" flushCache="true">
      		DELETE FROM sys_user WHERE ST_ID in
      		<foreach collection="list" item="stId" index="index"
 	            open="(" separator="," close=")">

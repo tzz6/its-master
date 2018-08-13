@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.its.core.mybatis.dao.mapper.SysRoleMapper">
+	<cache type="com.its.core.cache.redis.RedisMybatisCache"/>  
 	<resultMap type="com.its.model.mybatis.dao.domain.SysRole" id="SysRole">
 		<result property="roleId" column="ROLE_ID" />
 		<result property="roleName" column="ROLE_NAME" />
