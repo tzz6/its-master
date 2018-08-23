@@ -4,8 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
@@ -19,8 +18,7 @@ import com.its.web.util.SpringContextUtils;
  */
 public class SysUserElasticJob implements SimpleJob {
 	
-	private static final Log log = LogFactory.getLog(SysUserElasticJob.class);
-
+	private static final Logger log = Logger.getLogger("elasticjob");
 
 	@Override
 	public void execute(ShardingContext shardingContext) {
