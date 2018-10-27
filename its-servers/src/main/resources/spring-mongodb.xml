@@ -13,7 +13,7 @@
 		http://www.springframework.org/schema/tx 
 		http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
 		http://www.springframework.org/schema/data/mongo 
-    	http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+    	http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
 		http://www.springframework.org/schema/aop 
 		http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
 		
@@ -21,14 +21,15 @@
 	<context:component-scan base-package="com.its.core" />
       
 <!--     <mongo:mongo id="mongo"  replica-set="${mongoDB.replicaSet}">   -->
+    <!--  
+        connections-per-host: 每个主机答应的连接数（每个主机的连接池大小），当连接池被用光时，会被阻塞住   
+        max-wait-time: 被阻塞线程从连接池获取连接的最长等待时间（ms）  
+        connect-timeout:在建立（打开）套接字连接时的超时时间（ms）  
+        socket-timeout:套接字超时时间;该值会被传递给Socket.setSoTimeout(int)  
+        slave-ok:指明是否答应驱动从次要节点或者奴隶节点读取数据  
+    -->  
+	<!-- mongodb  1.10.1.RELEASE  start 
     <mongo:mongo host="vm-01-ip" port="27017">  
-      <!--  
-         connections-per-host: 每个主机答应的连接数（每个主机的连接池大小），当连接池被用光时，会被阻塞住   
-         max-wait-time: 被阻塞线程从连接池获取连接的最长等待时间（ms）  
-         connect-timeout:在建立（打开）套接字连接时的超时时间（ms）  
-         socket-timeout:套接字超时时间;该值会被传递给Socket.setSoTimeout(int)  
-         slave-ok:指明是否答应驱动从次要节点或者奴隶节点读取数据  
-         -->  
     <mongo:options  
         connections-per-host="8"  
         threads-allowed-to-block-for-connection-multiplier="4"  
@@ -41,12 +42,31 @@
         write-number="1"  
         write-timeout="0"  
         write-fsync="true"/>  
-    </mongo:mongo>  
+    </mongo:mongo>
+     -->  
        <!-- 设置使用的数据库 名-->  
 <!--       <mongo:db-factory id="mongoDbFactory" dbname="demo" mongo-ref="mongo"/>   -->
-      <!-- mongodb的模板 -->  
+      <!-- mongodb的模板   
      <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">  
 	    <constructor-arg ref="mongo" />
 	    <constructor-arg name="databaseName" value="demo" /> 
-     </bean>  
+     </bean>-->
+     
+    <!-- mongodb  2.0.0.RELEASE  start -->
+    <mongo:mongo-client host="vm-01-ip" port="27017">  
+    <mongo:client-options 
+        connections-per-host="8"  
+        threads-allowed-to-block-for-connection-multiplier="4"  
+        connect-timeout="1000"   
+        max-wait-time="1500"  
+        socket-keep-alive="true"  
+        socket-timeout="1500"/>  
+    </mongo:mongo-client>
+	<!-- 设置使用的数据库名mongoDbFactory -->
+	<mongo:db-factory dbname="demo" mongo-ref="mongoClient" />
+	<!-- mongodb的模板 -->
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+	</bean>  
+	<!-- mongodb  2.0.0.RELEASE  end -->
 </beans>

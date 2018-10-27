@@ -18,14 +18,15 @@
 		http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
 		
 <!--     <mongo:mongo id="mongo"  replica-set="${mongoDB.replicaSet}">   -->
+	<!--  
+       connections-per-host: 每个主机答应的连接数（每个主机的连接池大小），当连接池被用光时，会被阻塞住   
+       max-wait-time: 被阻塞线程从连接池获取连接的最长等待时间（ms）  
+       connect-timeout:在建立（打开）套接字连接时的超时时间（ms）  
+       socket-timeout:套接字超时时间;该值会被传递给Socket.setSoTimeout(int)  
+       slave-ok:指明是否答应驱动从次要节点或者奴隶节点读取数据  
+	-->  
+	<!-- mongodb  2.0.0.RELEASE  start -->
     <mongo:mongo-client host="vm-01-ip" port="27017">  
-      <!--  
-         connections-per-host: 每个主机答应的连接数（每个主机的连接池大小），当连接池被用光时，会被阻塞住   
-         max-wait-time: 被阻塞线程从连接池获取连接的最长等待时间（ms）  
-         connect-timeout:在建立（打开）套接字连接时的超时时间（ms）  
-         socket-timeout:套接字超时时间;该值会被传递给Socket.setSoTimeout(int)  
-         slave-ok:指明是否答应驱动从次要节点或者奴隶节点读取数据  
-         -->  
     <mongo:client-options 
         connections-per-host="8"  
         threads-allowed-to-block-for-connection-multiplier="4"  
@@ -40,8 +41,12 @@
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
 	</bean>  
+	<!-- mongodb  2.0.0.RELEASE  end -->
+	
+	<!-- mongodb  1.10.1.RELEASE  start -->
 <!--      <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">   -->
 <!-- 	    <constructor-arg ref="mongo" /> -->
 <!-- 	    <constructor-arg name="databaseName" value="demo" />  -->
 <!--      </bean>   -->
+	<!-- mongodb  1.10.1.RELEASE  ends -->
 </beans>

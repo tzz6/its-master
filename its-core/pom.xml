@@ -112,6 +112,13 @@
 		    <version>2.0.9.RELEASE</version>
 		</dependency>
 		<!-- mybatis整合redis end -->
+		<!-- spring-mongodb  start -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>${spring.data.mongodb.version}</version>
+		</dependency>
+		<!-- spring-mongodb  end -->
 	</dependencies>
 	<build>
 		<plugins>

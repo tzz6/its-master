@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -35,6 +37,7 @@ import com.its.web.model.Datagrid;
 @RequestMapping("/mongoDB")
 public class MongoDBController extends BaseController {
 
+	private static final Log log = LogFactory.getLog(MongoDBController.class);
 	@Autowired
 	private CountryMongoDaoImpl countryMongoDao;
 
@@ -59,7 +62,6 @@ public class MongoDBController extends BaseController {
 			@RequestParam(value = "rows") Integer rows) {
 
 		// List<Country> result = countryMongoDao.findAll();
-		int total = 0;
 		int startNum = (page - 1) * rows;
 		Query query = new Query();
 		if (name != null && !"".equals(name) && enName != null && !"".equals(enName)) {
@@ -74,7 +76,7 @@ public class MongoDBController extends BaseController {
 			Criteria criteria = Criteria.where("enName").regex(enName);
 			query.addCriteria(criteria);
 		}
-		total = 0;
+		long total = countryMongoDao.count(query);
 		query.skip(startNum);
 		query.limit(rows);
 		List<Country> result = countryMongoDao.findByQuery(query);
@@ -129,7 +131,7 @@ public class MongoDBController extends BaseController {
 				countryMongoDao.insert(country);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e);
 			successFlag = Constants.OPTION_FLAG_FAIL;
 		}
 		return successFlag;
@@ -139,16 +141,19 @@ public class MongoDBController extends BaseController {
 	@RequestMapping("/delete")
 	public @ResponseBody String delete(@RequestParam(value = "ids") String ids) {
 		String successFlag = Constants.OPTION_FLAG_SUCCESS;
-		String[] idArr = ids.split(",");
-		List<Integer> list = new ArrayList<Integer>();
 		try {
-			for (String id : idArr) {
-				list.add(Integer.parseInt(id));
-				Query query = new Query(Criteria.where("id").in(list));
-				countryMongoDao.remove(query);
+			Query query = null;
+			if (ids != null && !" ".equals(ids)) {
+				String[] idArr = ids.split(",");
+				List<Integer> list = new ArrayList<Integer>();
+				for (String id : idArr) {
+					list.add(Integer.parseInt(id));
+				}
+				query = new Query(Criteria.where("id").in(list));
 			}
+			countryMongoDao.remove(query);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e);
 			successFlag = Constants.OPTION_FLAG_FAIL;
 		}
 		return successFlag;

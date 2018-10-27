@@ -1,20 +1,20 @@
 package com.its.test.kafka;
 
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-import org.apache.kafka.common.config.TopicConfig;
-import org.apache.kafka.common.security.JaasUtils;
-
-import kafka.admin.AdminUtils;
-import kafka.admin.TopicCommand;
-import kafka.server.ConfigType;
-import kafka.utils.ZkUtils;
-import scala.collection.JavaConversions;
+//import java.util.Arrays;
+//import java.util.HashMap;
+//import java.util.List;
+//import java.util.Map;
+//import java.util.Properties;
+//
+//import org.apache.kafka.common.config.TopicConfig;
+//import org.apache.kafka.common.security.JaasUtils;
+//
+//import kafka.admin.AdminUtils;
+//import kafka.admin.TopicCommand;
+//import kafka.server.ConfigType;
+//import kafka.utils.ZkUtils;
+//import scala.collection.JavaConversions;
  
  
 public class TopicsController {
@@ -56,17 +56,17 @@ public class TopicsController {
     "  --partitions 3 --replication-factor 1" +
     "  --if-not-exists --config max.message.bytes=204800 --config flush.messages=2";
       执行：TopicsController.createTopic(s);
-     */
+    
     public static void createTopic(String config){
         String[] args = config.split(" ");
         System.out.println(Arrays.toString(args));
         TopicCommand.main(args);
-    }
+    } */
  
     /*
     查看所有主题
     kafka-topics.sh --zookeeper localhost:2181 --list
-     */
+     
     public static void listAllTopic(String zkUrl){
         ZkUtils zkUtils = null;
         try {
@@ -81,13 +81,13 @@ public class TopicsController {
                 zkUtils.close();
             }
         }
-    }
+    }*/
  
     /**
      修改主题配置
      kafka-config --zookeeper localhost:2181 --entity-type topics --entity-name kafka-action
      --alter --add-config max.message.bytes=202480 --alter --delete-config flush.messages
-     */
+     
     public static void alterTopicConfig(String topicName, Properties properties){
         ZkUtils zkUtils = null;
         try {
@@ -104,12 +104,12 @@ public class TopicsController {
                 zkUtils.close();
             }
         }
-    }
+    }*/
  
     /*
     删除某主题
     kafka-topics.sh --zookeeper localhost:2181 --topic kafka-action --delete
-     */
+    
     public static void deleteTopic(String topic){
         ZkUtils zkUtils = null;
         try {
@@ -123,12 +123,12 @@ public class TopicsController {
                 zkUtils.close();
             }
         }
-    }
+    } */
  
     /**
      * 得到所有topic的配置信息
      kafka-configs.sh --zookeeper localhost:2181 --entity-type topics --describe
-     */
+     
     public static void listTopicAllConfig(){
         ZkUtils zkUtils = null;
         try {
@@ -144,6 +144,6 @@ public class TopicsController {
                 zkUtils.close();
             }
         }
-    }
+    }*/
  
 }

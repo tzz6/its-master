@@ -58,7 +58,7 @@
 					url : '${ctx}/mongoDB/mongoDBManager?random='
 							+ new Date().getTime(),
 					pageList : [ 10, 100, 200,500,5000,10000,100000 ],
-					pageSize : 10,
+					pageSize : 500,
 					rownumbers : true,
 					pagination : true,
 					remoteSort : true,

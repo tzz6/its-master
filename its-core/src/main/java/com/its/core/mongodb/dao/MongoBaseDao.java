@@ -29,6 +29,8 @@ public interface MongoBaseDao<T> {
 	/** 查找所有 */
 	public List<T> findAll();
 	public List<T> findAll(String collectionName);
+	
+	public long count(Query query);
 
 	/** 修改 */
 	public void update(Query query, Update update, String collectionName);

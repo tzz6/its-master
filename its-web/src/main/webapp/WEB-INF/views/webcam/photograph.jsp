@@ -37,8 +37,10 @@ $(function() {
 				ctx.putImageData(img, 0, 0);
 // 				alert(canvas.toDataURL("image/png"));
 				$("#img").attr("src",canvas.toDataURL("image/png"));
+				alert(pos);
 				$.post("${ctx}/webcam/uploadImage", {type: "data", image: canvas.toDataURL("image/png")},
 			 	function (data) {
+				alert(data);
 	 	 			var json = eval('(' + data + ')');
 	 	 			alert("拍照："+json.status+"保存目录："+json.message);
 	 	 		});

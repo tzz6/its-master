@@ -3,6 +3,7 @@ package com.its.web.util;
 import com.mongodb.MongoClient;
 
 public class MongoDBUtil {
+	@SuppressWarnings({ "unused", "resource" })
 	public static void main(String args[]) {
 		try {
 			// 连接到 mongodb 服务

@@ -20,6 +20,7 @@
 		<ehcache.version>2.10.5</ehcache.version>
 		<mybatis.version>3.4.6</mybatis.version>
 		<mybatis.spring.version>1.3.2</mybatis.spring.version>
+		<spring.data.mongodb.version>2.0.0.RELEASE</spring.data.mongodb.version>
 		<cxf.version>3.1.9</cxf.version>
 		<axis2.version>1.6.3</axis2.version>
 		<!-- 旧版本 -->
@@ -27,6 +28,7 @@
 		<!-- <spring.version>4.1.4.RELEASE</spring.version> -->
 		<!-- <hibernate.version>5.2.8.Final</hibernate.version> -->
 		<!-- <hibernate.version>4.3.8.Final</hibernate.version> -->
+		<!-- <spring.data.mongodb.version>1.10.1.RELEASE</spring.data.mongodb.version> -->
 		<!-- <ehcache.version>2.9.0</ehcache.version> -->
 		<!-- <cxf.version>2.7.5</cxf.version> -->
 		<!-- <mybatis.version>3.4.4</mybatis.version> -->
@@ -39,7 +41,7 @@
 		<log4j.version>1.2.17</log4j.version>
 		<httpclient.version>4.5.1</httpclient.version>
 		<mysql.version>5.1.34</mysql.version>
-		<fastjson.version>1.2.3</fastjson.version>
+		<fastjson.version>1.2.51</fastjson.version>
 		<org.json.version>20160212</org.json.version>
 		<ant.version>1.9.6</ant.version>
 		<zxing.version>3.2.1</zxing.version>

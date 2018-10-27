@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.Base64;
 import java.util.Map;
 import java.util.UUID;
 
@@ -22,8 +23,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.its.web.controller.login.BaseController;
 import com.its.web.util.FileUtil;
-
-import sun.misc.BASE64Decoder;
 
 /**
  * 拍照
@@ -66,9 +65,11 @@ public class WebcamController extends BaseController {
 		String image = request.getParameter("image").replace("data:image/png;base64,", "").trim();
 		log.info("WebcamController-------image:" + image);
 		if (image != null) {
-			BASE64Decoder decoder = new BASE64Decoder();
+			
+//			BASE64Decoder decoder = new BASE64Decoder();
 			try {
-				byte[] bytes = decoder.decodeBuffer(image);
+//				byte[] bytes = decoder.decodeBuffer(image);
+				byte[] bytes = Base64.getDecoder().decode(image);
 				for (int i = 0; i < bytes.length; ++i) {
 					if (bytes[i] < 0) {// 调整异常数据
 						bytes[i] += 256;

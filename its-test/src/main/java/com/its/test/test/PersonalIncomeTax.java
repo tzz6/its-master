@@ -84,7 +84,7 @@ public class PersonalIncomeTax {
 		System.out.println("salary_2018_add:" + (salary_2018 - salary_2017) + ",salary_2018_add_percentage:"
 				+ (salary_2018 - salary_2017) / salary_2017 * 100 + "%" + ",salary:" + salary + ",socialSecurity:"
 				+ socialSecurity + ",lowestTaxableLimit:" + lowestTaxableLimit);
-		double tax = calculateNew(salary, socialSecurity, lowestTaxableLimit);
+		double tax = calculate(salary, socialSecurity, lowestTaxableLimit);
 		double taxNew = calculateNew(salary, socialSecurity, lowestTaxableLimitNew);
 		System.out.println("实发：" + (salary - socialSecurity - tax) + "应缴税款:" + tax);
 		System.out.println("New--实发：" + (salary - socialSecurity - taxNew) + "应缴税款:" + taxNew);

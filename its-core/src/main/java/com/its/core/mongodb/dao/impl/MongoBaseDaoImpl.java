@@ -78,6 +78,10 @@ public abstract class MongoBaseDaoImpl<T> implements MongoBaseDao<T> {
 		List<T> result = mongoTemplate.findAll(clazz, collectionName);
 		return result;
 	}
+	
+	public long count(Query query) {
+		return mongoTemplate.count(query, clazz);
+	}
 
 	/** 修改 */
 	public void update(Query query, Update update, String collectionName) {
