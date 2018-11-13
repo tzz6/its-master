@@ -18,6 +18,13 @@
 		<property name="serviceUrl">
 			<value>http://127.0.0.1:8080/remote/hsSysUser</value>
 		</property>
+		<!-- 设置超时时长防止长连接 -->
+		<property name="readTimeout">
+			<value>3000</value>
+		</property>
+		<property name="connectTimeout">
+			<value>3000</value>
+		</property>
 		<!-- 接口定义 -->
 		<property name="serviceInterface">
 			<value>com.its.servers.facade.hessian.sys.service.HsSysUserFacade</value>

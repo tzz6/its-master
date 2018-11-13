@@ -4,7 +4,7 @@
 
 	<groupId>com.its.service.facade</groupId>
 	<artifactId>its-service-facade</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>its-service-facade</name>
@@ -17,7 +17,7 @@
 	<parent>
 		<groupId>com.its.parent</groupId>
 		<artifactId>its-parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -25,7 +25,7 @@
 		<dependency>
 			<groupId>com.its.model</groupId>
 			<artifactId>its-model</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${its.model.version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

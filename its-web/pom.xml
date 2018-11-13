@@ -4,13 +4,13 @@
 	<groupId>com.its.web</groupId>
 	<artifactId>its-web</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<name>its-web Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<parent>
 		<groupId>com.its.parent</groupId>
 		<artifactId>its-parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -18,32 +18,32 @@
 		<dependency>
 			<groupId>com.its.model</groupId>
 			<artifactId>its-model</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${its.model.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.its.common</groupId>
 			<artifactId>its-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${its.common.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.its.core</groupId>
 			<artifactId>its-core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${its.core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.its.service.facade</groupId>
 			<artifactId>its-service-facade</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${its.service.facade.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.its.service</groupId>
 			<artifactId>its-service</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${its.service.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.its.servers.facade</groupId>
 			<artifactId>its-servers-facade</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${its.servers.facade.version}</version>
 		</dependency>
 		<!-- servlet -->
 		<dependency>
