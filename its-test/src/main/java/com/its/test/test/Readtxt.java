@@ -6,6 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Test;
 
 public class Readtxt {
 
@@ -21,11 +25,11 @@ public class Readtxt {
 			StringBuffer sb = new StringBuffer("");
 			while ((str = br.readLine()) != null) {
 				sb.append(str + "\n");
-//				System.out.println("Line" + i + ":" + str);
+				// System.out.println("Line" + i + ":" + str);
 				System.out.println("Line" + i);
 				i++;
-				if (i>=300000) {
-					i=1;
+				if (i >= 300000) {
+					i = 1;
 					FileWriter writer = new FileWriter("D:\\Test\\sql\\ti_tcms_send_30W_" + fileIndex + ".sql");
 					fileIndex++;
 					BufferedWriter bw = new BufferedWriter(writer);
@@ -44,5 +48,65 @@ public class Readtxt {
 			e.printStackTrace();
 		}
 	}
+
+	@Test
+	public void test1() {
+		List<String> list = new ArrayList<>();
+		for (int i = 1; i < 15; i++) {
+			list.add("test" + i);
+		}
+		for (String str : list) {
+			try {
+				int result = test1F(str);
+				System.out.println(result);
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				System.out.println("Test-finally");
+			}
+		}
+	}
+
+	public int test1F(String str) {
+		int flag = 1;
+		try {
+			if (str.contains("0")) {
+				System.out.println(1 / 0);
+			}
+			System.out.println(str);
+		} catch (Exception e) {
+			e.printStackTrace();
+			flag = 0;
+		} finally {
+			System.out.println("Test-return");
+		}
+		return flag;
+	}
+	
+	
+//	finally块的语句在try或catch中的return语句执行之后返回之前执行且finally里的修改语句不能影响try或catch中 return已经确定的返回值，
+//	若finally里也有return语句则覆盖try或catch中的return语句直接返回。
+	@Test
+	public void test2() {
+	int result = test2F("test20");
+	System.out.println(result);
+	}
+	
+	public int test2F(String str) {
+		try {
+			if (str.contains("0")) {
+				System.out.println(1 / 0);
+			}
+			System.out.println(str);
+			return 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 2;
+		} finally {
+			System.out.println("Test-return");
+			//return 3;//一直return3
+		}
+	}
+	
 
 }
