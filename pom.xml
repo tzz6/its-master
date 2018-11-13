@@ -4,7 +4,7 @@
 
 	<groupId>com.its.parent</groupId>
 	<artifactId>its-parent</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>pom</packaging>
 
 	<name>its-parent</name>
@@ -12,6 +12,12 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<its.common.version>1.0.1</its.common.version>
+		<its.core.version>1.0.1</its.core.version>
+		<its.model.version>1.0.1</its.model.version>
+		<its.servers.facade.version>1.0.1</its.servers.facade.version>
+		<its.service.facade.version>1.0.1</its.service.facade.version>
+		<its.service.version>1.0.1</its.service.version>
 	<!-- Spring V4.1.0+的版本在不支持Servlet3.0的应用服务器上跑时会报以下错误：NoSuchMethodError: javax.servlet.http.HttpServletResponse.getStatus()I 
 		比如说：tomcat 7以下的版本、jboss 4.2.3以下的版本 -->
 		<spring.version>5.1.1.RELEASE</spring.version>
