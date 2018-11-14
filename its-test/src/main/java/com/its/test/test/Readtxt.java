@@ -86,7 +86,6 @@ public class Readtxt {
 		return flag;
 	}
 	
-	
 //	finally块的语句在try或catch中的return语句执行之后返回之前执行且finally里的修改语句不能影响try或catch中 return已经确定的返回值，
 //	若finally里也有return语句则覆盖try或catch中的return语句直接返回。
 	@Test

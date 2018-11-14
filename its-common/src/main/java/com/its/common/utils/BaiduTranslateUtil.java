@@ -36,7 +36,6 @@ public class BaiduTranslateUtil {
 
 	private static final String url = "http://api.fanyi.baidu.com/api/trans/vip/translate";
 	
-	
 
 	// 随机数，用于生成md5值，开发者使用时请激活下边第四行代码
 	private static final Random random = new Random();
