@@ -28,13 +28,15 @@ public class BaiduTranslateUtil {
 
 	private static final String UTF8 = "utf-8";
 
-	// 申请者开发者id，实际使用时请修改成开发者自己的appid
-	private static final String appId = "2015063000000001";
+	//申请者开发者id，实际使用时请修改成开发者自己的appid
+	private static final String appId = "20160324000016488";
 
-	// 申请成功后的证书token，实际使用时请修改成开发者自己的token
-	private static final String token = "12345678";
+	//申请成功后的证书token，实际使用时请修改成开发者自己的token
+	private static final String token = "T1NDUlQqsD7O_gVSxBCJ";
 
 	private static final String url = "http://api.fanyi.baidu.com/api/trans/vip/translate";
+	
+	
 
 	// 随机数，用于生成md5值，开发者使用时请激活下边第四行代码
 	private static final Random random = new Random();

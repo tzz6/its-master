@@ -9,10 +9,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
 public class Readtxt {
 
+	private static Logger logger = Logger.getLogger(Readtxt.class);
+	
 	public static void main(String[] args) {
 		try {
 
@@ -100,7 +103,7 @@ public class Readtxt {
 			System.out.println(str);
 			return 1;
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Exception", e);
 			return 2;
 		} finally {
 			System.out.println("Test-return");
