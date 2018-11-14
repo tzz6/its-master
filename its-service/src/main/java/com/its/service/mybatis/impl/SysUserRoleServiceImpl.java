@@ -45,8 +45,8 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
 		try {
 			sysUserRoleMapper.deleteSysUserRoleByStId(stId);
 		} catch (Exception e) {
-			log.error("后台delete用户角色服务错误", e);
-			throw new BaseException("后台delete用户角色服务错误", e);
+			log.error("后台delete用户角色服务错误deleteSysUserRoleByStId", e);
+			throw new BaseException("后台delete用户角色服务错误deleteSysUserRoleByStId", e);
 		}
 	}
 

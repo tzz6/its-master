@@ -154,8 +154,8 @@ public class FileController extends BaseController {
 					if (filename == null || filename.trim().equals("")) {
 						continue;
 					}
-					filename = filename.substring(filename.lastIndexOf("\\") + 1);
-					String fileExtName = filename.substring(filename.lastIndexOf(".") + 1);
+					filename = filename.substring(filename.lastIndexOf('\\') + 1);
+					String fileExtName = filename.substring(filename.lastIndexOf('.') + 1);
 					log.info("上传的文件的扩展名是：" + fileExtName);
 					// 获取item中的上传文件的输入流
 					InputStream in = item.getInputStream();
@@ -187,15 +187,14 @@ public class FileController extends BaseController {
 		} catch (FileUploadBase.FileSizeLimitExceededException e) {
 			log.info("单个文件超出最大值！！！");
 			successFlag = Constants.OPTION_FLAG_FAIL;
-			e.printStackTrace();
+			log.error("FileSizeLimitExceededException", e);
 		} catch (FileUploadBase.SizeLimitExceededException e) {
 			log.info("上传文件的总的大小超出限制的最大值！！！");
 			successFlag = Constants.OPTION_FLAG_FAIL;
-			e.printStackTrace();
+			log.error("SizeLimitExceededException", e);
 		} catch (Exception e) {
-			log.info("文件上传失败！");
 			successFlag = Constants.OPTION_FLAG_FAIL;
-			e.printStackTrace();
+			log.error("文件上传失败", e);
 		}
 
 		return successFlag;
@@ -214,8 +213,8 @@ public class FileController extends BaseController {
 				if (filename == null || filename.trim().equals("")) {
 					continue;
 				}
-				filename = filename.substring(filename.lastIndexOf("\\") + 1);
-				String fileExtName = filename.substring(filename.lastIndexOf(".") + 1);
+				filename = filename.substring(filename.lastIndexOf('\\') + 1);
+				String fileExtName = filename.substring(filename.lastIndexOf('.') + 1);
 				log.info("上传的文件的扩展名是：" + fileExtName);
 				// 获取item中的上传文件的输入流
 				InputStream in = files[i].getInputStream();
@@ -242,7 +241,7 @@ public class FileController extends BaseController {
 				log.info("文件上传成功！");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Exception", e);
 			successFlag = Constants.OPTION_FLAG_FAIL;
 		}
 		return successFlag;
@@ -272,7 +271,7 @@ public class FileController extends BaseController {
 				fileModelService.deleteEntity(fileModel);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Exception", e);
 			successFlag = Constants.OPTION_FLAG_FAIL;
 		}
 		return successFlag;

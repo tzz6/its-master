@@ -57,7 +57,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 	public User login(String userName, String password) {
 		String hql = "FROM User WHERE name = ? and password = ?";
 		List<User> users = findEntityByHQL(hql, userName, password);
-		if (users != null && users.size() > 0) {
+		if (users != null && !users.isEmpty()) {
 			return users.get(0);
 		}
 		return null;
@@ -68,7 +68,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		Set<Role> roles = null;
 		String hql = "FROM User WHERE name = ?";
 		List<User> users = findEntityByHQL(hql, userName);
-		if (users != null && users.size() > 0) {
+		if (users != null && !users.isEmpty()) {
 			User user = users.get(0);
 			roles =user.getRoles();
 		}
@@ -90,16 +90,14 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 		int endOffset = pageSize;
 
 		List<User> users = findEntityByPageHQL(hql, offset, endOffset);
-		QueryResultData<User> page = new QueryResultData<User>(totalCount, users);
-		return page;
+		return new QueryResultData<>(totalCount, users);
 	}
 
 	@Override
 	public QueryResultData<User> queryAllUser(Map<String, Object> conditionMap) {
 		String hql = builderQueryUserWhere(conditionMap);
 		List<User> users = findEntityByHQL(hql);
-		QueryResultData<User> page = new QueryResultData<User>(users.size(), users);
-		return page;
+		return new QueryResultData<>(users.size(), users);
 	}
 
 	private String builderQueryUserWhere(Map<String, Object> conditionMap) {

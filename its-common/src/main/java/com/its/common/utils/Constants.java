@@ -25,16 +25,18 @@ public class Constants {
 	}
 
 	/** 系统名称 */
-	public final static String SYS_NAME_CODE = "IOP-MCS";
+	public static final String SYS_NAME_CODE = "IOP-MCS";
 	/** 权限非法 */
-	public final static String NO_PERMISSIONS = "NO_PERMISSIONS";
+	public static final String NO_PERMISSIONS = "NO_PERMISSIONS";
 
 	/** 操作成功标志 */
-	public final static String OPTION_FLAG_SUCCESS = "SUCCESS";
+	public static final String OPTION_FLAG_SUCCESS = "SUCCESS";
 	/** 员工工号已存在 */
-	public final static String IS_REPAEAT = "IS_REPEAT";
+	public static final String IS_REPAEAT = "IS_REPEAT";
 	/** 操作失败标志 */
-	public final static String OPTION_FLAG_FAIL = "FAIL";
+	public static final String OPTION_FLAG_FAIL = "FAIL";
+	
+	public static final String EXCEPTION = "EXCEPTION";
 
 	public class COOKIE_KEY {
 		public static final String SAVE_PASSWORD = "savePassword";

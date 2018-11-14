@@ -10,15 +10,20 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Enumeration;
 
+import org.apache.log4j.Logger;
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipFile;
 import org.apache.tools.zip.ZipOutputStream;
+
+import com.its.common.utils.Constants;
 
 /**
  * ZIP工具包(支持中文)
  * 依赖：ant-1.9.6.jar
  */
 public class CHZipUtils {
+	
+	private static final Logger logger = Logger.getLogger(CHZipUtils.class);
 
 	/**使用GBK编码可以避免压缩中文文件名乱码*/
 	private static final String CHINESE_CHARSET = "GBK";
@@ -50,7 +55,7 @@ public class CHZipUtils {
 			zipFile(file, basePath, zos);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(Constants.EXCEPTION, e);
 		} finally{
 			try {
 				if (zos != null) {
@@ -64,7 +69,7 @@ public class CHZipUtils {
 					os.close();
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.error(Constants.EXCEPTION, e);
 			}
 		}
 	}
@@ -77,7 +82,7 @@ public class CHZipUtils {
 	 * @throws Exception
 	 */
 	private static void zipFile(File parentFile, String basePath, ZipOutputStream zos) throws Exception {
-		File[] files = new File[0];
+		File[] files = null;
 		if (parentFile.isDirectory()) {
 			files = parentFile.listFiles();
 		} else {
@@ -148,12 +153,12 @@ public class CHZipUtils {
 				bis.close();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(Constants.EXCEPTION, e);
 		}finally{
 			try {
 				zipFile.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.error(Constants.EXCEPTION, e);
 			}
 		}
 	}

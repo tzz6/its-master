@@ -24,11 +24,11 @@ public class SysUserServiceImpl implements SysUserService {
 
 	public List<SysUser> getSysUserListByStCode(String stCode) {
 		try {
-			List<SysUser> lst = sysUserMapper.getSysUserListByStCode(stCode);
-			return lst;
+			return sysUserMapper.getSysUserListByStCode(stCode);
 		} catch (Exception e) {
-			log.error("后台查询用户服务错误", e);
-			throw new BaseException("后台查询用户服务错误", e);
+			String error = "后台查询用户服务错误";
+			log.error(error, e);
+			throw new BaseException(error, e);
 		}
 	}
 
@@ -57,19 +57,18 @@ public class SysUserServiceImpl implements SysUserService {
 		try {
 			return sysUserMapper.getSysUserCount(map);
 		} catch (Exception e) {
-			log.error("后台查询用户服务错误", e);
-			throw new BaseException("后台查询用户服务错误", e);
+			log.error("后台查询用户服务错误getSysUserCount", e);
+			throw new BaseException("后台查询用户服务错误getSysUserCount", e);
 		}
 	}
 
 	@Override
 	public List<SysUser> getSysUserList(Map<String, Object> map) {
 		try {
-			List<SysUser> lst = sysUserMapper.getSysUserList(map);
-			return lst;
+			return sysUserMapper.getSysUserList(map);
 		} catch (Exception e) {
-			log.error("后台查询用户服务错误", e);
-			throw new BaseException("后台查询用户服务错误", e);
+			log.error("后台查询用户服务错误getSysUserList", e);
+			throw new BaseException("后台查询用户服务错误getSysUserList", e);
 		}
 	}
 
@@ -78,8 +77,8 @@ public class SysUserServiceImpl implements SysUserService {
 		try {
 			return  sysUserMapper.getSysUserByStId(sysUser);
 		} catch (Exception e) {
-			log.error("后台查询用户服务错误", e);
-			throw new BaseException("后台查询用户服务错误", e);
+			log.error("后台查询用户服务错误getSysUserByStId", e);
+			throw new BaseException("后台查询用户服务错误getSysUserByStId", e);
 		}
 	}
 
@@ -97,11 +96,10 @@ public class SysUserServiceImpl implements SysUserService {
 	@Override
 	public List<SysUser> getSysUserByMap(Map<String, Object> map) {
 		try {
-			List<SysUser> lst = sysUserMapper.getSysUserByMap(map);
-			return lst;
+			return sysUserMapper.getSysUserByMap(map);
 		} catch (Exception e) {
-			log.error("后台查询用户服务错误", e);
-			throw new BaseException("后台查询用户服务错误", e);
+			log.error("后台查询用户服务错误getSysUserByMap", e);
+			throw new BaseException("后台查询用户服务错误getSysUserByMap", e);
 		}
 	}
 
@@ -120,8 +118,8 @@ public class SysUserServiceImpl implements SysUserService {
 		try {
 			return sysUserMapper.getAllSysUserList();
 		} catch (Exception e) {
-			log.error("后台查询用户服务错误", e);
-			throw new BaseException("后台查询用户服务错误", e);
+			log.error("后台查询用户服务错误getAllSysUserList", e);
+			throw new BaseException("后台查询用户服务错误getAllSysUserList", e);
 		}
 	}
 

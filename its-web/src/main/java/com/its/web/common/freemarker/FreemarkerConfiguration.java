@@ -3,6 +3,7 @@ package com.its.web.common.freemarker;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
 
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
@@ -12,6 +13,8 @@ import freemarker.template.DefaultObjectWrapper;
  * 
  */
 public class FreemarkerConfiguration {
+	
+	private static Logger logger = Logger.getLogger(FreemarkerConfiguration.class);
 
 	private static Configuration config = null;
 
@@ -37,7 +40,7 @@ public class FreemarkerConfiguration {
 			config.setObjectWrapper(new DefaultObjectWrapper());
 			config.setDefaultEncoding("UTF-8");
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("IOException", e);
 		}
 	}
 

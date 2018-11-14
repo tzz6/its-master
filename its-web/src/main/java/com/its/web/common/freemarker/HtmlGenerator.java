@@ -5,11 +5,15 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 public class HtmlGenerator {
+	
+	private static final Logger logger = Logger.getLogger(HtmlGenerator.class);
 
 	/**
 	 * Generate html string
@@ -35,15 +39,15 @@ public class HtmlGenerator {
 			htmlContent = stringWriter.toString();
 			writer.flush();
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("IOException", e);
 		} catch (TemplateException e) {
-			e.printStackTrace();
+			logger.error("TemplateException", e);
 		} finally {
 			if (writer != null)
 				try {
 					writer.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					logger.error("IOException", e);
 				}
 		}
 		return htmlContent;

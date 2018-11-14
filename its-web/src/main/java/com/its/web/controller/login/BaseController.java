@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -19,6 +20,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 public class BaseController {
+	
+	private static final Logger logger = Logger.getLogger(BaseController.class);
 
 	/** Date类型数据转换器 */
 	@InitBinder
@@ -46,7 +49,7 @@ public class BaseController {
 //		    jsonGenerator.war
 			response.getWriter().print(objectMapper.writeValueAsString(map));
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.info("BaseControllerwriteJSONException", e);
 		}
 	}
 	
@@ -66,7 +69,7 @@ public class BaseController {
 			response.setContentType("text/html;charset=utf-8");
 			response.getWriter().print(result);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("BaseControllerresponseResultException", e);
 		}
 	}
 }

@@ -24,33 +24,30 @@ public class SysMenuServiceImpl implements SysMenuService {
 
 	public List<SysMenu> getSysMenus() {
 		try {
-			List<SysMenu> list = sysMenuMapper.getSysMenus();
-			return list;
+			return sysMenuMapper.getSysMenus();
 		} catch (Exception e) {
-			log.error("后台查询SysMenu错误", e);
-			throw new BaseException("后台查询SysMenu错误", e);
+			log.error("后台查询SysMenu错误getSysMenus", e);
+			throw new BaseException("后台查询SysMenu错误getSysMenus", e);
 		}
 	}
 
 	@Override
 	public List<SysMenu> getSysMenuListFirst(String lang) {
 		try {
-			List<SysMenu> list = sysMenuMapper.getSysMenuListFirst(lang);
-			return list;
+			return sysMenuMapper.getSysMenuListFirst(lang);
 		} catch (Exception e) {
-			log.error("后台查询SysMenu错误", e);
-			throw new BaseException("后台查询SysMenu错误", e);
+			log.error("后台查询SysMenu错误getSysMenuListFirst", e);
+			throw new BaseException("后台查询SysMenu错误getSysMenuListFirst", e);
 		}
 	}
 
 	@Override
 	public List<SysMenu> getSysMenuListByParentMenuId(String parentMenuId, String lang) {
 		try {
-			List<SysMenu> list = sysMenuMapper.getSysMenuListByParentMenuId(parentMenuId, lang);
-			return list;
+			return sysMenuMapper.getSysMenuListByParentMenuId(parentMenuId, lang);
 		} catch (Exception e) {
-			log.error("后台查询SysMenu错误", e);
-			throw new BaseException("后台查询SysMenu错误", e);
+			log.error("后台查询SysMenu错误ParentMenuId", e);
+			throw new BaseException("后台查询SysMenu错误ParentMenuId", e);
 		}
 	}
 
@@ -59,8 +56,8 @@ public class SysMenuServiceImpl implements SysMenuService {
 		try {
 			return sysMenuMapper.getSysMenuCount(map);
 		} catch (Exception e) {
-			log.error("后台查询SysMenu错误", e);
-			throw new BaseException("后台查询SysMenu错误", e);
+			log.error("后台查询SysMenu错误getSysMenuCount", e);
+			throw new BaseException("后台查询SysMenu错误getSysMenuCount", e);
 		}
 	}
 
@@ -69,27 +66,25 @@ public class SysMenuServiceImpl implements SysMenuService {
 		try {
 			return sysMenuMapper.getSysMenuList(map);
 		} catch (Exception e) {
-			log.error("后台查询SysMenu错误", e);
-			throw new BaseException("后台查询SysMenu错误", e);
+			log.error("后台查询SysMenu错误getSysMenuList", e);
+			throw new BaseException("后台查询SysMenu错误getSysMenuList", e);
 		}
 	}
 
 	@Override
 	public List<SysMenu> getSysMenuListByUser(Map<String, Object> map) {
 		try {
-			List<SysMenu> list = sysMenuMapper.getSysMenuListByUser(map);
-			return list;
+			return sysMenuMapper.getSysMenuListByUser(map);
 		} catch (Exception e) {
-			log.error("后台查询SysMenu错误", e);
-			throw new BaseException("后台查询SysMenu错误", e);
+			log.error("后台查询SysMenu错误getSysMenuListByUser", e);
+			throw new BaseException("后台查询SysMenu错误getSysMenuListByUser", e);
 		}
 	}
 
 	@Override
 	public List<SysMenu> getInterceptorUserMenus(Map<String, Object> map) {
 		try {
-			List<SysMenu> list = sysMenuMapper.getInterceptorUserMenus(map);
-			return list;
+			return sysMenuMapper.getInterceptorUserMenus(map);
 		} catch (Exception e) {
 			log.error("后台查询SysMenu错误", e);
 			throw new BaseException("后台查询SysMenu错误", e);

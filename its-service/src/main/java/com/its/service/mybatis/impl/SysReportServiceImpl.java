@@ -25,8 +25,8 @@ public class SysReportServiceImpl implements SysReportService {
 		try {
 			list = sqlExecuteMapper.execute(sql);
 		} catch (Exception e) {
-			log.error("后台查询用户服务错误", e);
-			throw new BaseException("后台查询用户服务错误", e);
+			log.error("后台查询用户服务错误execute", e);
+			throw new BaseException("后台查询用户服务错误execute", e);
 		}
 		return list;
 
@@ -50,8 +50,7 @@ public class SysReportServiceImpl implements SysReportService {
 	}
 
 	public Object executeIUD(String sql) {
-		Object o = sqlExecuteMapper.executeIUD(sql);
-		return o;
+		return sqlExecuteMapper.executeIUD(sql);
 	}
 
 }

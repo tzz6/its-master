@@ -1,6 +1,5 @@
 package com.its.web.controller.ws;
 
-import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +26,7 @@ public class HessianController {
 
 	/** Hessian调用列表页 */
 	@RequestMapping(value = "/ws/hessianIndex", method = RequestMethod.GET)
-	public String hsIndex(ModelMap model) throws MalformedURLException {
+	public String hsIndex(ModelMap model){
 		model.put("url", "/ws/hessianManager");
 		return "/ws/wsManager";
 	}
@@ -45,14 +44,13 @@ public class HessianController {
 	public @ResponseBody Datagrid<SysUser> hessianManager(HttpServletRequest request,
 			@RequestParam(value = "stCode", required = false) String stCode, @RequestParam(value = "page") Integer page,
 			@RequestParam(value = "rows") Integer rows) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("stCode", stCode);
 		int total = hsSysUserFacade.getSysUserCount(map);
 		int startNum = (page - 1) * rows;
 		map.put("startNum", startNum);
 		map.put("rows", rows);
 		List<SysUser> result = hsSysUserFacade.getSysUserList(map);
-		Datagrid<SysUser> datagrid = new Datagrid<SysUser>(total, result);
-		return datagrid;
+		return new Datagrid<>(total, result);
 	}
 }

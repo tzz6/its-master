@@ -27,8 +27,8 @@ public class SysRoleServiceImpl implements SysRoleService {
 		try {
 			return sysRoleMapper.getSysRoleCount(map);
 		} catch (Exception e) {
-			log.error("后台查询角色服务错误", e);
-			throw new BaseException("后台查询角色服务错误", e);
+			log.error("后台查询角色服务错误getSysRoleCount", e);
+			throw new BaseException("后台查询角色服务错误getSysRoleCount", e);
 		}
 	}
 
@@ -37,8 +37,8 @@ public class SysRoleServiceImpl implements SysRoleService {
 		try {
 			return sysRoleMapper.getSysRoleList(map);
 		} catch (Exception e) {
-			log.error("后台查询角色服务错误", e);
-			throw new BaseException("后台查询角色服务错误", e);
+			log.error("后台查询角色服务错误getSysRoleList", e);
+			throw new BaseException("后台查询角色服务错误getSysRoleList", e);
 		}
 	}
 

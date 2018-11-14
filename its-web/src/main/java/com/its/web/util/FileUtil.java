@@ -22,11 +22,11 @@ public class FileUtil {
 	
 	private static Logger logger = Logger.getLogger(FileUtil.class);
 	
-	public final static String PDF_DIR = "/WEB-INF/file/pdf";
-	public final static String IMAGE_DIR = "/WEB-INF/file/image";
-	public final static String FILE_UPLOAD_DIR = "/WEB-INF/file/upload";
-	public final static String FILE_UPLOAD_TEMP_DIR = "/WEB-INF/file/temp";
-	public final static String FILE_TEMPLATE_DIR = "/WEB-INF/file/template";
+	public static final String PDF_DIR = "/WEB-INF/file/pdf";
+	public static final String IMAGE_DIR = "/WEB-INF/file/image";
+	public static final String FILE_UPLOAD_DIR = "/WEB-INF/file/upload";
+	public static final String FILE_UPLOAD_TEMP_DIR = "/WEB-INF/file/temp";
+	public static final String FILE_TEMPLATE_DIR = "/WEB-INF/file/template";
 	
 	/**
 	 * 获取项目中目录的实际路径
@@ -93,14 +93,23 @@ public class FileUtil {
 			while ((len = in.read(buffer)) > 0) {
 				out.write(buffer, 0, len);
 			}
-			in.close();
-			out.close();
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			logger.error("UnsupportedEncodingException",e);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			logger.error("FileNotFoundException",e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("IOException",e);
+		}finally {
+			try {
+				if (in != null) {
+					in.close();
+				}
+				if (out != null) {
+					out.close();
+				}
+			} catch (IOException e) {
+				logger.error("Exception", e);
+			}
 		}
 	}
 	
@@ -130,10 +139,11 @@ public class FileUtil {
 				public boolean accept(File file) {
 					String oldFileName = file.getName();
 					logger.info("-------------oldFileName:" + oldFileName);
+					boolean flag = false;
 					if (oldFileName.startsWith(fileName)) {
-						return true;
+						flag = true;
 					}
-					return false;
+					return flag;
 				}
 			});
 			if (oldfiles != null && oldfiles.length > 0) {// 文件名已存在
@@ -143,13 +153,13 @@ public class FileUtil {
 			fos = new FileOutputStream(savePath);
 			fos.write(bytes);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Exception",e);
 		} finally {
 			if (fos != null) {
 				try {
 					fos.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					logger.error("IOException",e);
 				}
 			}
 		}

@@ -46,8 +46,7 @@ public class JobManagerServiceImpl implements JobManagerService {
 	@Override
 	public List<JobManager> getJobManagerList(Map<String, Object> map) {
 		try {
-			List<JobManager> lst = jobManagerMapper.getJobManagerList(map);
-			return lst;
+			return jobManagerMapper.getJobManagerList(map);
 		} catch (Exception e) {
 			log.error("后台查询服务错误", e);
 			throw new BaseException("后台查询服务错误", e);

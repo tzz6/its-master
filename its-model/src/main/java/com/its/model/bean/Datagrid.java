@@ -11,8 +11,9 @@ import java.util.Map;
  *
  * @param <T>
  */
-@SuppressWarnings("serial")
 public class Datagrid<T> implements Serializable {
+	private static final long serialVersionUID = 2352904300281575563L;
+	
 	/** 总记录数 */
 	private long total;
 	/** 动态列 */

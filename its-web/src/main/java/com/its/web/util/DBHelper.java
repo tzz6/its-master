@@ -5,10 +5,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
+
 import com.its.common.crypto.des.DESUtil;
+import com.its.web.controller.login.BaseController;
 
 public class DBHelper {
 
+	private static final Logger logger = Logger.getLogger(BaseController.class);
+	
 	public static String url;
 	public static String name;
 	public static String user;
@@ -45,7 +50,7 @@ public class DBHelper {
 			connection.setAutoCommit(autoCommit);// 设置事务为非自动提交
 			prepareStatement = connection.prepareStatement(sql);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Exception", e);
 		}
 	}
 
@@ -59,7 +64,7 @@ public class DBHelper {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Exception", e);
 		}
 	}
 }
