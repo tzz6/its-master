@@ -39,12 +39,12 @@
 		<dependency>
 			<groupId>com.its.service</groupId>
 			<artifactId>its-service</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${its.service.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.its.servers.facade</groupId>
 			<artifactId>its-servers-facade</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${its.service.facade.version}</version>
 		</dependency>
 		<!-- servlet -->
 		<dependency>

@@ -19,7 +19,7 @@ public class JedisPoolTest {
 		jedisPoolConfig.setMaxWaitMillis(1000);
 		jedisPoolConfig.setTestOnBorrow(true);
 		jedisPoolConfig.setTestOnReturn(true);
-		String host = "vm-01-ip";
+		String host = "vm-02-ip";
 		int port = 6379;
 		int timeout = 1000;
 		String password = "123456";
