@@ -73,7 +73,7 @@ public class WsUpgradeServiceImpl implements WsUpgradeService {
 				}
 				// 倒序排序
 				Collections.reverse(list);
-				logger.info("升级路径所有版本文件列表：" + JacksonUtil.nonDefaultMapper().toJson(list));
+				logger.info("升级路径所有版本文件列表："  + JacksonUtil.nonDefaultMapper().toJson(list));
 				return list;
 			}
 

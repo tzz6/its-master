@@ -38,7 +38,6 @@ public class RedisDistributedLock {
 		jedisPool = new JedisPool(config, host, port, timeout, password);// 构造连接池
 	}
 
-
 	/**
 	 * 加锁
 	 * 

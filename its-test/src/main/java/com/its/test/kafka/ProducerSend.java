@@ -25,7 +25,7 @@ public class ProducerSend {
 
 		Producer<String, String> producer = new KafkaProducer<>(props);
 		for (int i = 0; i < 5000; i++) {
-			Thread.sleep(50);
+			Thread.sleep(100);
 			String key = "3";
 			int index = i % 3;
 			if (index == 0) {

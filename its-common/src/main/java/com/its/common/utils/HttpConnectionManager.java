@@ -42,7 +42,7 @@ public class HttpConnectionManager {
 
     static {
         httpParams = new BasicHttpParams();
-        // 设置最大连接数
+        // 设置最大连接数 
         ConnManagerParams.setMaxTotalConnections(httpParams, MAX_TOTAL_CONNECTIONS);
         // 设置获取连接的最大等待时间
         ConnManagerParams.setTimeout(httpParams, WAIT_TIMEOUT);

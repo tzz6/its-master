@@ -11,7 +11,6 @@ public class User {
 	private String sex;
 	private Date birthday = new Date();
 	private List<Role> roles;
-
 	public Integer getId() {
 		return id;
 	}

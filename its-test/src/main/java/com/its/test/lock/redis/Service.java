@@ -29,5 +29,4 @@ public class Service {
 		logger.info("ThreadName:" + Thread.currentThread().getName() + "---" + orderNum);
 		OrderNumDB.list.remove(0);
 	}
-
 }

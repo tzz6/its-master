@@ -42,7 +42,7 @@ public class ConsumerReceive {
 		props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
 		props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
 		consumer = new KafkaConsumer<>(props);
-		consumer.subscribe(topics);// 设置从那些主题下消费数据
+		consumer.subscribe(topics);// 设置从那些主题下消费数据 
 		// 从对应的主题分区下消费数据--消费mytopic主题下的0分区
 		// TopicPartition topicPartition = new TopicPartition("mytopic", 0);
 		// consumer.assign(Arrays.asList(topicPartition));

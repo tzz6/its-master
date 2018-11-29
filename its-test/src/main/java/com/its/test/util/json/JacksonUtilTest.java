@@ -16,7 +16,7 @@ public class JacksonUtilTest {
 			us.setPassword("cc");
 			String json = JacksonUtil.nonDefaultMapper().toJson(us);//bean转Json
 			System.out.println(json);
-			json = "{\"id\":123,\"name\":\"aa\",\"password\":\"cc\"}";
+			json = "{\"id\":123,\"name\":\"aa\",\"password\":\"cc\"}"; 
 			User u = JacksonUtil.nonDefaultMapper().fromJson(json, User.class);//Json转bean
 			System.out.println(u.getId());
 		} catch (Exception e) {

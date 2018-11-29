@@ -188,7 +188,7 @@ public class JacksonTest {
 //			clazzMap.put("user1", User.class);
 //			clazzMap.put("user2", User.class);
 //			Map<String, User> jsonToMap = (Map<String, User>) JSONObject.toBean(jsonObject, Map.class, clazzMap);
-//			System.out.println(jsonToMap.get("user2").getName());
+//			System.out.println(jsonToMap.get("user2").getName()); 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

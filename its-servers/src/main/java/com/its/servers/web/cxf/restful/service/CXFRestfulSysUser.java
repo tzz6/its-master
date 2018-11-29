@@ -43,7 +43,7 @@ public class CXFRestfulSysUser {
 	 * @param page
 	 * @param rows
 	 * @return
-	 * @throws MalformedURLException
+	 * @throws MalformedURLException 
 	 */
 	@GET
 	@Path("/sysUserManager/{stCode}")

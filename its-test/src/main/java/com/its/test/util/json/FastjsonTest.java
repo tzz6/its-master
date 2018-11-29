@@ -45,7 +45,7 @@ public class FastjsonTest {
 	@Test
 	public void testObject2JSON() {
 		print(JSONObject.toJSON(bean).toString());
-		// // 转换Java List集合到JSON
+		// // 转换Java List集合到JSON 
 		print("***********************Java List >>> JSON*******************************");
 		List<User> list = new ArrayList<User>();
 		list.add(bean);

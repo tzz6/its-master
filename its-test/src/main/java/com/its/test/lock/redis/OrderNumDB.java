@@ -40,7 +40,5 @@ public class OrderNumDB {
 	public static List<String> getList() {
 		return list;
 	}
-
-	
 	
 }

@@ -23,7 +23,7 @@ import net.sf.json.xml.XMLSerializer;
 /**
  * 用json-lib转换java对象到JSON字符串 读取json字符串到java对象，序列化jsonObject到xml
  * json-lib-version: json-lib-2.3-jdk15.jar 依赖包: commons-beanutils.jar
- * commons-collections-3.2.jar ezmorph-1.0.3.jar commons-lang.jar
+ * commons-collections-3.2.jar ezmorph-1.0.3.jar commons-lang.jar 
  * commons-logging.jar
  */
 public class JsonlibTest {

@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.http.conn.HttpClientConnectionManager;
 
 /**
- * 使用管理器，管理HTTP连接池 无效链接定期清理功能
+ * 使用管理器，管理HTTP连接池 无效链接定期清理功能 
  */
 public class HttpClientConnectionMonitorThread extends Thread {
 

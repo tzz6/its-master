@@ -93,7 +93,7 @@ public class GsonTest {
 		List<User> userList = gson.fromJson(gson.toJson(list), type);
 		print(userList.get(0).getName());
 		print("************************Json转Map********************************");
-		// Json转Map
+		// Json转Map 
 		Map<String, User> maps = new HashMap<>();
 		maps.put("user1", user);
 		maps.put("user2", user);

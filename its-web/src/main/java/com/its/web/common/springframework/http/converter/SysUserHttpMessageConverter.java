@@ -61,5 +61,4 @@ public class SysUserHttpMessageConverter extends AbstractHttpMessageConverter<Sy
 		logger.info(json);
 		outputMessage.getBody().write(json.getBytes());
 	}
-
 }

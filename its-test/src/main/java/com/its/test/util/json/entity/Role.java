@@ -1,7 +1,6 @@
 package com.its.test.util.json.entity;
 
 public class Role {
-
 	private Integer id;
 	private String name;
 
