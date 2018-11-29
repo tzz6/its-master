@@ -79,8 +79,8 @@ public class GsonTest {
 	public void testJSON2Object() {
 		Gson gson = new Gson();
 		// Json转Bean
-		 String objectJson =
-		 "{\"id\":1,\"name\":\"Test\",\"age\":20,\"sex\":\"1\",\"birthday\":Nov 29, 2018 10:27:05 AM,\"roles\":[{\"id\":1,\"name\":\"角色1\"},{\"id\":2,\"name\":\"角色2\"}]}";
+//		 String objectJson =
+//		 "{\"id\":1,\"name\":\"Test\",\"age\":20,\"sex\":\"1\",\"birthday\":Nov 29, 2018 10:27:05 AM,\"roles\":[{\"id\":1,\"name\":\"角色1\"},{\"id\":2,\"name\":\"角色2\"}]}";
 //		String objectJson = "{\"id\":1,\"name\":\"Test\",\"age\":20,\"sexNo\":\"1\",\"birthday\":1543406407033,\"roles\":[{\"id\":1,\"name\":\"角色1\"},{\"id\":2,\"name\":\"角色2\"}]}";
 		User user = gson.fromJson(gson.toJson(bean), User.class);
 		print(user.getName());

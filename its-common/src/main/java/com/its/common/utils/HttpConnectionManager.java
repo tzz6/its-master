@@ -14,6 +14,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
+@SuppressWarnings("deprecation")
 public class HttpConnectionManager { 
 
     private static HttpParams httpParams;
