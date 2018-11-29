@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Transaction;
 import redis.clients.jedis.exceptions.JedisException;
 
@@ -16,11 +17,27 @@ import redis.clients.jedis.exceptions.JedisException;
  */
 public class RedisDistributedLock {
 	private static final Logger logger = Logger.getLogger(RedisDistributedLock.class);
-	private final JedisPool jedisPool;
-
-	public RedisDistributedLock(JedisPool jedisPool) {
-		this.jedisPool = jedisPool;
+	private static JedisPool jedisPool = null;
+//	private static JedisPool pool = null;
+//
+//	public RedisDistributedLock(JedisPool jedisPool) {
+//		this.jedisPool = jedisPool;
+//	}
+	
+	static {
+		// 初始化Redis
+		JedisPoolConfig config = new JedisPoolConfig();
+		config.setMaxTotal(1000);// 设置最大连接数（redis服务端maxclients设置的是1000，可更改设置）
+		config.setMaxIdle(8);// 设置最大空闲数
+		config.setMaxWaitMillis(1000 * 100);// 设置最大等待时间
+		config.setTestOnBorrow(true);// 在borrow一个jedis实例时，是否需要验证，若为true，则所有jedis实例均是可用的
+		String host = "vm-02-ip";
+		int port = 6379;
+		int timeout = 3000;
+		String password = "123456";
+		jedisPool = new JedisPool(config, host, port, timeout, password);// 构造连接池
 	}
+
 
 	/**
 	 * 加锁

@@ -13,7 +13,7 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.util.StreamUtils;
 
 import com.its.common.utils.bean.ReflectUtil;
-import com.its.common.utils.json.JsonMapper;
+import com.its.common.utils.json.JacksonUtil;
 import com.its.model.mybatis.dao.domain.SysUser;
 
 /**
@@ -56,7 +56,7 @@ public class SysUserHttpMessageConverter extends AbstractHttpMessageConverter<Sy
 	@Override
 	protected void writeInternal(SysUser sysUser, HttpOutputMessage outputMessage)
 			throws IOException, HttpMessageNotWritableException {
-		String json = JsonMapper.nonEmptyMapper().toJson(sysUser);
+		String json = JacksonUtil.nonEmptyMapper().toJson(sysUser);
 		json = StringEscapeUtils.unescapeHtml(json);//将转义字符转换为html(&lt;&gt; --> <>)
 		logger.info(json);
 		outputMessage.getBody().write(json.getBytes());

@@ -16,6 +16,8 @@ import org.apache.kafka.common.TopicPartition;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
+import com.its.test.lock.redis.Service;
+
 /**
  * 消费者
  *
@@ -199,6 +201,37 @@ public class ConsumerReceive {
 		} finally {
 			consumer.commitSync();
 			consumer.close();
+		}
+	}
+	
+	/**
+	 * 加入分布式锁处理
+	 */
+	@Test
+	public void testConsumerDistributedLock() {
+		Properties props = new Properties();
+		props.put("bootstrap.servers", "10.202.107.208:9092,10.202.107.207:9092,10.202.107.115:9092");
+		props.put("group.id", "test");
+		props.put("enable.auto.commit", "false");
+		// props.put("auto.commit.interval.ms", "1000");
+		props.put("session.timeout.ms", "30000");
+		props.put("auto.offset.reset", "earliest");
+		props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+		props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+		consumer = new KafkaConsumer<>(props);
+		consumer.subscribe(topics);// 设置从那些主题下消费数据
+		while (true) {
+			ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
+			for (ConsumerRecord<String, String> record : records) {
+				logger.info(String.format("topic = %s, partition = %d, offset = %d, key = %s, value = %s%n",
+						record.topic(), record.partition(), record.offset(), record.key(), record.value()));
+				//测试分布式锁
+				Service service = new Service();
+				service.seckill();
+				//测试分布式锁
+			}
+			// consumer.commitAsync();//异步提交，无需等待broker的响应
+			consumer.commitSync();// 同步提交,同步提交有一个不足之处，在broker提交请求作出回应之前，应用程序会一直阻塞
 		}
 	}
 

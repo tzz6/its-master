@@ -11,7 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.its.common.utils.Constants;
-import com.its.common.utils.json.JsonMapper;
+import com.its.common.utils.json.JacksonUtil;
 import com.its.model.bean.UpgradeInfo;
 import com.its.servers.facade.cxf.sys.service.WsUpgradeService;
 
@@ -38,7 +38,7 @@ public class WsUpgradeServiceImpl implements WsUpgradeService {
 	/** 检查是否有版本需要升级 */
 	@Override
 	public int isUpgrade(UpgradeInfo client) {
-		logger.info("客户端升级配置信息：" + JsonMapper.nonDefaultMapper().toJson(client));
+		logger.info("客户端升级配置信息：" + JacksonUtil.nonDefaultMapper().toJson(client));
 
 		String clientVersion = client.getVersion();// 客户端当前版本号
 		String maxVersion = getMaxVersion();// 服务器上最大版本号为
@@ -73,7 +73,7 @@ public class WsUpgradeServiceImpl implements WsUpgradeService {
 				}
 				// 倒序排序
 				Collections.reverse(list);
-				logger.info("升级路径所有版本文件列表：" + JsonMapper.nonDefaultMapper().toJson(list));
+				logger.info("升级路径所有版本文件列表：" + JacksonUtil.nonDefaultMapper().toJson(list));
 				return list;
 			}
 

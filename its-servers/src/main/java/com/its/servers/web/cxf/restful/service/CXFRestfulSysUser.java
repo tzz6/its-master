@@ -18,7 +18,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.its.common.utils.json.JsonMapper;
+import com.its.common.utils.json.JacksonUtil;
 import com.its.model.bean.Datagrid;
 import com.its.model.mybatis.dao.domain.SysUser;
 import com.its.servers.facade.dubbo.sys.service.SysUserFacade;
@@ -61,7 +61,7 @@ public class CXFRestfulSysUser {
 		List<SysUser> result = sysUserFacade.getSysUserList(map);
 		Datagrid<SysUser> datagrid = new Datagrid<SysUser>(total, result);
 
-		return JsonMapper.nonEmptyMapper().toJson(datagrid);
+		return JacksonUtil.nonEmptyMapper().toJson(datagrid);
 	}
 
 }
