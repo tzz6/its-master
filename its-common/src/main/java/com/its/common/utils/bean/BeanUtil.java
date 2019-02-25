@@ -11,11 +11,13 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
-import com.its.common.utils.poi.POIUtil;
+import com.its.common.utils.poi.PoiUtil;
 import com.its.model.annotation.Import;
 
 /**
  * Bean数据处理
+ * 
+ * @author tzz
  */
 public class BeanUtil<T> {
 
@@ -31,7 +33,7 @@ public class BeanUtil<T> {
 	public List<T> getExcelPathFormList(String path, Class<T> clazz) {
 		List<T> formList = null;
 		try {
-			Sheet sheet = POIUtil.getSheet(path, 0);
+			Sheet sheet = PoiUtil.getSheet(path, 0);
 			formList = getExcelSheetFormList(sheet, clazz);
 		} catch (Exception e) {
 			log.error(e);
@@ -57,7 +59,8 @@ public class BeanUtil<T> {
 				if (row == null || isNullRow(row)) {
 					continue;
 				}
-				formList.add(getForm(clazz, row, i));// 将Bean添加至List
+				// 将Bean添加至List
+				formList.add(getForm(clazz, row, i));
 			}
 		} catch (Exception e) {
 			log.error(e);
@@ -77,15 +80,20 @@ public class BeanUtil<T> {
 	@SuppressWarnings("hiding")
 	public <T> T getForm(Class<T> imptClass, Row row, int rowIndex) throws Exception {
 		T entity = imptClass.newInstance();
-		Field[] fields = imptClass.getDeclaredFields();// 获取该类型声明的成员
+		// 获取该类型声明的成员
+		Field[] fields = imptClass.getDeclaredFields();
 		for (Field field : fields) {
 			field.setAccessible(true);
 			Import annotation = field.getAnnotation(Import.class);
-			if (annotation == null)// 没有注解的字段，跳过
-				continue;
-			Cell cell = row.getCell(annotation.columnIndex());// 根据注解获取单元格位置
+			if (annotation == null){
+			    // 没有注解的字段，跳过
+			    continue;
+			}
+			// 根据注解获取单元格位置
+			Cell cell = row.getCell(annotation.columnIndex());
 			if (cell != null) {
-				field.set(entity, POIUtil.getCellValue(cell));// 设置数据
+			    // 设置数据
+				field.set(entity, PoiUtil.getCellValue(cell));
 			}
 			field.setAccessible(false);
 		}

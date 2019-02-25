@@ -6,6 +6,10 @@ import org.junit.Test;
 
 import com.its.common.crypto.CryptUtil;
 
+/**
+ * 
+ * @author tzz
+ */
 public class CryptUtilTest {
 
 	@Test
@@ -28,7 +32,8 @@ public class CryptUtilTest {
 		// 对123456使用私匙进行签名
 		CryptUtil.signToInfo("123456", "mysign.bat");
 		// 利用公匙对签名进行验证。
-		if (CryptUtil.validateSign("mysign.bat")) {
+		String mysignVat = "mysign.bat";
+		if (CryptUtil.validateSign(mysignVat)) {
 			System.out.println("Success!");
 		} else {
 			System.out.println("Fail!");

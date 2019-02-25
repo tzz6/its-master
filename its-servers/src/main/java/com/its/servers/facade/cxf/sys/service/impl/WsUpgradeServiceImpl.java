@@ -95,9 +95,9 @@ public class WsUpgradeServiceImpl implements WsUpgradeService {
 	private String getUpgradeUrl() {
 		String url = null;
 		if (StringUtils.isNotBlank(upgradeUrl)) {
-			String tempUrl = upgradeUrl.replace(Constants.UPGRADE.SLASH, Constants.UPGRADE.ALTSLASH);
-			if (!tempUrl.endsWith(Constants.UPGRADE.ALTSLASH)) {
-				url = tempUrl + Constants.UPGRADE.ALTSLASH;
+			String tempUrl = upgradeUrl.replace(Constants.Upgrade.SLASH, Constants.Upgrade.ALTSLASH);
+			if (!tempUrl.endsWith(Constants.Upgrade.ALTSLASH)) {
+				url = tempUrl + Constants.Upgrade.ALTSLASH;
 			}
 		}
 		url = upgradeUrl;
@@ -123,7 +123,7 @@ public class WsUpgradeServiceImpl implements WsUpgradeService {
 		for (File file : files) {
 			// 拼接文件下载URL地址，下载地址值文件服务器提供的下载链接
 			buffer = new StringBuffer(downloadUrl);
-			buffer.append(version).append(Constants.UPGRADE.ALTSLASH).append(file.getName());
+			buffer.append(version).append(Constants.Upgrade.ALTSLASH).append(file.getName());
 
 			urls.add(buffer.toString());
 		}

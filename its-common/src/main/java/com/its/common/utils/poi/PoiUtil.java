@@ -23,13 +23,14 @@ import org.apache.poi.ss.usermodel.DateUtil;
 
 /**
  * POIUtil
+ * @author tzz
  */
-public class POIUtil {
-	private static final Log log = LogFactory.getLog(POIUtil.class);
+public class PoiUtil {
+	private static final Log log = LogFactory.getLog(PoiUtil.class);
 
 	/** Excel导入 */
 	public static Map<String, List<String>> read(String path) {
-		Map<String, List<String>> maps = new HashMap<String, List<String>>();
+		Map<String, List<String>> maps = new HashMap<String, List<String>>(16);
 		try {
 			Sheet sheet = getSheet(path, 0);
 			int rowsNum = sheet.getPhysicalNumberOfRows();
@@ -61,9 +62,11 @@ public class POIUtil {
 		Workbook wb = null;
 		InputStream inputStream = new FileInputStream(path);
 		String suffix = path.substring(path.lastIndexOf(".") + 1, path.length());
-		if (suffix.equals("xls")) {
+		String xls = "xls";
+		String xlsx = "xlsx";
+		if (xls.equals(suffix)) {
 			wb = new HSSFWorkbook(inputStream);
-		} else if (suffix.equals("xlsx")) {
+		} else if (xlsx.equals(suffix)) {
 			wb = new XSSFWorkbook(inputStream);
 		} else {
 			log.info("您输入的excel格式不正确");
@@ -105,20 +108,25 @@ public class POIUtil {
 		// 创建工作文档对象
 		Workbook wb = null;
 		try {
-			if (fileType.equals("xls")) {
+		    String xls = "xls";
+	        String xlsx = "xlsx";
+			if (xls.equals(fileType)) {
 				wb = new HSSFWorkbook();
-			} else if (fileType.equals("xlsx")) {
+			} else if (xlsx.equals(fileType)) {
 				wb = new XSSFWorkbook();
 			} else {
 				log.info("您输入的excel格式不正确");
 			}
 			// 创建sheet对象
 			Sheet sheet1 = (Sheet) wb.createSheet("sheet1");
-			for (Map.Entry<String, List<String>> map : maps.entrySet()) {// 循环写入行数据
-				int rowNum = Integer.parseInt(map.getKey());//行号
+			// 循环写入行数据
+			for (Map.Entry<String, List<String>> map : maps.entrySet()) {
+			    //行号
+				int rowNum = Integer.parseInt(map.getKey());
 				Row row = (Row) sheet1.createRow(rowNum);
 				List<String> list = map.getValue();
-				for (int i = 0; i < list.size(); i++) {// 循环写入列数据
+				// 循环写入列数据
+				for (int i = 0; i < list.size(); i++) {
 					Cell cell = row.createCell(i);
 					cell.setCellValue(list.get(i));
 				}

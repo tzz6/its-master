@@ -6,11 +6,15 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.its.common.utils.xml.XStreamXmlUtil;
+import com.its.common.utils.xml.XstreamXmlUtil;
 import com.its.test.util.xml.entity.Role;
 import com.its.test.util.xml.entity.User;
 
-public class XStreamXmlUtilTest {
+/**
+ * 
+ * @author tzz
+ */
+public class XstreamXmlUtilTest {
 
 	@Test
 	public void testBeanToXml() {
@@ -31,7 +35,7 @@ public class XStreamXmlUtilTest {
 			roles.add(role);
 			roles.add(role2);
 			user.setRoles(roles);
-			String xml = XStreamXmlUtil.beanToXml(user);
+			String xml = XstreamXmlUtil.beanToXml(user);
 			System.out.println(xml);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -54,7 +58,7 @@ public class XStreamXmlUtilTest {
 			    "<name>角色2</name>"+
 			  "</roles>"+
 		   "</user>";
-		User user = XStreamXmlUtil.xmlToBean(xml, User.class);
+		User user = XstreamXmlUtil.xmlToBean(xml, User.class);
 		System.out.println(user.getId() + "--" + user.getName());
 		List<Role> roles = user.getRoles();
 		for (Role r : roles) {

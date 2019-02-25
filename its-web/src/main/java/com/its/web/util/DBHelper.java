@@ -7,12 +7,11 @@ import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 
-import com.its.common.crypto.des.DESUtil;
-import com.its.web.controller.login.BaseController;
+import com.its.common.crypto.des.DesUtil;
 
 public class DBHelper {
 
-	private static final Logger logger = Logger.getLogger(BaseController.class);
+	private static final Logger logger = Logger.getLogger(DBHelper.class);
 	
 	public static String url;
 	public static String name;
@@ -26,9 +25,9 @@ public class DBHelper {
 		user = PropertiesUtil.getValue(prop, "jdbc.username");
 		password = PropertiesUtil.getValue(prop, "jdbc.password");
 		// 解密
-		url = DESUtil.decrypt(url, DESUtil.KEY);
-		user = DESUtil.decrypt(user, DESUtil.KEY);
-		password = DESUtil.decrypt(password, DESUtil.KEY);
+		url = DesUtil.decrypt(url, DesUtil.KEY);
+		user = DesUtil.decrypt(user, DesUtil.KEY);
+		password = DesUtil.decrypt(password, DesUtil.KEY);
 	}
 
 	private Connection connection;

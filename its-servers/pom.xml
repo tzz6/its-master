@@ -307,12 +307,6 @@
 			<artifactId>xstream</artifactId>
 			<version>1.4.8</version>
 		</dependency>
-		<!-- commons-lang -->
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>${commonslang.version}</version>
-		</dependency>
 		
 		<!-- Dubbo需要的包 start -->
 		<dependency>

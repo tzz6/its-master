@@ -4,6 +4,10 @@ import org.junit.Test;
 
 import com.its.common.crypto.symmetry.SymmetryUtil;
 
+/**
+ * 
+ * @author tzz
+ */
 public class SymmetryUtilTest {
 
 	/** 将字符加密后为字节--再将字节解密为字符 */

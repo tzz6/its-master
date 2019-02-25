@@ -3,9 +3,11 @@ package com.its.test.crypto.certificate;
 import org.junit.Test;
 
 import com.its.common.crypto.certificate.SignCert;
-
+/**
+ * 
+ * @author tzz
+ */
 public class SignCertTest {
-
 
 	/** 证书签名*/
 	@Test

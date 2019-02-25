@@ -33,7 +33,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import com.its.common.utils.Constants;
 import com.its.common.utils.ImportError;
 import com.its.common.utils.ImportResult;
-import com.its.common.utils.poi.POIUtil;
+import com.its.common.utils.poi.PoiUtil;
 import com.its.core.mongodb.dao.impl.CountryMongoDaoImpl;
 import com.its.model.mongodb.dao.domain.City;
 import com.its.model.mongodb.dao.domain.Country;
@@ -111,7 +111,7 @@ public class ExcelController extends BaseController {
 				list = excelReader.getDatas();// Excel数据
 			}
 			if (imptType.equals("POI")) {//POI方式解析Excel
-				Map<String, List<String>> maps = POIUtil.read(realSavePath + saveFilename);
+				Map<String, List<String>> maps = PoiUtil.read(realSavePath + saveFilename);
 				list = new ArrayList<SysUser>();
 				for (Map.Entry<String, List<String>> entry : maps.entrySet()) {
 					SysUser sysUser = excelReader.setSysUser(maps.get(entry.getKey()),
@@ -314,7 +314,7 @@ public class ExcelController extends BaseController {
 				maps.put(rowNum + "", list);
 				rowNum++;
 			}
-			Workbook workbook = POIUtil.writer("xlsx", maps);
+			Workbook workbook = PoiUtil.writer("xlsx", maps);
 			String fileName = "用户列表.xlsx";
 			response.setContentType("text/html;charset=UTF-8");
 			response.setContentType("application/x-msdownload");

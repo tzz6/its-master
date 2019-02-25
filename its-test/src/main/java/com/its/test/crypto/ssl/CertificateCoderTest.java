@@ -9,8 +9,14 @@ import javax.net.ssl.HttpsURLConnection;
 
 import org.junit.Test;
 
-import com.its.common.crypto.ssl.CertificateCoder;
+import com.its.common.crypto.ssl.AbstractCertificateCoder;
 
+/**
+ * 
+ * @author tzz
+ * @date 2019/02/25
+ * @Introduce: CertificateCoderTest
+ */
 public class CertificateCoderTest {
 	
 	private String clientKeyStorePath = "d:/tzz-sf.keystore";
@@ -24,7 +30,7 @@ public class CertificateCoderTest {
 		conn.setDoInput(true);
 		conn.setDoOutput(true);
 
-		CertificateCoder.configSSLSocketFactory(conn, clientPassword,
+		AbstractCertificateCoder.configSSLSocketFactory(conn, clientPassword,
 				clientKeyStorePath, clientKeyStorePath);
 
 		InputStream is = conn.getInputStream();

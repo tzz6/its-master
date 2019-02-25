@@ -108,7 +108,7 @@ public class VerifyCodeServlet extends HttpServlet {
 		// 将认证码存入SESSION
 		log.info("请求IP" + IpUtil.getIpAddr(request) + "  sessionID" + request.getSession().getId() + "  生成验证码：  ---> "
 				+ sRand);
-		request.getSession().setAttribute(Constants.SESSION_KEY.VERIFY_CODE, sRand);
+		request.getSession().setAttribute(Constants.SessionKey.VERIFY_CODE, sRand);
 		// 图象生效
 		g.dispose();
 		// 输出图象到页面

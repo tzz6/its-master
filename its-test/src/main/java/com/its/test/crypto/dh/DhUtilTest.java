@@ -4,15 +4,17 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.its.common.crypto.dh.DHUtil;
+import com.its.common.crypto.dh.DhUtil;
 
-
-public class DHUtilTest {
-	
+/**
+ * 
+ * @author tzz
+ */
+public class DhUtilTest {
 	
 	@Test
 	public void testDH() throws Exception {
-		DHUtil dhUtil = new DHUtil();
+		DhUtil dhUtil = new DhUtil();
 		// 生成甲方密钥对儿
 		Map<String, Object> aKeyMap = dhUtil.initKey();
 		String aPublicKey = dhUtil.getPublicKey(aKeyMap);

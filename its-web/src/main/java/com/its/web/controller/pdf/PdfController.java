@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.its.common.utils.DateUtil;
-import com.its.common.utils.pdf.PDFBoxUtils;
-import com.its.common.utils.pdf.PDFUtil;
+import com.its.common.utils.pdf.PdfBoxUtils;
+import com.its.common.utils.pdf.PdfUtil;
 import com.its.web.common.freemarker.HtmlGenerator;
 import com.its.web.common.report.jasperreports.JasperreportsService;
 import com.its.web.controller.login.BaseController;
@@ -45,7 +45,7 @@ public class PdfController extends BaseController {
 		String filename = FileUtil.makeFileName("pdf");
 		// 得到文件的保存目录
 		String realSavePath = FileUtil.makePath(filename, savePath);
-		savePath = PDFUtil.generatePDF(realSavePath);
+		savePath = PdfUtil.generatePDF(realSavePath);
 		FileUtil.downloadFile(response, filename, savePath);
 	}
 
@@ -68,7 +68,7 @@ public class PdfController extends BaseController {
 		imagePath = imagePath.replaceAll("\\\\", "/");
 		htmlPath = htmlPath.replaceAll("\\\\", "/");
 		
-		savePath = PDFUtil.htmlToPDF(htmlPath, imagePath, realSavePath);
+		savePath = PdfUtil.htmlToPDF(htmlPath, imagePath, realSavePath);
 		FileUtil.downloadFile(response, filename, savePath);
 	}
 	
@@ -94,7 +94,7 @@ public class PdfController extends BaseController {
 				+ File.separator;
 		imagePath = imagePath.replaceAll("\\\\", "/");
 		//HTML转PDF
-		savePath = PDFUtil.htmlStrToPDF(htmlStr, imagePath, realSavePath);
+		savePath = PdfUtil.htmlStrToPDF(htmlStr, imagePath, realSavePath);
 		FileUtil.downloadFile(response, filename, savePath);
 	}
 	
@@ -111,13 +111,13 @@ public class PdfController extends BaseController {
 		// 得到文件的保存目录
 		String realSavePath = FileUtil.makePath(filename, savePath);
 		//生成PDF
-		savePath = PDFUtil.generatePDF(realSavePath);
+		savePath = PdfUtil.generatePDF(realSavePath);
 		
 		//将PDF转Image
 		String imageFormat = "jpg";
 		String saveImageDir = FileUtil.getPath(request, FileUtil.IMAGE_DIR);
 		//将Pdf转为Image
-		List<byte []> byteList = PDFBoxUtils.convertPdfToImage(savePath, imageFormat);
+		List<byte []> byteList = PdfBoxUtils.convertPdfToImage(savePath, imageFormat);
 		for (byte[] bytes : byteList) {
 			String imageFilename = DateUtil.getDateyyyyMMddHHmmss() + "." + imageFormat;
 			// 得到文件保存的名称

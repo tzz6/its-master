@@ -4,17 +4,21 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.its.common.crypto.rsa.RSACryptUtil;
+import com.its.common.crypto.rsa.RsaCryptUtil;
 
-public class RSACryptUtilTest {
+/**
+ * 
+ * @author tzz
+ */
+public class RsaCryptUtilTest {
 
 	private static String publicKey;
 	private static String privateKey;
 
 	static {
-		Map<String, Object> keyMap = RSACryptUtil.initKey();
-		publicKey = RSACryptUtil.getPublicKey(keyMap);
-		privateKey = RSACryptUtil.getPrivateKey(keyMap);
+		Map<String, Object> keyMap = RsaCryptUtil.initKey();
+        publicKey = RsaCryptUtil.getPublicKey(keyMap);
+		privateKey = RsaCryptUtil.getPrivateKey(keyMap);
 		System.out.println("公钥: \n\r" + publicKey);
 		System.out.println("私钥： \n\r" + privateKey);
 	}
@@ -24,9 +28,10 @@ public class RSACryptUtilTest {
 		try {
 			// 公钥加密---私钥解密
 			String date = "公钥加密---私钥解密Tzz123456~!@#$%^&*()_+-={}|[]:'<>?,./";
-			byte[] encodedData = RSACryptUtil.encryptByPublicKey(date.getBytes(), publicKey);
-			String encodedStr = RSACryptUtil.encryptBASE64(encodedData);
-			byte[] decodedData = RSACryptUtil.decryptByPrivateKey(RSACryptUtil.decryptBASE64(encodedStr), privateKey);// 公钥加密
+			byte[] encodedData = RsaCryptUtil.encryptByPublicKey(date.getBytes(), publicKey);
+			String encodedStr = RsaCryptUtil.encryptBASE64(encodedData);
+			// 公钥加密
+			byte[] decodedData = RsaCryptUtil.decryptByPrivateKey(RsaCryptUtil.decryptBASE64(encodedStr), privateKey);
 			String outputStr = new String(decodedData);
 			System.out.println("加密前: " + date + "\n\r" + "加密后: " + encodedStr + "\n\r" + "解密后: " + outputStr);
 		} catch (Exception e) {
@@ -41,19 +46,19 @@ public class RSACryptUtilTest {
 			System.out.println("私钥加密---公钥解密");
 			String inputStr = "私钥加密---公钥解密Tzz123456~!@#$%^&*()_+-={}|[]:'<>?,./";
 			byte[] data = inputStr.getBytes();
-			byte[] encodedData = RSACryptUtil.encryptByPrivateKey(data, privateKey);
-			String encodedStr = RSACryptUtil.encryptBASE64(encodedData);
-			byte[] decodedData = RSACryptUtil.decryptByPublicKey(encodedData, publicKey);
+			byte[] encodedData = RsaCryptUtil.encryptByPrivateKey(data, privateKey);
+			String encodedStr = RsaCryptUtil.encryptBASE64(encodedData);
+			byte[] decodedData = RsaCryptUtil.decryptByPublicKey(encodedData, publicKey);
 
 			String outputStr = new String(decodedData);
 			System.out.println("加密前: " + inputStr + "\n\r" + "加密后: " + encodedStr + "\n\r" + "解密后: " + outputStr + "\n\r");
 
 			System.out.println("私钥签名——公钥验证签名");
 			// 产生签名
-			String sign = RSACryptUtil.sign(encodedData, privateKey);
+			String sign = RsaCryptUtil.sign(encodedData, privateKey);
 			System.out.println("签名:\r" + sign);
 			// 验证签名
-			boolean status = RSACryptUtil.verify(encodedData, publicKey, sign);
+			boolean status = RsaCryptUtil.verify(encodedData, publicKey, sign);
 			System.out.println("状态:\r" + status);
 
 		} catch (Exception e) {
@@ -67,8 +72,8 @@ public class RSACryptUtilTest {
 			System.out.println("公钥加密---私钥解密");
 			String date = "123456公钥加密---私钥解密";
 			String pubKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDgSCCL8R3E2cNAO38TkBsk6c/Q2tJXNwkquGGuY9fiWVyOj7m/TzGuq7prAu6PoAtikXA8TgGMB/Z/MxYz6BfomlHPKAjfjpHXf4A5g0RsHHESxNHRE9QP4ir/MJ5PwVVJgA1ibw8dkHzX7ID3f+3V/XdqBHiuyELwi7gao7Ja6wIDAQAB";
-			byte[] encodedData = RSACryptUtil.encryptByPublicKey(date.getBytes(), pubKey);
-			String encodedStr = RSACryptUtil.encryptBASE64(encodedData);
+			byte[] encodedData = RsaCryptUtil.encryptByPublicKey(date.getBytes(), pubKey);
+			String encodedStr = RsaCryptUtil.encryptBASE64(encodedData);
 			String priKey = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAOBIIIvxHcTZw0A7fxOQGyTpz9Da"
 					+ "0lc3CSq4Ya5j1+JZXI6Pub9PMa6rumsC7o+gC2KRcDxOAYwH9n8zFjPoF+iaUc8oCN+Okdd/gDmD"
 					+ "RGwccRLE0dET1A/iKv8wnk/BVUmADWJvDx2QfNfsgPd/7dX9d2oEeK7IQvCLuBqjslrrAgMBAAEC"
@@ -80,8 +85,8 @@ public class RSACryptUtilTest {
 					+ "FyLAA+SxhpCYzsjB2AB127EjOBxpOfEbtjoW3lXLfJzpd5SZgLvl1/s/oA/hAkBUAi5M7xjb0r1Z"
 					+ "cZpED4czpY/ll6g+Vbn5YiTn67OC7hi1aW4/a0cGxg2vHDVcYhoDAtzXYNhg/jMqxY07NdjlAkEA"
 					+ "gtTLxrw1WrQQ3Qj76l556ihm9xTYr/OYm+rq+oXmULmk/ud9MzEQ8mP0Pz/DmxV3KmU73JOrCfR3" + "V9mrVTbe4Q==";
-			byte[] decodedData = RSACryptUtil.decryptByPrivateKey(
-					RSACryptUtil.decryptBASE64(
+			byte[] decodedData = RsaCryptUtil.decryptByPrivateKey(
+					RsaCryptUtil.decryptBASE64(
 							"CY/3yVGvkm6h2Im+cUl91kmKYfmhUyYoldytxr5E7htYlKz8G6xymItDvTprT5q6SoEd7dXH1x1s6/gaU8IeVYbfHoH1jgsOcI5ewZ3M5b2yP3A5NjLX2WCde081xm3Ju+bf+L+nUkpzVDm8iDcbxbxyHk/ZmAlPiyqQaf0uPKc="),
 					priKey);
 			String outputStr = new String(decodedData);

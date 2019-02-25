@@ -1,6 +1,6 @@
 package org.springframework.beans.factory.config;
 
-import com.its.common.crypto.des.DESUtil;
+import com.its.common.crypto.des.DesUtil;
 
 /**
  * 重写Spring加载Properties文件类-实现对JDBC配置进行加解密
@@ -13,7 +13,7 @@ public class EncryptPropertyPlaceholderConfigurer extends PropertyPlaceholderCon
 	@Override
 	protected String convertProperty(String propertyName, String propertyValue) {
 		if (isEncryptProp(propertyName)) {
-			String decryptValue = DESUtil.decrypt(propertyValue, DESUtil.KEY);
+			String decryptValue = DesUtil.decrypt(propertyValue, DesUtil.KEY);
 			System.out.println("decrypt--" + decryptValue);
 			return decryptValue;
 		} else {
