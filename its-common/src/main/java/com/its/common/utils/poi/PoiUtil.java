@@ -14,12 +14,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import org.apache.poi.ss.usermodel.DateUtil;
 
 /**
  * POIUtil
@@ -76,14 +75,13 @@ public class PoiUtil {
 	}
 
 	/** 获取单元格数据 */
-	@SuppressWarnings("deprecation")
 	public static String getCellValue(Cell cell) {
 		String value = "";
-		switch (cell.getCellType()) {
-		case Cell.CELL_TYPE_STRING:
+		switch (cell.getCellTypeEnum()) {
+		case STRING :
 			value = cell.getStringCellValue();
 			break;
-		case Cell.CELL_TYPE_NUMERIC:
+		case NUMERIC:
 			if (DateUtil.isCellDateFormatted(cell)) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				value = sdf.format(cell.getDateCellValue());
@@ -91,10 +89,10 @@ public class PoiUtil {
 				value = String.valueOf(cell.getNumericCellValue());
 			}
 			break;
-		case Cell.CELL_TYPE_BOOLEAN:
+		case BOOLEAN:
 			value = String.valueOf(cell.getBooleanCellValue());
 			break;
-		case Cell.CELL_TYPE_BLANK:
+		case BLANK:
 			value = "";
 			break;
 		default:

@@ -1,4 +1,4 @@
-package com.its.test.java.innerclass;
+package com.its.test.java8.lambda.innerclass;
 
 public interface Product {
 

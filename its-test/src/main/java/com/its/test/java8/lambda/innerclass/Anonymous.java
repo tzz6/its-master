@@ -1,4 +1,4 @@
-package com.its.test.java.innerclass;
+package com.its.test.java8.lambda.innerclass;
 
 /***
  * 匿名内部类
