@@ -34,7 +34,7 @@ public class PdfController extends BaseController {
 	/** 首页 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index() {
-		return "/pdf/pdfManager";
+		return "pdf/pdfManager";
 	}
 
 	/** 使用IText生成PDF */

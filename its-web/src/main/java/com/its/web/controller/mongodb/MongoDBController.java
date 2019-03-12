@@ -43,7 +43,7 @@ public class MongoDBController extends BaseController {
 
 	@RequestMapping("/toMongoDBManager")
 	public String list(ModelMap model) {
-		return "/mongoDB/mongoDBManager";
+		return "mongoDB/mongoDBManager";
 	}
 
 	/**

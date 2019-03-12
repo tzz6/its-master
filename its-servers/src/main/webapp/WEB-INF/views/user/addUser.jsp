@@ -11,8 +11,8 @@
 <center>
 	<form action="${ctx }/user/save" method="post">
 	
-		用戶名:<input type="text" name="name"></br><br>
-		密码：<input type="password" name="password"></br><br>
+		用戶名:<input type="text" name="name"><br><br>
+		密码：<input type="password" name="password"><br><br>
 		性别:<input type="radio" name="sex" value="男">男
 	     	 <input type="radio" name="sex" value="女">女</br>
 		部门：<select name="departmentId">

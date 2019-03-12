@@ -24,6 +24,6 @@ public class FreemarkerController extends BaseController {
 		// 获取有的User
 		List<User> users = userService.findAllUser();
 		model.put("users", users);
-		return "/freemarker/user_list";
+		return "freemarker/user_list";
 	}
 }

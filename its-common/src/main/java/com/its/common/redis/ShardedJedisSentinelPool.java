@@ -39,7 +39,6 @@ import redis.clients.util.Pool;
  * 后来选用了方案3，使用Redis官方解决方案；（方案2需要编写大量的监控代码，没有方案3简便，网上有人使用方案2读者可自行查看）
  * @author tzz
  **/
-@SuppressWarnings("rawtypes")
 public class ShardedJedisSentinelPool extends Pool<ShardedJedis> {
 	public static final int MAX_RETRY_SENTINEL = 10;
 	protected final Logger log = Logger.getLogger(getClass().getName());

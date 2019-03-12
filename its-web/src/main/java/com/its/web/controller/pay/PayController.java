@@ -16,7 +16,7 @@ public class PayController extends BaseController {
 	/** 支付宝 */
 	@RequestMapping(value = "/alipay", method = RequestMethod.GET)
 	public String alipay() {
-		return "/pay/alipay";
+		return "pay/alipay";
 	}
 
 	

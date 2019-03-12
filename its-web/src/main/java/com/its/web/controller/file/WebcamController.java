@@ -38,7 +38,7 @@ public class WebcamController extends BaseController {
 	public String index(@RequestParam(value = "id", required = false) String id, HttpServletRequest request,
 			ModelMap model) {
 		log.info("WebcamController-------id:" + id);
-		return "/webcam/photograph";
+		return "webcam/photograph";
 	}
 
 	/** 保存照片 */

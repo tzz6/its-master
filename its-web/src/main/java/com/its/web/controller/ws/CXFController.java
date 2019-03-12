@@ -27,7 +27,7 @@ public class CXFController {
 	@RequestMapping(value = "/ws/cxfIndex", method = RequestMethod.GET)
 	public String cxfIndex(ModelMap model) throws MalformedURLException {
 		model.put("url", "/ws/cxfManager");
-		return "/ws/wsManager";
+		return "ws/wsManager";
 	}
 
 	/**

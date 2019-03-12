@@ -98,7 +98,7 @@ public class FileController extends BaseController {
 	/** 上传附件页 */
 	@RequestMapping(value = "/toUpload", method = RequestMethod.GET)
 	public String toUpload() {
-		return "/file/uploadFile";
+		return "file/uploadFile";
 	}
 
 	/** 上传附件 需要去掉spring-servlet中 支持上传文件的配置 */

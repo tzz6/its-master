@@ -29,6 +29,9 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
+	<!-- 用于jetty下web.xml中的welcome-file-list配置无效，无法默认跳转至index.jsp页面，tomcat无许配置 -->
+	<mvc:view-controller path="/" view-name="/index" /> 
+
 	<!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass"

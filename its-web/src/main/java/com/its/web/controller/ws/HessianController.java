@@ -28,7 +28,7 @@ public class HessianController {
 	@RequestMapping(value = "/ws/hessianIndex", method = RequestMethod.GET)
 	public String hsIndex(ModelMap model){
 		model.put("url", "/ws/hessianManager");
-		return "/ws/wsManager";
+		return "ws/wsManager";
 	}
 
 	/**
