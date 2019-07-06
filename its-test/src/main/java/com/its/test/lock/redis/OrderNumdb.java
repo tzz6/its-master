@@ -5,16 +5,21 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * 号码池(模拟数据库)
- *
+ * 
+ * @author tzz
+ * @工号: 
+ * @date 2019/07/06
+ * @Introduce: 号码池(模拟数据库)
  */
-public class OrderNumDB {
+public class OrderNumdb {
 
 	public static List<String> list = new ArrayList<>();
 	// 初始化号码池
 	static {
 		System.out.println("init DB");
-		for (int i = 10000; i < 99999; i++) {
+		int start = 10000;
+		int end = 99999;
+		for (int i = start; i < end; i++) {
 			list.add("SF" + i);
 		}
 		list.sort(new Comparator<String>() {
@@ -25,14 +30,14 @@ public class OrderNumDB {
 		});
 	}
 
-	private static OrderNumDB instance = null;
+	private static OrderNumdb instance = null;
 
-	private OrderNumDB() {
+	private OrderNumdb() {
 	}
 
-	public static OrderNumDB getOrderNumDB() {
+	public static OrderNumdb getOrderNumdb() {
 		if (instance == null) {
-			instance = new OrderNumDB();
+			instance = new OrderNumdb();
 		}
 		return instance;
 	}

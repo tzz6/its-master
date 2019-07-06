@@ -7,6 +7,13 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+/**
+ * 
+ * @author tzz
+ * @工号: 
+ * @date 2019/07/06
+ * @Introduce: JedisPool
+ */
 public class JedisPoolTest {
 	private static JedisPool jedisPool;
 
@@ -19,7 +26,7 @@ public class JedisPoolTest {
 		jedisPoolConfig.setMaxWaitMillis(1000);
 		jedisPoolConfig.setTestOnBorrow(true);
 		jedisPoolConfig.setTestOnReturn(true);
-		String host = "vm-02-ip";
+		String host = "vm-01-ip";
 		int port = 6379;
 		int timeout = 1000;
 		String password = "123456";
@@ -27,7 +34,6 @@ public class JedisPoolTest {
 		jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, password);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Test
 	public void testSet() {
 		Jedis jedis = null;
@@ -40,10 +46,12 @@ public class JedisPoolTest {
 			jedis.del(key);
 			System.out.println(jedis.get("Test_Pool"));
 		} catch (Exception e) {
-			jedisPool.returnBrokenResource(jedis);// 销毁对象
+		    // 销毁对象
+		    jedis.close();
 			e.printStackTrace();
 		} finally {
-			jedisPool.returnResource(jedis);// 释放对象池
+		    // 释放对象池
+		    jedis.close();
 		}
 	}
 }

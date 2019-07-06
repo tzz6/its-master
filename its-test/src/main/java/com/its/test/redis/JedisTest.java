@@ -10,16 +10,21 @@ import org.junit.Test;
 
 import redis.clients.jedis.Jedis;
 /**
- * 单机简单例子程序
- *
+ * 
+ * @author tzz
+ * @工号: 
+ * @date 2019/07/06
+ * @Introduce: 单机简单例子程序
  */
 public class JedisTest {
 	private Jedis jedis;
 
 	@Before
 	public void initJedis() {
-		jedis = new Jedis("vm-02-ip", 6379);
-		jedis.auth("123456");//设置密码
+		jedis = new Jedis("vm-01-ip", 6379);
+		String password = "123456";
+		//设置密码
+		jedis.auth(password);
 	}
 
 	/** 添加 */
@@ -100,7 +105,7 @@ public class JedisTest {
 	/** Map */
 	@Test
 	public void testMap() {
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, String> map = new HashMap<String, String>(16);
 		map.put("name", "tzz");
 		map.put("age", "26");
 		map.put("qq", "123456");
@@ -112,11 +117,16 @@ public class JedisTest {
 
 		// 删除map中的某个键值
 		jedis.hdel("user", "age");
-		System.out.println(jedis.hmget("user", "age")); // 因为删除了，所以返回的是null
-		System.out.println(jedis.hlen("user")); // 返回key为user的键中存放的值的个数2
-		System.out.println(jedis.exists("user"));// 是否存在key为user的记录 返回true
-		System.out.println(jedis.hkeys("user"));// 返回map对象中的所有key
-		System.out.println(jedis.hvals("user"));// 返回map对象中的所有value
+		// 因为删除了，所以返回的是null
+		System.out.println(jedis.hmget("user", "age")); 
+		// 返回key为user的键中存放的值的个数2
+		System.out.println(jedis.hlen("user")); 
+		// 是否存在key为user的记录 返回true
+		System.out.println(jedis.exists("user"));
+		// 返回map对象中的所有key
+		System.out.println(jedis.hkeys("user"));
+		// 返回map对象中的所有value
+		System.out.println(jedis.hvals("user"));
 
 		Iterator<String> iter = jedis.hkeys("user").iterator();
 		while (iter.hasNext()) {
@@ -146,34 +156,40 @@ public class JedisTest {
 	}
 
 	/** Set */
-	@Test
-	public void testSet() {
-		// 添加
-		jedis.sadd("test-set", "a", "b");
-		jedis.sadd("test-set", "b");
-		jedis.sadd("test-set", "c");
-		jedis.sadd("test-set", "d");
-		jedis.sadd("test-set", "e");
-		// 移除noname
-		jedis.srem("test-set", "who");
-		System.out.println(jedis.smembers("test-set"));// 获取所有加入的value
-		System.out.println(jedis.sismember("test-set", "who"));// 判断 who
-																// 是否是user集合的元素
-		System.out.println(jedis.srandmember("test-set"));
-		System.out.println(jedis.scard("test-set"));// 返回集合的元素个数
-	}
+    @Test
+    public void testSet() {
+        // 添加
+        jedis.sadd("test-set", "a", "b");
+        jedis.sadd("test-set", "b");
+        jedis.sadd("test-set", "c");
+        jedis.sadd("test-set", "d");
+        jedis.sadd("test-set", "e");
+        // 移除noname
+        jedis.srem("test-set", "who");
+        // 获取所有加入的value
+        System.out.println(jedis.smembers("test-set"));
+        // 判断 who
+        System.out.println(jedis.sismember("test-set", "who"));
+        // 是否是user集合的元素
+        System.out.println(jedis.srandmember("test-set"));
+        // 返回集合的元素个数
+        System.out.println(jedis.scard("test-set"));
+    }
 
 	@Test
 	public void test() throws InterruptedException {
 		// jedis 排序
 		// 注意，此处的rpush和lpush是List的操作。是一个双向链表（但从表现来看的）
-		jedis.del("a");// 先清除数据，再加入数据进行测试
+	    // 先清除数据，再加入数据进行测试
+		jedis.del("a");
 		jedis.rpush("a", "1");
 		jedis.lpush("a", "6");
 		jedis.lpush("a", "3");
 		jedis.lpush("a", "9");
-		System.out.println(jedis.lrange("a", 0, -1));// [9, 3, 6, 1]
-		System.out.println(jedis.sort("a")); // [1, 3, 6, 9] //输入排序后结果
+		// [9, 3, 6, 1]
+		System.out.println(jedis.lrange("a", 0, -1));
+		// [1, 3, 6, 9] //输入排序后结果
+		System.out.println(jedis.sort("a")); 
 		System.out.println(jedis.lrange("a", 0, -1));
 	}
 

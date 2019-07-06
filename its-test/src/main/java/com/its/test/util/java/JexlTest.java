@@ -10,7 +10,8 @@ import org.apache.commons.jexl2.MapContext;
 import org.junit.Test;
 
 /***
- * 测试使用Jexl将字符串转换成可执行的Java代码
+ * Java Expression Language (JEXL) <br>
+ * Java表达式语言  
  *
  */
 public class JexlTest {
@@ -49,6 +50,7 @@ public class JexlTest {
 		return result >= 0 ? true : false;
 	}
 
+	/**Jexl*/
 	public Object convertToCode(String jexlExp, Map<String, Object> map) {
 		JexlEngine jexl = new JexlEngine();
 		Expression e = jexl.createExpression(jexlExp);
@@ -115,6 +117,7 @@ public class JexlTest {
 		}
 	}
 
+	/**调用函数*/
 	@Test
 	public void test3() {
 		try {

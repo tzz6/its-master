@@ -11,6 +11,13 @@ import redis.clients.jedis.JedisShardInfo;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
 
+/**
+ * 
+ * @author tzz
+ * @工号: 
+ * @date 2019/07/06
+ * @Introduce: JedisPoolSharded
+ */
 public class JedisPoolShardedTest {
 	private static ShardedJedisPool shardedJedisPool;
 
@@ -28,21 +35,22 @@ public class JedisPoolShardedTest {
 		String host3 = "vm-03-ip";
 		int port = 6379;
 		int timeout = 1000;
-//		String auth = "123456";
+		String auth = "123456";
 		// 构造连接池
 		JedisShardInfo jedisShardInfo1 = new JedisShardInfo(host1, port, timeout);
-//		jedisShardInfo1.setPassword(auth);
+		jedisShardInfo1.setPassword(auth);
 		JedisShardInfo jedisShardInfo2 = new JedisShardInfo(host2, port, timeout);
-//		jedisShardInfo1.setPassword(auth);
+		jedisShardInfo2.setPassword(auth);
 		JedisShardInfo jedisShardInfo3 = new JedisShardInfo(host3, port, timeout);
+		jedisShardInfo3.setPassword(auth);
 		List<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
 		shards.add(jedisShardInfo1);
-		shards.add(jedisShardInfo2);
-		shards.add(jedisShardInfo3);
+		//从节点只能读，不可写
+//		shards.add(jedisShardInfo2);
+//		shards.add(jedisShardInfo3);
 		shardedJedisPool = new ShardedJedisPool(jedisPoolConfig, shards);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Test
 	public void test() {
 		ShardedJedis jedis = null;
@@ -55,10 +63,12 @@ public class JedisPoolShardedTest {
 //			jedis.del(key);
 			System.out.println(jedis.get("JedisPoolShardedTest_key"));
 		} catch (Exception e) {
-			shardedJedisPool.returnBrokenResource(jedis);// 销毁对象
+			// 销毁对象
+		    jedis.close();
 			e.printStackTrace();
 		} finally {
-			shardedJedisPool.returnResource(jedis);// 释放对象池
+			// 释放对象池
+		    jedis.close();
 		}
 	}
 

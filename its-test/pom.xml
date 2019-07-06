@@ -115,6 +115,12 @@
 			<artifactId>commons-jexl</artifactId>
 			<version>2.0</version>
 		</dependency>
+		<!-- aviator -->
+		<dependency>
+		    <groupId>com.googlecode.aviator</groupId>
+		    <artifactId>aviator</artifactId>
+		    <version>4.2.0</version>
+		</dependency>
 		<!-- kafka -->
 <!-- 		<dependency> -->
 <!-- 		    <groupId>org.apache.kafka</groupId> -->

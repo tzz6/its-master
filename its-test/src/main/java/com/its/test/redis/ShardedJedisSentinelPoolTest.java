@@ -15,9 +15,15 @@ import com.its.common.redis.ShardedJedisSentinelPool;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
+/**
+ * 
+ * @author tzz
+ * @工号: 
+ * @date 2019/07/06
+ * @Introduce: ShardedJedisSentinelPoolTest
+ */
 public class ShardedJedisSentinelPoolTest {
 
-	@SuppressWarnings("deprecation")
 	@Test
 	public void testSpring() {
 		ApplicationContext ac = null;
@@ -26,7 +32,8 @@ public class ShardedJedisSentinelPoolTest {
 			ShardedJedisSentinelPool pool = (ShardedJedisSentinelPool) ac.getBean("shardedJedisPool");
 			ShardedJedis jedis = null;
 			jedis = pool.getResource();
-			for (int i = 0; i < 10; i++) {
+			int num = 10;
+			for (int i = 0; i < num; i++) {
 				try {
 					jedis = pool.getResource();
 					String key = "key" + i;
@@ -35,7 +42,7 @@ public class ShardedJedisSentinelPoolTest {
 					jedis.del(key);
 					System.out.println(jedis.get(key));
 					Thread.sleep(100);
-					pool.returnResource(jedis);
+					jedis.close();
 				} catch (JedisConnectionException e) {
 					System.out.print("x");
 					i--;
@@ -48,7 +55,6 @@ public class ShardedJedisSentinelPoolTest {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Test
 	public void test() {
 		ShardedJedisSentinelPool pool = null;
@@ -63,14 +69,15 @@ public class ShardedJedisSentinelPoolTest {
 			String auth = "123456";
 			pool = new ShardedJedisSentinelPool(masters, sentinels, config, 60000, auth);
 			ShardedJedis j = null;
-			for (int i = 0; i < 10; i++) {
+			int num = 10;
+			for (int i = 0; i < num; i++) {
 				try {
 					j = pool.getResource();
 					j.set("KEY: " + i, "" + i);
 					System.out.print(i);
 					System.out.print(" ");
 					Thread.sleep(500);
-					pool.returnResource(j);
+					j.close();
 				} catch (JedisConnectionException e) {
 					System.out.print(e);
 					i--;
@@ -80,12 +87,12 @@ public class ShardedJedisSentinelPoolTest {
 
 			System.out.println("----------------------------");
 
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < num; i++) {
 				try {
 					j = pool.getResource();
 					System.out.print(j.get("KEY: " + i));
 					Thread.sleep(500);
-					pool.returnResource(j);
+					pool.close();
 				} catch (JedisConnectionException e) {
 					System.out.print("x");
 					i--;

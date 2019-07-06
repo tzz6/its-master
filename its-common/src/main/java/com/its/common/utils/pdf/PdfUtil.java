@@ -154,7 +154,7 @@ public class PdfUtil {
 			pdfPTable.addCell(createCell("完税价格", keyfont, Element.ALIGN_CENTER));
 			pdfPTable.addCell(createCell("税率%", keyfont, Element.ALIGN_CENTER));
 			pdfPTable.addCell(createCell("进口税金额", keyfont, Element.ALIGN_CENTER));
-			int index = 200;
+			int index = 600;
 			for (int i = 0; i < index; i++) {
 				pdfPTable.addCell(createCell((i + 1) + "", textfont));
 				pdfPTable.addCell(createCell("品名" + (i + 1), textfont));

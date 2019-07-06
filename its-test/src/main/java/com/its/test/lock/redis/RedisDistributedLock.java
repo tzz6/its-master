@@ -3,7 +3,8 @@ package com.its.test.lock.redis;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -12,11 +13,14 @@ import redis.clients.jedis.Transaction;
 import redis.clients.jedis.exceptions.JedisException;
 
 /**
- * Redis分布式锁
- *
+ * 
+ * @author tzz
+ * @工号: 
+ * @date 2019/07/06
+ * @Introduce: Redis分布式锁
  */
 public class RedisDistributedLock {
-	private static final Logger logger = Logger.getLogger(RedisDistributedLock.class);
+	private static final Logger logger = LoggerFactory.getLogger(RedisDistributedLock.class);
 	private static JedisPool jedisPool = null;
 //	private static JedisPool pool = null;
 //
@@ -27,15 +31,20 @@ public class RedisDistributedLock {
 	static {
 		// 初始化Redis
 		JedisPoolConfig config = new JedisPoolConfig();
-		config.setMaxTotal(1000);// 设置最大连接数（redis服务端maxclients设置的是1000，可更改设置）
-		config.setMaxIdle(8);// 设置最大空闲数
-		config.setMaxWaitMillis(1000 * 100);// 设置最大等待时间
-		config.setTestOnBorrow(true);// 在borrow一个jedis实例时，是否需要验证，若为true，则所有jedis实例均是可用的
-		String host = "vm-02-ip";
+		// 设置最大连接数（redis服务端maxclients设置的是1000，可更改设置）
+		config.setMaxTotal(1000);
+		// 设置最大空闲数
+		config.setMaxIdle(8);
+		// 设置最大等待时间
+		config.setMaxWaitMillis(1000 * 100);
+		// 在borrow一个jedis实例时，是否需要验证，若为true，则所有jedis实例均是可用的
+		config.setTestOnBorrow(true);
+		String host = "vm-01-ip";
 		int port = 6379;
 		int timeout = 3000;
 		String password = "123456";
-		jedisPool = new JedisPool(config, host, port, timeout, password);// 构造连接池
+		// 构造连接池
+		jedisPool = new JedisPool(config, host, port, timeout, password);
 	}
 
 	/**
@@ -51,10 +60,14 @@ public class RedisDistributedLock {
 		String retIdentifier = null;
 		try {
 //			logger.info("ThreadName:" + Thread.currentThread().getName() + "---ilockWithTimeout--1");
-			conn = jedisPool.getResource();// 获取连接
-			String identifier = UUID.randomUUID().toString();// 随机生成一个value
-			int lockExpire = (int) (timeout / 1000);// 超时时间，上锁后超过此时间则自动释放锁
-			long end = System.currentTimeMillis() + acquireTimeout;// 获取锁的超时时间，超过这个时间则放弃获取锁
+		    // 获取连接
+			conn = jedisPool.getResource();
+			// 随机生成一个value
+			String identifier = UUID.randomUUID().toString();
+			// 超时时间，上锁后超过此时间则自动释放锁
+			int lockExpire = (int) (timeout / 1000);
+			// 获取锁的超时时间，超过这个时间则放弃获取锁
+			long end = System.currentTimeMillis() + acquireTimeout;
 			while (System.currentTimeMillis() < end) {
 				// SETNX key val  当且仅当key不存在时，set一个key为val的字符串，返回1；若key存在，则什么都不做，返回0。
 				long setNx = conn.setnx(lockKey, identifier);

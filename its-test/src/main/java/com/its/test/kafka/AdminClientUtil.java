@@ -52,14 +52,16 @@ import org.apache.kafka.common.config.ConfigResource;
  * 都是在后台自行构建Kafka的各种请求然后发送，只不过所有的细节AdminClient都帮用户实现了，用户不再自己编写底层的各种功能代码了。
  * 
  * 下面给出一个该类的测试实例，列出了除ACL操作之外的所有操作样例代码，如下所示
+ * @author tzz
  */
-
 public class AdminClientUtil {
+    
+    private static String BOOTSTRAP_SERVERS = "10.203.15.50:9092,10.202.107.207:9092,10.202.107.115:9092";
 
 	public static void main(String[] args) throws Exception {
 		Properties props = new Properties();
-		props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "10.202.107.208:9092,10.202.107.207:9092,10.202.107.115:9092");
-		String topicName = "testCreateTopic";
+		props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
+		String topicName = "mytopic";
 //			List<String> topicNames =  Arrays.asList(topicName, "__consumer_offsets");
 		List<String> topicNames =  Arrays.asList(topicName);
 
@@ -115,7 +117,8 @@ public class AdminClientUtil {
     */
     public static Set<String> listAllTopics(AdminClient client) throws ExecutionException, InterruptedException {
         ListTopicsOptions options = new ListTopicsOptions();
-        options.listInternal(true); // includes internal topics such as __consumer_offsets
+        // includes internal topics such as __consumer_offsets
+        options.listInternal(true); 
         ListTopicsResult topics = client.listTopics(options);
         Set<String> topicNames = topics.names().get();
         return topicNames;

@@ -10,6 +10,13 @@ import com.its.framework.cacheproxy.ICache;
 import com.its.framework.cacheproxy.redis.RedisCache;
 import com.its.framework.cacheproxy.redis.RedisConfig;
 
+/**
+ * 
+ * @author tzz
+ * @工号: 
+ * @date 2019/07/06
+ * @Introduce: RedisCacheTest
+ */
 public class RedisCacheTest {
 
 	@Test
@@ -44,10 +51,13 @@ public class RedisCacheTest {
 			System.out.println("key:" + str);
 		}
 		String key = "Test2";
-		c.set(key, "Test010156xx98你好");// set
-		Object value = c.get(key);// get
+		// set
+		c.set(key, "Test010156xx98你好");
+		// get
+		Object value = c.get(key);
 		System.out.println(value);
-		c.remove(key);// delete
+		// delete
+		c.remove(key);
 		value = c.get(key);
 		System.out.println(value);
 	}
