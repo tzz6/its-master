@@ -1,4 +1,4 @@
-package com.its.test.kafka;
+package com.its.test.mq.kafka;
 
 import java.util.Properties;
 
@@ -26,7 +26,7 @@ public class ProducerSend {
 		// props.put("batch.size", 16384);
 		// props.put("linger.ms", 1);
 		// props.put("buffer.memory", 33554432);
-		props.put("partitioner.class", "com.its.test.kafka.KafkaCustomPartitioner");
+		props.put("partitioner.class", "com.its.test.mq.kafka.KafkaCustomPartitioner");
 		// 自定义分区
 		props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 		props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");

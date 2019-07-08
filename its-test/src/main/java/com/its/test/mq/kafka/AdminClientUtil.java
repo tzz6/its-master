@@ -1,4 +1,4 @@
-package com.its.test.kafka;
+package com.its.test.mq.kafka;
 
 import java.util.Arrays;
 import java.util.Collection;
