@@ -24,7 +24,10 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
 
-
+/**
+ * 
+ * @author tzz
+ */
 @SuppressWarnings("deprecation")
 public class OrderTest {
 	private static final Logger logger = Logger.getLogger(OrderTest.class);
@@ -78,8 +81,10 @@ public class OrderTest {
 	}
 
 	public static void byte2image(byte[] data, String path) {
-		if (data.length < 3 || path.equals(""))
-			return;
+	    int len = 3;
+		if (data.length < len || "".equals(path)) {
+		    return;
+		}
 		try {
 			FileImageOutputStream imageOutput = new FileImageOutputStream(new File(path));
 			imageOutput.write(data, 0, data.length);
@@ -210,7 +215,8 @@ public class OrderTest {
 			// 拼接参数
 			if (!StringUtils.isEmpty(map)) {
 				Iterator<Entry<String, Object>> iterator = map.entrySet().iterator();
-				if (url.contains("?")) {
+				String str = "?";
+				if (url.contains(str)) {
 					while (iterator.hasNext()) {
 						Entry<String, Object> elem = (Entry<String, Object>) iterator.next();
 						stringBuilder.append("&").append(elem.getKey()).append("=").append(elem.getValue());

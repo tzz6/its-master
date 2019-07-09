@@ -1,6 +1,5 @@
 package com.its.test.util;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,7 +11,6 @@ import java.net.URL;
 import java.net.Proxy.Type;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -20,9 +18,13 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+
+/**
+ * @author tzz
+ */
 public class HttpAndHttpsProxy {
 
-    public static String HttpsProxy(String url, String param, String proxy, int port) {
+    public static String httpsProxy(String url, String param, String proxy, int port) {
         HttpsURLConnection httpsConn = null;
         PrintWriter out = null;
         BufferedReader in = null;
@@ -92,7 +94,7 @@ public class HttpAndHttpsProxy {
          return result;
     }
 
-    public static String HttpProxy(String url, String param, String proxy, int port) {
+    public static String httpProxy(String url, String param, String proxy, int port) {
         HttpURLConnection httpConn = null;
         PrintWriter out = null;
         BufferedReader in = null;
@@ -156,26 +158,30 @@ public class HttpAndHttpsProxy {
 
     private static class TrustAnyTrustManager implements X509TrustManager {
 
+        @Override
         public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
         }
 
+        @Override
         public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
         }
 
+        @Override
         public X509Certificate[] getAcceptedIssuers() {
             return new X509Certificate[] {};
         }
     }
 
     private static class TrustAnyHostnameVerifier implements HostnameVerifier {
+        @Override
         public boolean verify(String hostname, SSLSession session) {
             return true;
         }
     }
 
     public static void main(String[] args) {
-        HttpsProxy("https://www.baidu.com//", "", "127.0.0.1", 81);
-        HttpProxy("http://www.aseoe.com/", "", "127.0.0.1", 81);
+        httpsProxy("https://www.baidu.com//", "", "127.0.0.1", 81);
+        httpProxy("http://www.aseoe.com/", "", "127.0.0.1", 81);
     }
 
 }

@@ -25,15 +25,15 @@ import org.apache.zookeeper.data.Stat;
  */
 public class DistributedLock implements Lock, Watcher {
     private ZooKeeper zk = null;
-    // 根节点
+    /** 根节点 */
     private String ROOT_LOCK = "/locks";
-    // 竞争的资源
+    /** 竞争的资源*/
     private String lockName;
-    // 等待的前一个锁
+    /** 等待的前一个锁*/
     private String WAIT_LOCK;
-    // 当前锁
+    /** 当前锁*/
     private String CURRENT_LOCK;
-    // 计数器
+    /** 计数器*/
     private CountDownLatch countDownLatch;
     private int sessionTimeout = 30000;
     // private List<Exception> exceptionList = new ArrayList<Exception>();
@@ -47,9 +47,11 @@ public class DistributedLock implements Lock, Watcher {
     public DistributedLock(String config, String lockName) {
         this.lockName = lockName;
         try {
-            zk = new ZooKeeper(config, sessionTimeout, this);// 连接zookeeper
+            // 连接zookeeper
+            zk = new ZooKeeper(config, sessionTimeout, this);
             Stat stat = zk.exists(ROOT_LOCK, false);
-            if (stat == null) {// 如果根节点不存在，则创建根节点
+            if (stat == null) {
+                // 如果根节点不存在，则创建根节点
                 zk.create(ROOT_LOCK, new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
             }
         } catch (Exception e) {
@@ -57,6 +59,7 @@ public class DistributedLock implements Lock, Watcher {
         }
     }
 
+    @Override
     public void process(WatchedEvent event) {// 节点监视器
         if (this.countDownLatch != null) {
             this.countDownLatch.countDown();
@@ -66,6 +69,7 @@ public class DistributedLock implements Lock, Watcher {
     /**
      * 加锁
      */
+    @Override
     public void lock() {
         // if (exceptionList.size() > 0) {
         // throw new LockException(exceptionList.get(0));
@@ -76,13 +80,14 @@ public class DistributedLock implements Lock, Watcher {
                 // 处理业务
                 return;
             } else {
-                waitForLock(WAIT_LOCK, sessionTimeout);// 等待锁
+                // 等待锁
+                waitForLock(WAIT_LOCK, sessionTimeout);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    @Override
     public boolean tryLock() {
         try {
             String splitStr = "_lock_";
@@ -98,15 +103,16 @@ public class DistributedLock implements Lock, Watcher {
             // 取出所有lockName的锁
             List<String> lockObjects = new ArrayList<String>();
             for (String node : subNodes) {
-                String _node = node.split(splitStr)[0];
-                if (_node.equals(lockName)) {
+                String nd = node.split(splitStr)[0];
+                if (nd.equals(lockName)) {
                     lockObjects.add(node);
                 }
             }
             Collections.sort(lockObjects);
             System.out.println(Thread.currentThread().getName() + " 的锁是 " + CURRENT_LOCK);
             // 若当前节点为最小节点，则获取锁成功
-            if (CURRENT_LOCK.equals(ROOT_LOCK + "/" + lockObjects.get(0))) {
+            String str = "/";
+            if (CURRENT_LOCK.equals(ROOT_LOCK + str + lockObjects.get(0))) {
                 return true;
             }
             // 若不是最小节点，则找到自己的前一个节点
@@ -117,7 +123,7 @@ public class DistributedLock implements Lock, Watcher {
         }
         return false;
     }
-
+    @Override
     public boolean tryLock(long timeout, TimeUnit unit) {
         try {
             if (this.tryLock()) {
@@ -142,7 +148,7 @@ public class DistributedLock implements Lock, Watcher {
         }
         return true;
     }
-
+    @Override
     public void unlock() {
         try {
             System.out.println("释放锁 " + CURRENT_LOCK);
@@ -153,11 +159,11 @@ public class DistributedLock implements Lock, Watcher {
             e.printStackTrace();
         }
     }
-
+    @Override
     public Condition newCondition() {
         return null;
     }
-
+    @Override
     public void lockInterruptibly() throws InterruptedException {
         this.lock();
     }
@@ -178,6 +184,7 @@ public class DistributedLock implements Lock, Watcher {
 
     public static void main(String[] args) {
         Runnable runnable = new Runnable() {
+            @Override
             public void run() {
                 DistributedLock lock = null;
                 try {

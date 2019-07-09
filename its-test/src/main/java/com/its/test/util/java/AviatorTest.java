@@ -16,44 +16,44 @@ import com.googlecode.aviator.runtime.type.AviatorObject;
 
 /***
  * Aviator是一个高性能、轻量级的 java 语言实现的表达式求值引擎 <br>
- *
+ * 
+ * @author tzz
  */
 public class AviatorTest {
-    
-	class user {
-		private Integer id;
-		private String name;
 
-		public Integer getId() {
-			return id;
-		}
+    class User {
+        private Integer id;
+        private String name;
 
-		public void setId(Integer id) {
-			this.id = id;
-		}
+        public Integer getId() {
+            return id;
+        }
 
-		public String getName() {
-			return name;
-		}
+        public void setId(Integer id) {
+            this.id = id;
+        }
 
-		public void setName(String name) {
-			this.name = name;
-		}
-	}
-	
+        public String getName() {
+            return name;
+        }
 
-	/** 自定义条件表达式方法-数据打印 */
-	public String printUser(AviatorTest.user user) {
-		String str = user.getId() + "----" + user.getName();
-		System.out.println(str);
-		return str;
-	}
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
 
-	/** 自定义条件表达式方法-字符串包含 */
-	public boolean indexOf(String str, String value) {
-		int result = str.indexOf(value);
-		return result >= 0 ? true : false;
-	}
+    /** 自定义条件表达式方法-数据打印 */
+    public String printUser(AviatorTest.User user) {
+        String str = user.getId() + "----" + user.getName();
+        System.out.println(str);
+        return str;
+    }
+
+    /** 自定义条件表达式方法-字符串包含 */
+    public boolean indexOf(String str, String value) {
+        int result = str.indexOf(value);
+        return result >= 0 ? true : false;
+    }
 
     public Object execute(String expression) {
         Object obj = null;
@@ -77,31 +77,31 @@ public class AviatorTest {
         return obj;
     }
 
+    @Test
+    public void testSimple() {
+        try {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("customersCode", "00002");
+            map.put("ShipmentName", "00002");
+            map.put("productType", "C909");
+            map.put("declaredValue", 100);
+            map.put("actualWeight", 2.0);
+            String expression =
+                "(customersCode=='00001'||customersCode=='00002')&&(ShipmentName=='00002')&&productType=='C909'"
+                    + "&&!(declaredValue>=200&&declaredValue<=400)&&(actualWeight>=1.0&&actualWeight<=3.0)";
+            execute(expression, map);
 
-	@Test
-	public void testSimple() {
-		try {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("customersCode", "00002");
-			map.put("ShipmentName", "00002");
-			map.put("productType", "C909");
-			map.put("declaredValue", 100);
-			map.put("actualWeight", 2.0);
-			String expression = "(customersCode=='00001'||customersCode=='00002')&&(ShipmentName=='00002')&&productType=='C909'"
-					+ "&&!(declaredValue>=200&&declaredValue<=400)&&(actualWeight>=1.0&&actualWeight<=3.0)";
-			execute(expression, map);
-			
-			Map<String, Object> map2 = new HashMap<String, Object>();
+            Map<String, Object> map2 = new HashMap<String, Object>();
             map2.put("GW", 12.356);
             map2.put("VW", 10.124);
             map2.put("R", 0);
             String expression2 = "GW-VW>=R?GW:VW";
             execute(expression2, map2);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /** 调用内置函数 */
     @Test
     public void testInFunction() {
@@ -121,9 +121,8 @@ public class AviatorTest {
         // 正弦函数
         execute("math.sin(20)");
     }
-    
-    
-    /**自定义求和*/
+
+    /** 自定义求和 */
     class MySumFunction extends AbstractFunction {
         @Override
         public AviatorObject call(Map<String, Object> env, AviatorObject a, AviatorObject b, AviatorObject c) {
@@ -132,29 +131,30 @@ public class AviatorTest {
             Number numC = FunctionUtils.getNumberValue(c, env);
             return new AviatorDouble(numA.doubleValue() + numB.doubleValue() + numC.doubleValue());
         }
-        /**方法名*/
+
+        /** 方法名 */
         @Override
         public String getName() {
             return "sum";
         }
     }
 
-    /**调用自定义函数*/
+    /** 调用自定义函数 */
     @Test
     public void testCustomFunction() {
-        //注册函数  
-        AviatorEvaluator.addFunction(new MySumFunction()); 
-        String expression = "sum(a,b,c)";  
-        Map<String, Object> params = new HashMap<>();  
-        params.put("a", 1);  
-        params.put("b", 2);  
-        params.put("c", 3);  
-        execute(expression, params);  
-        execute("sum(1, 2, 3)");  
-        execute("sum(sum(1, 2, 3), 2, 3)");  
+        // 注册函数
+        AviatorEvaluator.addFunction(new MySumFunction());
+        String expression = "sum(a,b,c)";
+        Map<String, Object> params = new HashMap<>();
+        params.put("a", 1);
+        params.put("b", 2);
+        params.put("c", 3);
+        execute(expression, params);
+        execute("sum(1, 2, 3)");
+        execute("sum(sum(1, 2, 3), 2, 3)");
     }
-	
-    /**数组和集合*/
+
+    /** 数组和集合 */
     @Test
     public void testArraysAndCollections() {
         final List<String> list = new ArrayList<String>();
@@ -164,18 +164,18 @@ public class AviatorTest {
         array[0] = 0;
         array[1] = 1;
         array[2] = 3;
-        final Map<String, Date> map = new HashMap<String, Date>();
+        final Map<String, Date> map = new HashMap<String, Date>(16);
         map.put("date", new Date());
-        Map<String, Object> env = new HashMap<String, Object>();
+        Map<String, Object> env = new HashMap<String, Object>(16);
         env.put("list", list);
         env.put("array", array);
         env.put("mmap", map);
-        AviatorTest.user user = new AviatorTest.user();
+        AviatorTest.User user = new AviatorTest.User();
         user.setId(2);
         env.put("user", user);
         execute("list[0]+list[1]", env);
         execute("'array[0]+array[1]+array[2]=' + (array[0]+array[1]+array[2])", env);
         execute("'today is ' + mmap.date +'aviatorTest.user.id'+user", env);
     }
-    
+
 }

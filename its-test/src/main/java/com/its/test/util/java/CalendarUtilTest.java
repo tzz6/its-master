@@ -8,7 +8,10 @@ import org.junit.Test;
 
 import com.its.common.utils.java.CalendarUtil;
 
-
+/**
+ * 
+ * @author tzz
+ */
 public class CalendarUtilTest {
 	
 	@Test
@@ -48,11 +51,13 @@ public class CalendarUtilTest {
 			System.out.println("最近7天" + df2.format(cal.getTime()));
 			Calendar ca2 = Calendar.getInstance();
 			// 最近N个月
-			ca2.add(Calendar.MONTH, -1);// 最近一个月
+			// 最近一个月
+			ca2.add(Calendar.MONTH, -1);
 			System.out.println("最近一个月" + df2.format(ca2.getTime()));
 			Calendar ca3 = Calendar.getInstance();
 			// 最近N个年
-			ca3.add(Calendar.YEAR, -1);// 最近一年
+			// 最近一年
+			ca3.add(Calendar.YEAR, -1);
 			System.out.println("最近一年" + df2.format(ca3.getTime()));
 		} catch (Exception e) {
 			e.printStackTrace();

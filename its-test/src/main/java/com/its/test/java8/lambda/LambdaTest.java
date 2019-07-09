@@ -47,7 +47,7 @@ public class LambdaTest {
     /** 遍历集合 */
     @Test
     public void testForEach() {
-        Map<String, Integer> items = new HashMap<>();
+        Map<String, Integer> items = new HashMap<>(16);
         items.put("A", 10);
         items.put("B", 20);
         items.put("C", 30);
@@ -58,13 +58,15 @@ public class LambdaTest {
         items.forEach((k, v) -> System.out.println("Item : " + k + " Count : " + v));
         items.forEach((k, v) -> {
             System.out.println("Item : " + k + " Count : " + v);
-            if ("E".equals(k)) {
+            String key="E";
+            if (key.equals(k)) {
                 System.out.println("Hello E");
             }
         });
 
         List<User> list = new ArrayList<User>();
-        for (int i = 0; i < 3; i++) {
+        int end = 3;
+        for (int i = 0; i < end; i++) {
             User user = new User();
             user.setName("t" + i);
             user.setAge(18 + i / 3);
@@ -86,7 +88,8 @@ public class LambdaTest {
     @Test
     public void testSort() {
         List<User> list = new ArrayList<User>();
-        for (int i = 0; i < 60; i++) {
+        int end = 60;
+        for (int i = 0; i < end; i++) {
             User user = new User();
             user.setName("t" + i);
             user.setAge(18 + i / 3);
@@ -141,16 +144,19 @@ public class LambdaTest {
         new Thread(() -> System.out.println("In Java8!")).start();
 
         List<String> list = Arrays.asList("I", "love", "you", "too");
-        Collections.sort(list, new Comparator<String>() {// 接口名
+        // 接口名
+        Collections.sort(list, new Comparator<String>() {
             @Override
-            public int compare(String s1, String s2) {// 方法名
+            // 方法名
+            public int compare(String s1, String s2) {
                 return s1.length() - s2.length();
             }
         });
 
         // 非Lambda表达式写法
         List<String> list2 = Arrays.asList("I", "love", "you", "too");
-        Collections.sort(list2, (s1, s2) -> {// 省略参数表的类型
+        // 省略参数表的类型
+        Collections.sort(list2, (s1, s2) -> {
             return s1.length() - s2.length();
         });
 

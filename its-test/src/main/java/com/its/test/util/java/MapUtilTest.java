@@ -12,11 +12,15 @@ import org.junit.Test;
 
 import com.its.common.utils.java.MapUtil;
 
+/**
+ * 
+ * @author tzz
+ */
 public class MapUtilTest {
 
 	@Test
 	public void test() {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>(16);
 		map.put("map1", "1");
 		map.put("map2", "2");
 		map.put("map3", "3");
@@ -48,19 +52,19 @@ public class MapUtilTest {
 	}
 
 	class PkgCount {
-		private List<Pkg> Pkg;
+		private List<Pkg> pkg;
 		private int count;
 		private int index;
 
 		public List<Pkg> getPkg() {
-			return Pkg;
-		}
+            return pkg;
+        }
 
-		public void setPkg(List<Pkg> pkg) {
-			Pkg = pkg;
-		}
+        public void setPkg(List<Pkg> pkg) {
+            this.pkg = pkg;
+        }
 
-		public int getCount() {
+        public int getCount() {
 			return count;
 		}
 
@@ -98,6 +102,7 @@ public class MapUtilTest {
 		}
 		// 2.按货号升序排序
 		Collections.sort(pkgList, new Comparator() {
+		    @Override
 			public int compare(Object arg0, Object arg1) {
 				MapUtilTest.Pkg p1 = (MapUtilTest.Pkg) arg0;
 				MapUtilTest.Pkg p2 = (MapUtilTest.Pkg) arg1;
@@ -109,7 +114,7 @@ public class MapUtilTest {
 		}
 		// 3.统计合箱包裹数
 		// 3.1.使用map放置统计合箱包裹数
-		Map<Integer, List<MapUtilTest.Pkg>> pkgCountMap = new HashMap<Integer, List<MapUtilTest.Pkg>>();
+		Map<Integer, List<MapUtilTest.Pkg>> pkgCountMap = new HashMap<Integer, List<MapUtilTest.Pkg>>(16);
 		for (Pkg pkg : pkgList) {
 			List<MapUtilTest.Pkg> list = null;
 			Integer index = pkg.getIndex();
@@ -138,6 +143,7 @@ public class MapUtilTest {
 
 		// 4.对统计合箱包裹数按合箱包裹数升序排序
 		Collections.sort(pkgCountList, new Comparator() {
+		    @Override
 			public int compare(Object arg0, Object arg1) {
 				PkgCount p1 = (PkgCount) arg0;
 				PkgCount p2 = (PkgCount) arg1;
@@ -155,9 +161,12 @@ public class MapUtilTest {
 	}
 
 	private void printPdf(int pageNum, List<MapUtilTest.PkgCount> pkgCountList) {
-		int pageIndex = 0;//List下标计数器
-		int pageCount = 0;//包裹计数器
-		boolean printFlag = false;//是否打印标识
+	    //List下标计数器
+		int pageIndex = 0;
+		//包裹计数器
+		int pageCount = 0;
+		//是否打印标识
+		boolean printFlag = false;
 		List<PkgCount> printPkgCountList = new ArrayList<PkgCount>();
 		int pkgCountListSize = pkgCountList.size();
 		for (int i = 0; i < pkgCountListSize; i++) {
@@ -166,7 +175,8 @@ public class MapUtilTest {
 			printPkgCountList.add(pkgCount);
 			pageCount = pageCount + pkgCount.getCount();
 
-			if (i == pkgCountListSize - 1) {// 最后一条数据
+			// 最后一条数据
+			if (i == pkgCountListSize - 1) {
 				//计数至最后一条数据，直接生成PDF打印,会同时打印两页
 //				printFlag = true;
 //				pageIndex = i;
@@ -206,7 +216,7 @@ public class MapUtilTest {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void test3() {
-		Map<Integer, Integer> map = new HashMap<Integer,Integer>();
+		Map<Integer, Integer> map = new HashMap<Integer,Integer>(16);
 		map.put(11, 4);
 		map.put(6, 5);
 		map.put(3, 7);
@@ -228,6 +238,7 @@ public class MapUtilTest {
 			pkgCountList.add(pkgCount);
 		}
 		Collections.sort(pkgCountList, new Comparator() {
+		    @Override
 			public int compare(Object arg0, Object arg1) {
 				PkgCount p1 = (PkgCount) arg0;
 				PkgCount p2 = (PkgCount) arg1;

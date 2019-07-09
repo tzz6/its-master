@@ -14,8 +14,11 @@ import org.junit.Test;
 
 import com.its.model.dao.domain.User;
 
-
-public class VelocityUtil {
+/**
+ * 
+ * @author tzz
+ */
+public class VelocityUtilTest {
 
 	@Test
 	public void generate() {

@@ -25,6 +25,7 @@ import net.sf.json.xml.XMLSerializer;
  * json-lib-version: json-lib-2.3-jdk15.jar 依赖包: commons-beanutils.jar
  * commons-collections-3.2.jar ezmorph-1.0.3.jar commons-lang.jar 
  * commons-logging.jar
+ * @author tzz
  */
 public class JsonlibTest {
 	private JSONArray jsonArray = null;
@@ -66,13 +67,16 @@ public class JsonlibTest {
 		System.out.println(string);
 	}
 
-	// Java对象转JSON
+	/** Java对象转JSON */
 	@Test
 	public void testObject2JSON() {
 		// Java Bean对象转JSON
-		print(JSONObject.fromObject(bean).toString());// Java Bean >>> JSON Object
-		print(JSONArray.fromObject(bean).toString());// Java Bean >>> JSON Array,array会在最外层套上[]
-		print(JSONSerializer.toJSON(bean).toString());// Java Bean >>> JSON  Object
+	    // Java Bean >>> JSON Object
+		print(JSONObject.fromObject(bean).toString());
+		// Java Bean >>> JSON Array,array会在最外层套上[]
+		print(JSONArray.fromObject(bean).toString());
+		// Java Bean >>> JSON  Object
+		print(JSONSerializer.toJSON(bean).toString());
 
 		// 转换Java List集合到JSON
 		// 如果你是转换List集合，一定得用JSONArray或是JSONSrializer提供的序列化方法。如果你用JSONObject.fromObject方法转换List会出现异常，
@@ -85,81 +89,92 @@ public class JsonlibTest {
 		print(JSONArray.fromObject(list).toString());
 		print(JSONSerializer.toJSON(list).toString());
 
-		// Map对象转JSON
-		// Map集合有JavaBean、String、Boolean、Integer、以及Array和js的function函数的字符串。
-		print("*************************Java Map >>> JSON*******************************");
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("A", bean);
-		bean.setName("jack");
-		map.put("B", bean);
-		map.put("name", "json");
-		map.put("bool", Boolean.TRUE);
-		map.put("int", new Integer(1));
-		map.put("arr", new String[] { "a", "b" });
-		map.put("func", "function(i){ return this.arr[i]; }");
-		print(JSONObject.fromObject(map).toString());// Java Map >>> JSON Object
-		print(JSONArray.fromObject(map).toString());// Java Map >>> JSON Array
-		print(JSONSerializer.toJSON(map).toString());// Java Map >>> JSON Object
-
-		// 将更多类型转换成JSON
-		// 这里还有一个JSONFunction的对象，可以转换JavaScript的function。可以获取方法参数和方法体。同时，还可以用JSONObject、JSONArray构建Java对象，完成Java对象到JSON字符串的转换。
-		String[] sa = { "a", "b", "c" };
-		print("==============Java StringArray >>> JSON Array ==================");
-		print(JSONArray.fromObject(sa).toString());
-		print(JSONSerializer.toJSON(sa).toString());
-		Object[] o = { 1, "a", true, 'A', sa };
-		print("==============Java Object Array >>> JSON Array ==================");
-		print(JSONArray.fromObject(o).toString());
-		print(JSONSerializer.toJSON(o).toString());
-		print("==============Java String >>> JSON ==================");
-		print(JSONArray.fromObject("['json','is','easy']").toString());
-		print(JSONObject.fromObject("{'json':'is easy'}").toString());
-		print(JSONSerializer.toJSON("['json','is','easy']").toString());
-		print("==============Java JSONObject >>> JSON ==================");
-		jsonObject = new JSONObject().element("string", "JSON").element("integer", "1").element("double", "2.0")
-				.element("boolean", "true");
-		print(JSONSerializer.toJSON(jsonObject).toString());
-
-		print("==============Java JSONArray >>> JSON ==================");
-		jsonArray = new JSONArray().element("JSON").element("1").element("2.0").element("true");
-		print(JSONSerializer.toJSON(jsonArray).toString());
-
-		print("==============Java JSONArray JsonConfig#setArrayMode >>> JSON ==================");
-		List<String> input = new ArrayList<>();
-		input.add("JSON");
-		input.add("1");
-		input.add("2.0");
-		input.add("true");
-		JSONArray jsonArray = (JSONArray) JSONSerializer.toJSON(input);
-		JsonConfig jsonConfig = new JsonConfig();
-		jsonConfig.setArrayMode(JsonConfig.MODE_OBJECT_ARRAY);
-		Object[] output = (Object[]) JSONSerializer.toJava(jsonArray, jsonConfig);
-		System.out.println(output[0]);
-
-		print("==============Java JSONFunction >>> JSON ==================");
-		String str = "{'func': function( param ){ doSomethingWithParam(param); }}";
-		JSONObject jsonObject = (JSONObject) JSONSerializer.toJSON(str);
-		JSONFunction func = (JSONFunction) jsonObject.get("func");
-		print(func.getParams()[0]);
-		print(func.getText());
-
+	}
+	
+	@Test
+	public void testObject2JSON2() {
+	   
+	    // Map对象转JSON
+	    // Map集合有JavaBean、String、Boolean、Integer、以及Array和js的function函数的字符串。
+	    print("*************************Java Map >>> JSON*******************************");
+	    Map<String, Object> map = new HashMap<String, Object>(16);
+	    map.put("A", bean);
+	    bean.setName("jack");
+	    map.put("B", bean);
+	    map.put("name", "json");
+	    map.put("bool", Boolean.TRUE);
+	    map.put("int", new Integer(1));
+	    map.put("arr", new String[] { "a", "b" });
+	    map.put("func", "function(i){ return this.arr[i]; }");
+	    // Java Map >>> JSON Object
+	    print(JSONObject.fromObject(map).toString());
+	    // Java Map >>> JSON Array
+	    print(JSONArray.fromObject(map).toString());
+	    // Java Map >>> JSON Object
+	    print(JSONSerializer.toJSON(map).toString());
+	    
+	    // 将更多类型转换成JSON
+	    // 这里还有一个JSONFunction的对象，可以转换JavaScript的function。可以获取方法参数和方法体。同时，还可以用JSONObject、JSONArray构建Java对象，完成Java对象到JSON字符串的转换。
+	    String[] sa = { "a", "b", "c" };
+	    print("==============Java StringArray >>> JSON Array ==================");
+	    print(JSONArray.fromObject(sa).toString());
+	    print(JSONSerializer.toJSON(sa).toString());
+	    Object[] o = { 1, "a", true, 'A', sa };
+	    print("==============Java Object Array >>> JSON Array ==================");
+	    print(JSONArray.fromObject(o).toString());
+	    print(JSONSerializer.toJSON(o).toString());
+	    print("==============Java String >>> JSON ==================");
+	    print(JSONArray.fromObject("['json','is','easy']").toString());
+	    print(JSONObject.fromObject("{'json':'is easy'}").toString());
+	    print(JSONSerializer.toJSON("['json','is','easy']").toString());
+	    print("==============Java JSONObject >>> JSON ==================");
+	    jsonObject = new JSONObject().element("string", "JSON").element("integer", "1").element("double", "2.0")
+	        .element("boolean", "true");
+	    print(JSONSerializer.toJSON(jsonObject).toString());
+	    
+	    print("==============Java JSONArray >>> JSON ==================");
+	    jsonArray = new JSONArray().element("JSON").element("1").element("2.0").element("true");
+	    print(JSONSerializer.toJSON(jsonArray).toString());
+	    
+	    print("==============Java JSONArray JsonConfig#setArrayMode >>> JSON ==================");
+	    List<String> input = new ArrayList<>();
+	    input.add("JSON");
+	    input.add("1");
+	    input.add("2.0");
+	    input.add("true");
+	    JSONArray jsonArray = (JSONArray) JSONSerializer.toJSON(input);
+	    JsonConfig jsonConfig = new JsonConfig();
+	    jsonConfig.setArrayMode(JsonConfig.MODE_OBJECT_ARRAY);
+	    Object[] output = (Object[]) JSONSerializer.toJava(jsonArray, jsonConfig);
+	    System.out.println(output[0]);
+	    
+	    print("==============Java JSONFunction >>> JSON ==================");
+	    String str = "{'func': function( param ){ doSomethingWithParam(param); }}";
+	    JSONObject jsonObject = (JSONObject) JSONSerializer.toJSON(str);
+	    JSONFunction func = (JSONFunction) jsonObject.get("func");
+	    print(func.getParams()[0]);
+	    print(func.getText());
+	    
 	}
 
-	// 注意的是使用了JsonConfig这个对象，这个对象可以在序列化的时候对JavaObject的数据进行处理、过滤等
-	// 上面的jsonConfig的registerJsonValueProcessor方法可以完成对象值的处理和修改，比如处理生日为null时，给一个特定的值。
-	// 同样setJsonPropertyFilter和setJavaPropertyFilter都是完成对转换后的值的处理。
+    /**
+     * 注意的是使用了JsonConfig这个对象，这个对象可以在序列化的时候对JavaObject的数据进行处理、过滤等 <br>
+     * 上面的jsonConfig的registerJsonValueProcessor方法可以完成对象值的处理和修改，比如处理生日为null时，给一个特定的值。 <br>
+     * 同样setJsonPropertyFilter和setJavaPropertyFilter都是完成对转换后的值的处理。
+     */
 	@Test
 	public void test2JSONJsonConfig() {
 		print("========================JsonConfig========================");
 		JsonConfig jsonConfig = new JsonConfig();
 		jsonConfig.registerJsonValueProcessor(Department.class, new JsonValueProcessor() {
+		    @Override
 			public Object processArrayValue(Object value, JsonConfig jsonConfig) {
 				if (value == null) {
 					return new Date();
 				}
 				return value;
 			}
-
+		    @Override
 			public Object processObjectValue(String key, Object value, JsonConfig jsonConfig) {
 				print("key:" + key);
 				return value + "##修改过的日期";
@@ -175,6 +190,7 @@ public class JsonlibTest {
 
 		print("#####################JsonPropertyFilter############################");
 		jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
+		    @Override
 			public boolean apply(Object source, String name, Object value) {
 				print(source + "%%%" + name + "--" + value);
 				// 忽略birthday属性
@@ -188,9 +204,12 @@ public class JsonlibTest {
 		print("#################JavaPropertyFilter##################");
 		jsonConfig.setRootClass(User.class);
 		jsonConfig.setJavaPropertyFilter(new PropertyFilter() {
+		    @Override
 			public boolean apply(Object source, String name, Object value) {
 				print(name + "@" + value + "#" + source);
-				if ("id".equals(name) || "email".equals(name)) {
+				String id = "id";
+				String email = "email";
+				if (id.equals(name) || email.equals(name)) {
 					value = name + "@@";
 					return true;
 				}
@@ -204,7 +223,7 @@ public class JsonlibTest {
 		print("Student:" + student.toString());
 	}
 
-	// Json字符串转成Java对象
+	/** Json字符串转成Java对象 */
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Test
 	public void testJSON2Object() {
@@ -234,14 +253,15 @@ public class JsonlibTest {
 			System.out.println(listBean.get(0).getName());
 			print("************************Json转Map********************************");
 			// Json转Map
-			Map<String, User> maps = new HashMap<>();
+			Map<String, User> maps = new HashMap<>(16);
 			maps.put("user1", user);
 			maps.put("user2", user);
 			String mapJson = JSONObject.fromObject(maps).toString();
 			print(mapJson);
 			jsonObject = JSONObject.fromObject(mapJson);
 
-			Map<String, Class<?>> clazzMap = new HashMap<String, Class<?>>();// JSON字符串不能直接转化为map对象，要想取得map中的键对应的值需要别的方式，
+			// JSON字符串不能直接转化为map对象，要想取得map中的键对应的值需要别的方式，
+			Map<String, Class<?>> clazzMap = new HashMap<String, Class<?>>(64);
 			clazzMap.put("user1", User.class);
 			clazzMap.put("user2", User.class);
 			Map<String, User> jsonToMap = (Map<String, User>) JSONObject.toBean(jsonObject, Map.class, clazzMap);
@@ -251,10 +271,12 @@ public class JsonlibTest {
 		}
 	}
 
-	// Java对象转XML
-	// 主要运用的是XMLSerializer的write方法，这个方法可以完成java对象到xml的转换，不过你很容易就可以看到这个xml序列化对象，
-	// 需要先将java对象转成json对象，然后再将json转换吃xml文档。
-	@Test
+    /**
+     * Java对象转XML <br>
+     * 主要运用的是XMLSerializer的write方法，这个方法可以完成java对象到xml的转换，不过你很容易就可以看到这个xml序列化对象， <br>
+     * 需要先将java对象转成json对象，然后再将json转换吃xml文档。
+     */
+    @Test
 	public void testObject2XML() {
 		XMLSerializer xmlSerializer = new XMLSerializer();
 		xmlSerializer.setTypeHintsEnabled(false);
@@ -276,7 +298,7 @@ public class JsonlibTest {
 		print(xmlSerializer.write(JSONSerializer.toJSON("['json','is','easy']")).toString());
 	}
 
-	// XML转Java对象
+	/** XML转Java对象 */
 	@Test
 	public void testXML2Object() {
 		XMLSerializer xmlSerializer = new XMLSerializer();

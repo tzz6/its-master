@@ -4,7 +4,10 @@ import org.junit.Test;
 
 import com.its.common.utils.json.JacksonUtil;
 import com.its.model.dao.domain.User;
-
+/**
+ * 
+ * @author tzz
+ */
 public class JacksonUtilTest {
 
 	@Test
@@ -14,10 +17,12 @@ public class JacksonUtilTest {
 			us.setId(123L);
 			us.setName("aa");
 			us.setPassword("cc");
-			String json = JacksonUtil.nonDefaultMapper().toJson(us);//bean转Json
+			//bean转Json
+			String json = JacksonUtil.nonDefaultMapper().toJson(us);
 			System.out.println(json);
 			json = "{\"id\":123,\"name\":\"aa\",\"password\":\"cc\"}"; 
-			User u = JacksonUtil.nonDefaultMapper().fromJson(json, User.class);//Json转bean
+			//Json转bean
+			User u = JacksonUtil.nonDefaultMapper().fromJson(json, User.class);
 			System.out.println(u.getId());
 		} catch (Exception e) {
 			e.printStackTrace();

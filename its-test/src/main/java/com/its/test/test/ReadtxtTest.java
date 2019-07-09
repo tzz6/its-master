@@ -12,9 +12,13 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-public class Readtxt {
+/**
+ * 
+ * @author tzz
+ */
+public class ReadtxtTest {
 
-	private static Logger logger = Logger.getLogger(Readtxt.class);
+	private static Logger logger = Logger.getLogger(ReadtxtTest.class);
 	
 	public static void main(String[] args) {
 		try {
@@ -55,7 +59,8 @@ public class Readtxt {
 	@Test
 	public void test1() {
 		List<String> list = new ArrayList<>();
-		for (int i = 1; i < 15; i++) {
+		int end = 15;
+		for (int i = 1; i < end; i++) {
 			list.add("test" + i);
 		}
 		for (String str : list) {
@@ -73,7 +78,8 @@ public class Readtxt {
 	public int test1F(String str) {
 		int flag = 1;
 		try {
-			if (str.contains("0")) {
+		    String s = "0";
+			if (str.contains(s)) {
 				System.out.println(1 / 0);
 			}
 			System.out.println(str);
@@ -86,17 +92,20 @@ public class Readtxt {
 		return flag;
 	}
 	
-//	finally块的语句在try或catch中的return语句执行之后返回之前执行且finally里的修改语句不能影响try或catch中 return已经确定的返回值，
-//	若finally里也有return语句则覆盖try或catch中的return语句直接返回。
-	@Test
-	public void test2() {
-	int result = test2F("test20");
-	System.out.println(result);
-	}
+    /**
+     * finally块的语句在try或catch中的return语句执行之后返回之前执行且finally里的修改语句不能影响try或catch中 return已经确定的返回值， <br>
+     * 若finally里也有return语句则覆盖try或catch中的return语句直接返回。
+     */
+    @Test
+    public void test2() {
+        int result = test2F("test20");
+        System.out.println(result);
+    }
 	
 	public int test2F(String str) {
 		try {
-			if (str.contains("0")) {
+		    String s = "0";
+			if (str.contains(s)) {
 				System.out.println(1 / 0);
 			}
 			System.out.println(str);

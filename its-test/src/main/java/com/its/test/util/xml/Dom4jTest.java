@@ -41,6 +41,10 @@ class User {
 
 }
 
+/**
+ * 
+ * @author tzz
+ */
 public class Dom4jTest<T> {
 	
 	/**
@@ -50,27 +54,37 @@ public class Dom4jTest<T> {
 	 * @param Encode XML自定义编码类型(推荐使用GBK)
 	 * @param XMLPathAndName  XML文件的路径及文件名
 	 */
-	public void object2Xml(T obj, List<T> entityPropertys, String Encode, String XMLPathAndName) {
+	public void object2Xml(T obj, List<T> entityPropertys, String encode, String xmlPathAndName) {
 		try {
-			long lasting = System.currentTimeMillis();// 效率检测
-			XMLWriter writer = null;// 声明写XML的对象
+		    // 效率检测
+			long lasting = System.currentTimeMillis();
+			// 声明写XML的对象
+			XMLWriter writer = null;
 			OutputFormat format = OutputFormat.createPrettyPrint();
-			format.setEncoding(Encode);// 设置XML文件的编码格式
+			// 设置XML文件的编码格式
+			format.setEncoding(encode);
 
-			String filePath = XMLPathAndName;// 获得文件地址
-			File file = new File(filePath);// 获得文件
+			// 获得文件地址
+			String filePath = xmlPathAndName;
+			// 获得文件
+			File file = new File(filePath);
 
 			if (file.exists()) {
 				file.delete();
 			}
 			// 新建user.xml文件并新增内容
 			Document document = DocumentHelper.createDocument();
-			String rootname = obj.getClass().getSimpleName();// 获得类名
-			Element root = document.addElement(rootname + "s");// 添加根节点
-			Field[] properties = obj.getClass().getDeclaredFields();// 获得实体类的所有属性
+			// 获得类名
+			String rootname = obj.getClass().getSimpleName();
+			// 添加根节点
+			Element root = document.addElement(rootname + "s");
+			// 获得实体类的所有属性
+			Field[] properties = obj.getClass().getDeclaredFields();
 
-			for (T t : entityPropertys) { // 递归实体
-				Element secondRoot = root.addElement(rootname); // 二级节点
+			for (T t : entityPropertys) { 
+			    // 递归实体
+			    // 二级节点
+				Element secondRoot = root.addElement(rootname); 
 				for (Field field : properties) {
 					// 反射get方法
 					String getStr = "get" + field.getName().substring(0, 1).toUpperCase()
@@ -100,24 +114,34 @@ public class Dom4jTest<T> {
 	 * @return
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<T> xml2Object(String XMLPathAndName, T t) {
-		long lasting = System.currentTimeMillis();// 效率检测
-		List<T> list = new ArrayList<T>();// 创建list集合
+	public List<T> xml2Object(String xmlPathAndName, T t) {
+	    // 效率检测
+		long lasting = System.currentTimeMillis();
+		// 创建list集合
+		List<T> list = new ArrayList<T>();
 		try {
-			File f = new File(XMLPathAndName);// 读取文件
+		    // 读取文件
+			File f = new File(xmlPathAndName);
 			SAXReader reader = new SAXReader();
-			Document doc = reader.read(f);// dom4j读取
-			Element root = doc.getRootElement();// 获得根节点
-			Element foo;// 二级节点
-			Field[] properties = t.getClass().getDeclaredFields();// 获得实例的属性
+			// dom4j读取
+			Document doc = reader.read(f);
+			// 获得根节点
+			Element root = doc.getRootElement();
+			// 二级节点
+			Element foo;
+			// 获得实例的属性
+			Field[] properties = t.getClass().getDeclaredFields();
 			// 实例的set方法
 			Method setmeth;
 			// 遍历 t.getClass().getSimpleName()节点
 			for (Iterator i = root.elementIterator(t.getClass().getSimpleName()); i.hasNext();) {
-				foo = (Element) i.next();// 下一个二级节点
-				t = (T) t.getClass().newInstance();// 获得对象的新的实例
+			    // 下一个二级节点
+				foo = (Element) i.next();
+				// 获得对象的新的实例
+				t = (T) t.getClass().newInstance();
 
-				for (Field field : properties) {// 遍历所有节点
+				// 遍历所有节点
+				for (Field field : properties) {
 
 					// 实例的set方法
 					String setStr = "set" + field.getName().substring(0, 1).toUpperCase()

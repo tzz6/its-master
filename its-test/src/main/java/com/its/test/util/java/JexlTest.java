@@ -11,12 +11,13 @@ import org.junit.Test;
 
 /***
  * Java Expression Language (JEXL) <br>
- * Java表达式语言  
- *
+ * Java表达式语言
+ * 
+ * @author tzz
  */
 public class JexlTest {
 
-	class user {
+	class User {
 		private Integer id;
 		private String name;
 
@@ -38,7 +39,7 @@ public class JexlTest {
 	}
 
 	/** 自定义条件表达式方法-数据打印 */
-	public String printUser(JexlTest.user user) {
+	public String printUser(JexlTest.User user) {
 		String str = user.getId() + "----" + user.getName();
 		System.out.println(str);
 		return str;
@@ -122,7 +123,7 @@ public class JexlTest {
 	public void test3() {
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
-			JexlTest.user user = new JexlTest.user();
+			JexlTest.User user = new JexlTest.User();
 			user.setId(1);
 			user.setName("T");
 			JexlTest jexlTest = new JexlTest();

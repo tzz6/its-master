@@ -13,6 +13,10 @@ import com.google.gson.reflect.TypeToken;
 import com.its.test.util.json.entity.Role;
 import com.its.test.util.json.entity.User;
 
+/**
+ * 
+ * @author tzz
+ */
 public class GsonTest {
 	private User bean = null;
 
@@ -62,7 +66,7 @@ public class GsonTest {
 		print(gson.toJson(list));
 		// Map对象转JSON
 		print("*************************Java Map >>> JSON*******************************");
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>(16);
 		map.put("A", bean);
 		bean.setName("jack");
 		map.put("B", bean);
@@ -74,7 +78,7 @@ public class GsonTest {
 		print(gson.toJson(map));
 	}
 
-	// Json字符串转成Java对象
+	/** Json字符串转成Java对象*/
 	@Test
 	public void testJSON2Object() {
 		Gson gson = new Gson();
@@ -94,7 +98,7 @@ public class GsonTest {
 		print(userList.get(0).getName());
 		print("************************Json转Map********************************");
 		// Json转Map 
-		Map<String, User> maps = new HashMap<>();
+		Map<String, User> maps = new HashMap<>(16);
 		maps.put("user1", user);
 		maps.put("user2", user);
 		Map<String, User> userMaps = gson.fromJson(gson.toJson(maps),new TypeToken<Map<String, User>>() {}.getType());

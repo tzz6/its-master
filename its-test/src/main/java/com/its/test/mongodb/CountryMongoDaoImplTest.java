@@ -17,7 +17,10 @@ import com.its.core.mongodb.dao.impl.CountryMongoDaoImpl;
 import com.its.model.mongodb.dao.domain.City;
 import com.its.model.mongodb.dao.domain.Country;
 
-
+/**
+ * 
+ * @author tzz
+ */
 public class CountryMongoDaoImplTest {
 
 	private static CountryMongoDaoImpl countryMongoDao = null;
@@ -43,7 +46,8 @@ public class CountryMongoDaoImplTest {
 
 	@Test
 	public void insert() {
-		for (int i = 0; i < 10; i++) {
+	    int end = 10;
+		for (int i = 0; i < end; i++) {
 			Country country = new Country();
 			country.setId(i);
 			country.setName("cn-" + i);
@@ -66,7 +70,7 @@ public class CountryMongoDaoImplTest {
 
 	@Test
 	public void findOne() {
-		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<String, Object>(16);
 		params.put("id", 0);
 		params.put("name", "cn-0");
 		Query query = new Query(Criteria.where("id").is(params.get("id")).and("name").is(params.get("name")));
@@ -97,7 +101,7 @@ public class CountryMongoDaoImplTest {
 
 	@Test
 	public void update() {
-		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<String, Object>(16);
 		params.put("id", 2);
 		params.put("name", "update-02");
 		params.put("enName", "en-update-02");
@@ -111,7 +115,8 @@ public class CountryMongoDaoImplTest {
 	@Test
 	public void remove() {
 		List<Integer> list = new ArrayList<Integer>();
-		for (int i = 0; i < 10; i++) {
+		int end = 10;
+		for (int i = 0; i < end; i++) {
 			list.add(i);
 		}
 		Query query = new Query(Criteria.where("id").in(list));

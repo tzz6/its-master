@@ -7,14 +7,17 @@ import org.junit.Test;
 
 import com.its.web.common.freemarker.HtmlGenerator;
 
-
+/**
+ * 
+ * @author tzz
+ */
 public class HtmlGeneratorTest {
 	
 	@Test
 	public void testGenerate(){
-		String path = "E:\\Eclipse\\4.6.0\\eclipse\\workspace\\its-master\\its-web\\src\\main\\webapp\\WEB-INF\\views\\freemarker\\";
+		String path = "D:\\Eclipse\\V4.10\\eclipse\\workspace\\its-master\\its-web\\src\\main\\webapp\\WEB-INF\\views\\freemarker";
 		String templateName = "pdf.html";
-		Map<String, Object> variables = new HashMap<String, Object>();
+		Map<String, Object> variables = new HashMap<String, Object>(128);
 		variables.put("username", "T001");
 		variables.put("testNo", "TESTNO001");
 		variables.put("password", "123456");

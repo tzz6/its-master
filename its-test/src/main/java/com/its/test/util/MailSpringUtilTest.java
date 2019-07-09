@@ -10,15 +10,16 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.its.web.util.MailSpringUtil;
 
-
-
-
+/**
+ * 
+ * @author tzz
+ */
 public class MailSpringUtilTest {
 
 	private ApplicationContext ac;
 	
 	@Before
-	public void InitBinder(){
+	public void initBinder(){
 		ac = new ClassPathXmlApplicationContext("spring-mail.xml");
 	}
 

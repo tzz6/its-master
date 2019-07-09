@@ -3,7 +3,10 @@ package com.its.test.queue;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
 
-
+/**
+ * 
+ * @author tzz
+ */
 public class OrderDelay implements Delayed {
     
     private String orderId;
@@ -14,16 +17,19 @@ public class OrderDelay implements Delayed {
         this.timeout = timeout + System.nanoTime();
     }
 
+    @Override
     public int compareTo(Delayed other) {
-        if (other == this)
+        if (other == this) {
             return 0;
+        }
         OrderDelay t = (OrderDelay) other;
         long d = (getDelay(TimeUnit.NANOSECONDS) - t
                 .getDelay(TimeUnit.NANOSECONDS));
         return (d == 0) ? 0 : ((d < 0) ? -1 : 1);
     }
 
-    // 返回距离你自定义的超时时间还有多少
+    /** 返回距离你自定义的超时时间还有多少 */
+    @Override
     public long getDelay(TimeUnit unit) {
         return unit.convert(timeout - System.nanoTime(), TimeUnit.NANOSECONDS);
     }

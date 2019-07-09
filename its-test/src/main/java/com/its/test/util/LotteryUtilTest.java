@@ -15,7 +15,8 @@ public class LotteryUtilTest {
 	public boolean isWinner(List<RewardEntry> rewardEntries) {
 		boolean isWinner = true;
 		for (RewardEntry rewardEntry : rewardEntries) {
-			if (rewardEntries.get(0).getName() != rewardEntry.getName()) {// 名称不全相同
+			if (rewardEntries.get(0).getName() != rewardEntry.getName()) {
+			    // 名称不全相同
 				return false;
 			}
 		}

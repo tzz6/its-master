@@ -1,7 +1,12 @@
 package com.its.test.java8.lambda.innerclass;
 
+/**
+ * 
+ * @author tzz
+ */
 public interface Dpartment {
 
-	public void sum(int[] target);
+    /** sum */
+    public void sum(int[] target);
 
 }

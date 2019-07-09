@@ -5,8 +5,12 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.transaction.annotation.Transactional;
 
 
+/**
+ * 
+ * @author tzz
+ */
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"}) 
-@Transactional 
+@Transactional(rollbackFor = Exception.class) 
 public abstract class BaseTest extends AbstractTransactionalJUnit4SpringContextTests  {
 
 }

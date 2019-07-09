@@ -7,12 +7,16 @@ import java.util.Properties;
 
 import org.junit.Test;
 
-public class TestProperties {
+/**
+ * 
+ * @author tzz
+ */
+public class PropertiesTest {
 
 	/**获取所有系统属性*/
 	@Test
 	public void getALLSystemProperties(){
-		Map<Object, Object> map = new HashMap<Object, Object>();
+		Map<Object, Object> map = new HashMap<Object, Object>(16);
 
         Properties properties = System.getProperties();
         Enumeration<Object> keys = properties.keys();
@@ -29,7 +33,8 @@ public class TestProperties {
 	/**获取具体的系统属性*/
 	@Test
 	public void getSystemProperties(){
-		Properties props=System.getProperties(); //系统属性
+	    //系统属性
+		Properties props=System.getProperties(); 
 	    System.out.println("Java的运行环境版本："+props.getProperty("java.version"));
 	    System.out.println("Java的运行环境供应商："+props.getProperty("java.vendor"));
 	    System.out.println("Java供应商的URL："+props.getProperty("java.vendor.url"));
@@ -51,9 +56,12 @@ public class TestProperties {
 	    System.out.println("操作系统的名称："+props.getProperty("os.name"));
 	    System.out.println("操作系统的构架："+props.getProperty("os.arch"));
 	    System.out.println("操作系统的版本："+props.getProperty("os.version"));
-	    System.out.println("文件分隔符："+props.getProperty("file.separator"));   //在 unix 系统中是＂／＂
-	    System.out.println("路径分隔符："+props.getProperty("path.separator"));   //在 unix 系统中是＂:＂
-	    System.out.println("行分隔符："+props.getProperty("line.separator"));   //在 unix 系统中是＂/n＂
+	    //在 unix 系统中是＂／＂
+	    System.out.println("文件分隔符："+props.getProperty("file.separator"));   
+	    //在 unix 系统中是＂:＂
+	    System.out.println("路径分隔符："+props.getProperty("path.separator"));   
+	    //在 unix 系统中是＂/n＂
+	    System.out.println("行分隔符："+props.getProperty("line.separator"));   
 	    System.out.println("用户的账户名称："+props.getProperty("user.name"));
 	    System.out.println("用户的主目录："+props.getProperty("user.home"));
 	    System.out.println("用户的当前工作目录："+props.getProperty("user.dir"));

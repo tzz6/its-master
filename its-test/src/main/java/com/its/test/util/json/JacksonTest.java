@@ -20,7 +20,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.its.test.util.json.entity.Role;
 import com.its.test.util.json.entity.User;
-
+/**
+ * 
+ * @author tzz
+ */
 public class JacksonTest {
 	private JsonGenerator jsonGenerator = null;
 	private ObjectMapper objectMapper = null;
@@ -89,68 +92,89 @@ public class JacksonTest {
 			bean.setName("jack");
 			list.add(bean);
 			print(objectMapper.writeValueAsString(list));
-			// Map对象转JSON
-			print("*************************Java Map >>> JSON*******************************");
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("A", bean);
-			bean.setName("jack");
-			map.put("B", bean);
-			map.put("name", "json");
-			map.put("bool", Boolean.TRUE);
-			map.put("int", new Integer(1));
-			map.put("arr", new String[] { "a", "b" });
-			map.put("func", "function(i){ return this.arr[i]; }");
-			print(objectMapper.writeValueAsString(map));
-			
-			print("*************************其他*******************************");
-			String[] arr = { "a", "b", "c" };
-			System.out.println("jsonGenerator");
-			String str = "hello world jackson!";
-			// byte
-			jsonGenerator.writeBinary(str.getBytes());
-			// boolean
-			jsonGenerator.writeBoolean(true);
-			// null
-			jsonGenerator.writeNull();
-			// float
-			jsonGenerator.writeNumber(2.2f);
-			// char
-			jsonGenerator.writeRaw("c");
-			// String
-			jsonGenerator.writeRaw(str, 5, 10);
-			// String
-			jsonGenerator.writeRawValue(str, 5, 5);
-			// String
-			jsonGenerator.writeString(str);
-			jsonGenerator.writeTree(JsonNodeFactory.instance.pojoNode(str));
-			System.out.println();
-
-			// Object
-			jsonGenerator.writeStartObject();// {
-			jsonGenerator.writeObjectFieldStart("user");// user:{
-			jsonGenerator.writeStringField("name", "jackson");// name:jackson
-			jsonGenerator.writeBooleanField("sex", true);// sex:true
-			jsonGenerator.writeNumberField("age", 22);// age:22
-			jsonGenerator.writeEndObject();// }
-
-			jsonGenerator.writeArrayFieldStart("infos");// infos:[
-			jsonGenerator.writeNumber(22);// 22
-			jsonGenerator.writeString("this is array");// this is array
-			jsonGenerator.writeEndArray();// ]
-
-			jsonGenerator.writeEndObject();// }
-
-			// complex Object
-			jsonGenerator.writeStartObject();// {
-			jsonGenerator.writeObjectField("user", bean);// user:{bean}
-			jsonGenerator.writeObjectField("infos", arr);// infos:[array]
-			jsonGenerator.writeEndObject();// }
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+	@Test
+	public void testObject2JSON2() {
+	    try {
+	        // Map对象转JSON
+	        print("*************************Java Map >>> JSON*******************************");
+	        Map<String, Object> map = new HashMap<String, Object>(16);
+	        map.put("A", bean);
+	        bean.setName("jack");
+	        map.put("B", bean);
+	        map.put("name", "json");
+	        map.put("bool", Boolean.TRUE);
+	        map.put("int", new Integer(1));
+	        map.put("arr", new String[] { "a", "b" });
+	        map.put("func", "function(i){ return this.arr[i]; }");
+	        print(objectMapper.writeValueAsString(map));
+	        
+	        print("*************************其他*******************************");
+	        String[] arr = { "a", "b", "c" };
+	        System.out.println("jsonGenerator");
+	        String str = "hello world jackson!";
+	        // byte
+	        jsonGenerator.writeBinary(str.getBytes());
+	        // boolean
+	        jsonGenerator.writeBoolean(true);
+	        // null
+	        jsonGenerator.writeNull();
+	        // float
+	        jsonGenerator.writeNumber(2.2f);
+	        // char
+	        jsonGenerator.writeRaw("c");
+	        // String
+	        jsonGenerator.writeRaw(str, 5, 10);
+	        // String
+	        jsonGenerator.writeRawValue(str, 5, 5);
+	        // String
+	        jsonGenerator.writeString(str);
+	        jsonGenerator.writeTree(JsonNodeFactory.instance.pojoNode(str));
+	        System.out.println();
+	        
+	        // Object
+	        jsonGenerator.writeStartObject();// {
+	        // user:{
+	        jsonGenerator.writeObjectFieldStart("user");
+	        // name:jackson
+	        jsonGenerator.writeStringField("name", "jackson");
+	        // sex:true
+	        jsonGenerator.writeBooleanField("sex", true);
+	        // age:22
+	        jsonGenerator.writeNumberField("age", 22);
+	        // }
+	        jsonGenerator.writeEndObject();
+	        
+	        // infos:[
+	        jsonGenerator.writeArrayFieldStart("infos");
+	        // 22
+	        jsonGenerator.writeNumber(22);
+	        // this is array
+	        jsonGenerator.writeString("this is array");
+	        // ]
+	        jsonGenerator.writeEndArray();
+	        
+	        // }
+	        jsonGenerator.writeEndObject();
+	        
+	        // complex Object
+	        // {
+	        jsonGenerator.writeStartObject();
+	        // user:{bean}
+	        jsonGenerator.writeObjectField("user", bean);
+	        // infos:[array]
+	        jsonGenerator.writeObjectField("infos", arr);
+	        // }
+	        jsonGenerator.writeEndObject();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
 
-	// Json字符串转成Java对象
+	/** Json字符串转成Java对象 */
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testJSON2Object() {
@@ -177,7 +201,7 @@ public class JacksonTest {
 	        }
 			print("************************Json转Map********************************");
 			// Json转Map
-			Map<String, User> maps = new HashMap<>();
+			Map<String, User> maps = new HashMap<>(16);
 			maps.put("user1", user);
 			maps.put("user2", user);
 			Map<String, Map<String, Object>> userMaps = objectMapper.readValue(objectMapper.writeValueAsString(maps), Map.class);

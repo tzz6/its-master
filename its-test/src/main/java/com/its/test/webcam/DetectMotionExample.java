@@ -22,7 +22,8 @@ public class DetectMotionExample extends JFrame implements Runnable {
 
 	private static final long serialVersionUID = -585739158170333370L;
 
-	private static final int INTERVAL = 100; // ms
+    /** ms */
+    private static final int INTERVAL = 100;
 
 	private ImageIcon motion = null;
 	private ImageIcon nothing = null;
@@ -30,7 +31,8 @@ public class DetectMotionExample extends JFrame implements Runnable {
 
 	private Webcam webcam = Webcam.getDefault();
 	private int threshold = 25;
-	private int inertia = 1000; // how long motion is valid
+	/** how long motion is valid */
+	private int inertia = 1000; 
 
 	public DetectMotionExample() {
 
