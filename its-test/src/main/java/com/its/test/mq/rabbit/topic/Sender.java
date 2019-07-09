@@ -6,7 +6,7 @@ import com.rabbitmq.client.Connection;
 
 /**
  * 生产者-topic模式
- *
+ * @author tzz
  */
 public class Sender {
 

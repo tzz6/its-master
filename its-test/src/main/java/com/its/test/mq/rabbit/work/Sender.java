@@ -6,7 +6,7 @@ import com.rabbitmq.client.Connection;
 
 /**
  * 生产者-work模式
- *
+ * @author tzz
  */
 public class Sender {
 	
@@ -32,7 +32,8 @@ public class Sender {
 		// 参数5：一些其他参数
 		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
 		// 发送内容
-		for (int i = 0; i < 100; i++) {
+		int end = 100;
+		for (int i = 0; i < end; i++) {
 			String message = "生产者--发送消息" + i;
 			Thread.sleep(10);
 			channel.basicPublish("", QUEUE_NAME, null, message.getBytes());

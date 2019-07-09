@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  * @Introduce: 自定义分区(DefaultPartitioner 默认分区)
  */
 public class KafkaCustomPartitioner implements Partitioner {
-    private static Logger logger = LoggerFactory.getLogger(ConsumerReceive.class);
+    private static Logger logger = LoggerFactory.getLogger(KafkaCustomPartitioner.class);
 
 	@Override
 	public void configure(Map<String, ?> configs) {

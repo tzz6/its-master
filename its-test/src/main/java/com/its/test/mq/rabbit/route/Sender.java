@@ -6,7 +6,7 @@ import com.rabbitmq.client.Connection;
 
 /**
  * 生产者-路由模式
- *
+ * @author tzz
  */
 public class Sender {
 
@@ -30,7 +30,8 @@ public class Sender {
 		Channel channel = connection.createChannel();
 		// 声明交换机，参数1：交换机名称，参数2:类型direct，也就是路由模式
 		channel.exchangeDeclare(EXCHANGE_NAME, EXCHANGE_TYPE);
-		for (int i = 0; i < 100; i++) {
+		int end = 100;
+		for (int i = 0; i < end; i++) {
 			// 生成routekey
 			int keyIndex = i % 3 + 1;
 			String message = "路由模式消息" + keyIndex + "--" + i;

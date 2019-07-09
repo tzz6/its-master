@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ProducerSend {
 
-    private static Logger logger = LoggerFactory.getLogger(ConsumerReceive.class);
+    private static Logger logger = LoggerFactory.getLogger(ProducerSend.class);
     private static String BOOTSTRAP_SERVERS = "10.203.15.50:9092,10.202.107.207:9092,10.202.107.115:9092";
 	public static void main(String[] args) throws InterruptedException {
 		Properties props = new Properties();

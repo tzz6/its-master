@@ -12,7 +12,7 @@ import com.rabbitmq.client.Envelope;
 
 /**
  * 消费者
- *
+ * @author tzz
  */
 public class Recver {
 

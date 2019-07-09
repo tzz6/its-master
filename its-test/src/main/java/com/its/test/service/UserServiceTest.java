@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.its.model.dao.domain.User;
 import com.its.service.UserService;
 import com.its.test.base.BaseTest;
-
+/**
+ * 
+ * @author tzz
+ */
 public class UserServiceTest extends BaseTest{
 
 	@Autowired

@@ -11,7 +11,10 @@ import java.util.UUID;
 import com.its.web.common.report.jasperreports.JasperreportsService;
 import com.its.web.common.report.jasperreports.impl.JasperreportsServiceImpl;
 
-
+/**
+ * 
+ * @author tzz
+ */
 public class JasperreportsServiceTest {
 
    public static void main(String [] args){
@@ -49,8 +52,9 @@ public class JasperreportsServiceTest {
 		headMap.put("toTelNo", "15825836966");
 		headMap.put("imageurl", "report/image/any.png");
 
-		for (int i = 0; i < 50; i++) {
-			Map<String, Object> contentMap = new HashMap<String, Object>();
+		int end = 50;
+		for (int i = 0; i < end; i++) {
+			Map<String, Object> contentMap = new HashMap<String, Object>(64);
 			contentMap.put("name", "商品名" + i);
 			contentMap.put("quantity", "数量" + i);
 			contentMap.put("price", 1.0);

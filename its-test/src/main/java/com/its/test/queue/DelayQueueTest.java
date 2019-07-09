@@ -54,7 +54,8 @@ public class DelayQueueTest {
         list.add("00000005");  
         DelayQueue<OrderDelay> queue = new DelayQueue<OrderDelay>();  
         long start = System.currentTimeMillis();  
-        for(int i = 0;i<5;i++){  
+        int end = 5;
+        for (int i = 0; i < end; i++) {
             //延迟三秒取出
             queue.put(new OrderDelay(list.get(i), TimeUnit.NANOSECONDS.convert(3, TimeUnit.SECONDS)));  
                 try {  

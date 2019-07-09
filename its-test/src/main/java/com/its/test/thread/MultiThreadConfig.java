@@ -5,6 +5,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+/**
+ * 
+ * @author tzz
+ */
 @Configuration
 @ComponentScan(basePackages = { "com.its.test.thread" })
 @ImportResource(value = { "classpath:applicationContext.xml" })

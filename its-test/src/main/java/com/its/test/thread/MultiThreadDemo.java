@@ -2,7 +2,7 @@ package com.its.test.thread;
 
 /**
  * 多线程并发处理demo
- *
+ * @author tzz
  */
 public class MultiThreadDemo implements Runnable {
 
