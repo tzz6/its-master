@@ -7,6 +7,10 @@ import org.junit.Test;
 
 import com.its.common.utils.xml.XmlUtil;
 
+/**
+ * 
+ * @author tzz
+ */
 public class XmlUtilTest {
 
 	@Test

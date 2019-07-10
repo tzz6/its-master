@@ -3,6 +3,10 @@ package com.its.test.util.json.entity;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 
+ * @author tzz
+ */
 public class User {
 
 	private Integer id;

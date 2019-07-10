@@ -3,6 +3,10 @@ package com.its.test.velocity;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * 
+ * @author tzz
+ */
 public class DateTools {
 
 	public String format(String format, Date date) {

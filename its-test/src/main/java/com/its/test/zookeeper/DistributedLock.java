@@ -206,7 +206,8 @@ public class DistributedLock implements Lock, Watcher {
         };
 
         // 开启10个线程
-        for (int i = 0; i < 200; i++) {
+        int end = 200;
+        for (int i = 0; i < end; i++) {
             Thread t = new Thread(runnable);
             t.start();
         }

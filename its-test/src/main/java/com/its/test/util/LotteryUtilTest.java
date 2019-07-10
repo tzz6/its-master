@@ -7,7 +7,10 @@ import org.junit.Test;
 import com.its.common.utils.LotteryUtil;
 import com.its.common.utils.RewardEntry;
 
-
+/**
+ * 
+ * @author tzz
+ */
 public class LotteryUtilTest {
 
 
@@ -28,7 +31,8 @@ public class LotteryUtilTest {
 	public void testLottery() {
 		LotteryUtil lotteryUtil = new LotteryUtil();
 		List<RewardEntry> rewardModelList = null;
-		for (int i = 0; i < 100; i++) {
+		int end = 100;
+		for (int i = 0; i < end; i++) {
 			rewardModelList = lotteryUtil.getKeys(1);
 			if (isWinner(rewardModelList)) {
 				System.out.println("===第" + i + "次抽中===");

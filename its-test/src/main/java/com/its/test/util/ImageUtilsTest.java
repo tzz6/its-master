@@ -12,7 +12,10 @@ import org.junit.Test;
 
 import com.its.common.utils.ImageUtils;
 
-
+/**
+ * 
+ * @author tzz
+ */
 public class ImageUtilsTest {
 
 	/**测试图片合并*/

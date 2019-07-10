@@ -20,7 +20,7 @@ import com.github.sarxos.webcam.WebcamPicker;
 import com.github.sarxos.webcam.WebcamResolution;
 /**
  * 4.如何从网络摄像头在Swing面板显示图象(高级)
- *
+ * @author tzz
  */
 public class WebcamViewerExample extends JFrame implements Runnable, WebcamListener, WindowListener, UncaughtExceptionHandler, ItemListener, WebcamDiscoveryListener {
 

@@ -13,7 +13,10 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.its.common.utils.xml.JaxbDateSerializer;
 
-
+/**
+ * 
+ * @author tzz
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "country")
 @XmlType(propOrder = { "id", "createDate", "name", "provinceList" })

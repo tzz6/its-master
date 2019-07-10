@@ -80,7 +80,7 @@ public class AviatorTest {
     @Test
     public void testSimple() {
         try {
-            Map<String, Object> map = new HashMap<String, Object>();
+            Map<String, Object> map = new HashMap<String, Object>(16);
             map.put("customersCode", "00002");
             map.put("ShipmentName", "00002");
             map.put("productType", "C909");
@@ -91,7 +91,7 @@ public class AviatorTest {
                     + "&&!(declaredValue>=200&&declaredValue<=400)&&(actualWeight>=1.0&&actualWeight<=3.0)";
             execute(expression, map);
 
-            Map<String, Object> map2 = new HashMap<String, Object>();
+            Map<String, Object> map2 = new HashMap<String, Object>(16);
             map2.put("GW", 12.356);
             map2.put("VW", 10.124);
             map2.put("R", 0);
@@ -145,7 +145,7 @@ public class AviatorTest {
         // 注册函数
         AviatorEvaluator.addFunction(new MySumFunction());
         String expression = "sum(a,b,c)";
-        Map<String, Object> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>(16);
         params.put("a", 1);
         params.put("b", 2);
         params.put("c", 3);

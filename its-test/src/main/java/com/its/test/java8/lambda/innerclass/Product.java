@@ -5,8 +5,16 @@ package com.its.test.java8.lambda.innerclass;
  */
 public interface Product {
 
+    /**
+     * getPrice
+     * @return
+     */
 	public double getPrice();
 
+	/**
+	 * getName
+	 * @return
+	 */
 	public String getName();
 
 }

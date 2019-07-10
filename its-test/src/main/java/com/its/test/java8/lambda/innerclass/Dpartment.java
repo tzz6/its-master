@@ -6,7 +6,10 @@ package com.its.test.java8.lambda.innerclass;
  */
 public interface Dpartment {
 
-    /** sum */
+    /**
+     * sum
+     * @param target
+     */
     public void sum(int[] target);
 
 }

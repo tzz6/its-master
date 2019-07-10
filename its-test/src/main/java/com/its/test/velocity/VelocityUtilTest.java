@@ -23,11 +23,12 @@ public class VelocityUtilTest {
 	@Test
 	public void generate() {
 		try {
+		    //P3C:后台输送给页面的变量必须加$!{var}——中间的感叹号。 说明：如果var等于null或者不存在，那么${var}会直接显示在页面
 			//注意配置velocity.properties中的模板路径
 			Velocity.init("src/main/resources/velocity.properties");
 			VelocityContext velocityContext = new VelocityContext();
 			// 简单字符串
-			velocityContext.put("xAxisName", "HelloWorld");
+//			velocityContext.put("xAxisName", "HelloWorld");
 			velocityContext.put("yAxisName", "HelloWorld");
 
 			// Bean对象
@@ -46,7 +47,7 @@ public class VelocityUtilTest {
 			velocityContext.put("users", users);
 
 			// Map对象
-			Map<String, String> maps = new HashMap<String, String>();
+			Map<String, String> maps = new HashMap<String, String>(16);
 			maps.put("1", "Map对象1");
 			maps.put("2", "Map对象2");
 			velocityContext.put("result", maps);

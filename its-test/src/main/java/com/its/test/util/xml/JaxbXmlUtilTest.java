@@ -11,6 +11,10 @@ import com.its.common.utils.xml.JaxbXmlUtil;
 import com.its.test.util.xml.entity.Country;
 import com.its.test.util.xml.entity.Province;
 
+/**
+ * 
+ * @author tzz
+ */
 public class JaxbXmlUtilTest {
 
 	@Test

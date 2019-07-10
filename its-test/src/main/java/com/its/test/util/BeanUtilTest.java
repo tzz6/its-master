@@ -7,6 +7,10 @@ import org.junit.Test;
 import com.its.common.utils.bean.BeanUtil;
 import com.its.model.mybatis.dao.domain.SysUser;
 
+/**
+ * 
+ * @author tzz
+ */
 public class BeanUtilTest {
 
 	@Test

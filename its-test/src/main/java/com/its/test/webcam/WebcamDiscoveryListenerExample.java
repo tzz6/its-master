@@ -6,7 +6,7 @@ import com.github.sarxos.webcam.WebcamDiscoveryListener;
 
 /**
  * 5.如何倾听相机连接/断开事件吗
- *
+ * @author tzz
  */
 public class WebcamDiscoveryListenerExample implements WebcamDiscoveryListener {
 

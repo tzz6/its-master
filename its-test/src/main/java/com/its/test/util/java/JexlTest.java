@@ -68,7 +68,7 @@ public class JexlTest {
 	@Test
 	public void testConvertToCode() {
 		try {
-			Map<String, Object> map = new HashMap<String, Object>();
+			Map<String, Object> map = new HashMap<String, Object>(16);
 			String expression = "money>=2000&&money<=4000||jexlTest.indexOf(strKay,strValue)";
 			map.put("money", 1900);
 			map.put("strKay", "aa;bb;cc;dd;ee");
@@ -87,7 +87,7 @@ public class JexlTest {
 	@Test
 	public void test4() {
 		try {
-			Map<String, Object> map = new HashMap<String, Object>();
+			Map<String, Object> map = new HashMap<String, Object>(16);
 			map.put("customersCode", "00002");
 			map.put("ShipmentName", "00002");
 			map.put("productType", "C909");
@@ -106,7 +106,7 @@ public class JexlTest {
 	@Test
 	public void test2() {
 		try {
-			Map<String, Object> map = new HashMap<String, Object>();
+			Map<String, Object> map = new HashMap<String, Object>(16);
 			map.put("GW", 12.356);
 			map.put("VW", 10.124);
 			map.put("R", 0);
@@ -122,7 +122,7 @@ public class JexlTest {
 	@Test
 	public void test3() {
 		try {
-			Map<String, Object> map = new HashMap<String, Object>();
+			Map<String, Object> map = new HashMap<String, Object>(16);
 			JexlTest.User user = new JexlTest.User();
 			user.setId(1);
 			user.setName("T");

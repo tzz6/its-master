@@ -4,7 +4,10 @@ import org.junit.Test;
 
 import com.its.common.utils.HttpUtil;
 
-
+/**
+ * 
+ * @author tzz
+ */
 public class HttpUtilTest {
 
 

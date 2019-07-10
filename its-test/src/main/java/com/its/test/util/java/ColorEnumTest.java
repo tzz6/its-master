@@ -4,7 +4,10 @@ import org.junit.Test;
 
 import com.its.common.utils.java.ColorEnum;
 
-
+/**
+ * 
+ * @author tzz
+ */
 public class ColorEnumTest {
 	
 	@Test

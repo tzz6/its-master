@@ -5,6 +5,10 @@ import org.junit.Test;
 import com.its.common.utils.bean.ReflectUtil;
 import com.its.model.dao.domain.User;
 
+/**
+ * 
+ * @author tzz
+ */
 public class ReflectUtilTest {
 
 	@Test

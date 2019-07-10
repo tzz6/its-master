@@ -1,5 +1,9 @@
 package com.its.test.util.json.entity;
 
+/**
+ * 
+ * @author tzz
+ */
 public class Role {
 	private Integer id;
 	private String name;

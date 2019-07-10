@@ -5,6 +5,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * 
+ * @author tzz
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = { "name", "provCity" })
 public class Province {

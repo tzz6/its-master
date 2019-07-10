@@ -62,7 +62,8 @@ public class StreamTest {
         System.out.println("随机数: ");
         // 输出10个随机数
         Random random = new Random();
-        for (int i = 0; i < 10; i++) {
+        int end = 10;
+        for (int i = 0; i < end; i++) {
             System.out.println(random.nextInt());
         }
 

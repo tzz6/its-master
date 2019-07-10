@@ -4,7 +4,10 @@ import org.junit.Test;
 
 import com.its.common.utils.BaiduTranslateUtil;
 
-
+/**
+ * 
+ * @author tzz
+ */
 public class BaiduTranslateUtilTest {
 
 

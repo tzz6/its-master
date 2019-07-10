@@ -10,6 +10,10 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+/**
+ * 
+ * @author tzz
+ */
 @XStreamAlias("user")
 public class User {
 

@@ -2,6 +2,10 @@ package com.its.test.util.xml.entity;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+/**
+ * 
+ * @author tzz
+ */
 @XStreamAlias("role")
 public class Role {
 
