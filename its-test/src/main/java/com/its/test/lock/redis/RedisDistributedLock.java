@@ -17,7 +17,7 @@ import redis.clients.jedis.exceptions.JedisException;
  * @author tzz
  * @工号: 
  * @date 2019/07/06
- * @Introduce: Redis分布式锁
+ * @Introduce: Redis分布式锁-Jedis实现
  */
 public class RedisDistributedLock {
 	private static final Logger logger = LoggerFactory.getLogger(RedisDistributedLock.class);
@@ -52,7 +52,7 @@ public class RedisDistributedLock {
 	 * 
 	 * @param lockKey 锁的key
 	 * @param acquireTimeout 获取超时时间
-	 * @param timeout redis锁的超时时间
+	 * @param timeout redis锁的超时时间，超时自动解锁
 	 * @return 锁标识
 	 */
 	public String lockWithTimeout(String lockKey, long acquireTimeout, long timeout) {

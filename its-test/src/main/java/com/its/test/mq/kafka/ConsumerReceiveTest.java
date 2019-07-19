@@ -17,7 +17,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.its.test.lock.redis.Service;
+import com.its.test.lock.Service;
 
 /**
  * 
@@ -248,7 +248,7 @@ public class ConsumerReceiveTest {
 						record.topic(), record.partition(), record.offset(), record.key(), record.value()));
 				//测试分布式锁
 				Service service = new Service();
-				service.seckill();
+				service.seckillJedis();
 				//测试分布式锁
 			}
 			// consumer.commitAsync();//异步提交，无需等待broker的响应

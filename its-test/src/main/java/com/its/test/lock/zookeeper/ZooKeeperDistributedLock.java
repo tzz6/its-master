@@ -1,4 +1,4 @@
-package com.its.test.zookeeper;
+package com.its.test.lock.zookeeper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,28 +23,27 @@ import org.apache.zookeeper.data.Stat;
  * @date 2019/07/06
  * @Introduce: zookeeper分布式事务锁
  */
-public class DistributedLock implements Lock, Watcher {
+public class ZooKeeperDistributedLock implements Lock, Watcher {
     private ZooKeeper zk = null;
     /** 根节点 */
     private String ROOT_LOCK = "/locks";
-    /** 竞争的资源*/
+    /** 竞争的资源 */
     private String lockName;
-    /** 等待的前一个锁*/
+    /** 等待的前一个锁 */
     private String WAIT_LOCK;
-    /** 当前锁*/
+    /** 当前锁 */
     private String CURRENT_LOCK;
-    /** 计数器*/
+    /** 计数器 */
     private CountDownLatch countDownLatch;
     private int sessionTimeout = 30000;
     // private List<Exception> exceptionList = new ArrayList<Exception>();
 
     /**
-     * 配置分布式锁
-     * 
+          *   配置分布式锁
      * @param config 连接的url
-     * @param lockName 竞争资源
+     * @param lockName  竞争资源
      */
-    public DistributedLock(String config, String lockName) {
+    public ZooKeeperDistributedLock(String config, String lockName) {
         this.lockName = lockName;
         try {
             // 连接zookeeper
@@ -67,7 +66,7 @@ public class DistributedLock implements Lock, Watcher {
     }
 
     /**
-     * 加锁
+         *  加锁
      */
     @Override
     public void lock() {
@@ -87,6 +86,7 @@ public class DistributedLock implements Lock, Watcher {
             e.printStackTrace();
         }
     }
+
     @Override
     public boolean tryLock() {
         try {
@@ -123,6 +123,7 @@ public class DistributedLock implements Lock, Watcher {
         }
         return false;
     }
+
     @Override
     public boolean tryLock(long timeout, TimeUnit unit) {
         try {
@@ -148,6 +149,7 @@ public class DistributedLock implements Lock, Watcher {
         }
         return true;
     }
+
     @Override
     public void unlock() {
         try {
@@ -159,10 +161,12 @@ public class DistributedLock implements Lock, Watcher {
             e.printStackTrace();
         }
     }
+
     @Override
     public Condition newCondition() {
         return null;
     }
+
     @Override
     public void lockInterruptibly() throws InterruptedException {
         this.lock();
@@ -186,19 +190,19 @@ public class DistributedLock implements Lock, Watcher {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                DistributedLock lock = null;
+                ZooKeeperDistributedLock lock = null;
                 try {
-                    lock = new DistributedLock("vm-01-ip:2181", "test_vm_01");
-                    //加锁
+                    lock = new ZooKeeperDistributedLock("vm-01-ip:2181", "test_vm_01");
+                    // 加锁
                     lock.lock();
-                    if(n>0) {
+                    if (n > 0) {
                         n--;
                     }
                     System.out.println(n);
                     System.out.println(Thread.currentThread().getName() + "正在运行");
                 } finally {
                     if (lock != null) {
-                        //解锁
+                        // 解锁
                         lock.unlock();
                     }
                 }

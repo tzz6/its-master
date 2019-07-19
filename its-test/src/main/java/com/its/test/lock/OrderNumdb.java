@@ -1,4 +1,4 @@
-package com.its.test.lock.redis;
+package com.its.test.lock;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -9,7 +9,7 @@ import java.util.List;
  * @author tzz
  * @工号: 
  * @date 2019/07/06
- * @Introduce: 号码池(模拟数据库)
+ * @Introduce: 号码池(测试模拟数据库)
  */
 public class OrderNumdb {
 

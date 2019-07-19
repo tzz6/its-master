@@ -102,7 +102,7 @@ public class JedisTest {
 		System.out.println(value);
 	}
 
-	/** Map */
+	/** hash 是一个string类型的field和value的映射表，hash特别适合用于存储对象 */
 	@Test
 	public void testMap() {
 		Map<String, String> map = new HashMap<String, String>(16);
@@ -135,13 +135,14 @@ public class JedisTest {
 		}
 	}
 
-	/** 操作List */
-	@Test
+    /** List 按照插入顺序排序。你可以添加一个元素到列表的头部（左边）或者尾部（右边） 一个列表最多可以包含 232 - 1 个元素 (4294967295, 每个列表超过40亿个元素) */
+    @Test
 	public void testList() {
 		// 开始前，先移除所有的内容
 		jedis.del("test-list");
 		System.out.println(jedis.lrange("test-list", 0, -1));
 		jedis.lpush("test-list", "1");
+		jedis.lpush("test-list", "22");
 		jedis.lpush("test-list", "22");
 		jedis.lpush("test-list", "333");
 		// 再取出所有数据jedis.lrange是按范围取出，
@@ -155,7 +156,7 @@ public class JedisTest {
 		System.out.println(jedis.lrange("test-list", 0, -1));
 	}
 
-	/** Set */
+	/** Set 是 String 类型的无序集合。集合成员是唯一的，这就意味着集合中不能出现重复的数据*/
     @Test
     public void testSet() {
         // 添加
@@ -174,6 +175,27 @@ public class JedisTest {
         System.out.println(jedis.srandmember("test-set"));
         // 返回集合的元素个数
         System.out.println(jedis.scard("test-set"));
+    }
+
+    /**
+     * sorted set Redis 有序集合和集合一样也是string类型元素的集合,且不允许重复的成员。
+     * 不同的是每个元素都会关联一个double类型的分数。redis正是通过分数来为集合中的成员进行从小到大的排序。
+     * 有序集合的成员是唯一的,但分数(score)却可以重复
+     */
+    @Test
+    public void testSortedSet() {
+        // 添加
+        String key = "test-sorted-set";
+        jedis.zadd(key, 1, "a");
+        jedis.zadd(key, 3, "b");
+        jedis.zadd(key, 2, "c");
+        jedis.zadd(key, 3, "d");
+        jedis.zadd(key, 4, "e");
+        // 第一个是key，第二个是起始位置，第三个是结束位置， -1表示取得所有
+        System.out.println(jedis.zrange(key, 0, -1));
+        // 移除noname
+        jedis.zrem(key, "d");
+        System.out.println(jedis.zrangeWithScores(key, 0, -1));
     }
 
 	@Test
