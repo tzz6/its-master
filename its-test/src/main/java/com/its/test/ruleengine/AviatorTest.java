@@ -1,4 +1,4 @@
-package com.its.test.util.java;
+package com.its.test.ruleengine;
 
 import java.util.ArrayList;
 import java.util.Date;
