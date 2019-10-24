@@ -47,12 +47,14 @@ public class HttpClientUtil {
         return instance;
     }
 
-    /**
-     * 发送 post请求
-     * 
-     * @param httpUrl
-     *            地址
-     */
+   /**
+    * 
+    * description: 发送 post请求
+    * @author: tzz
+    * date: 2019/08/26 10:31
+    * @param httpUrl
+    * @return String
+    */
     public String sendHttpPost(String httpUrl) {
         // 创建httpPost
         HttpPost httpPost = new HttpPost(httpUrl);
@@ -267,6 +269,7 @@ public class HttpClientUtil {
             DefaultHostnameVerifier hostnameVerifier = new DefaultHostnameVerifier(publicSuffixMatcher);
             httpClient = HttpClients.custom().setSSLHostnameVerifier(hostnameVerifier).build();
             httpGet.setConfig(requestConfig);
+            httpGet.setHeader("Cookie", "Hm_lvt_57011ad09625c9c2cefad265f1d664b1=1567146952; 34BAC005-4D8B-5864-8CEA-12439BEACD89=5; gw-bdus-rid=1000008552; token=pr_3224d290dae3f9ad06b670be100de440");
             // 执行请求
             response = httpClient.execute(httpGet);
             entity = response.getEntity();

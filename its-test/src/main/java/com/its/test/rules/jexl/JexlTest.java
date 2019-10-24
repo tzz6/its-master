@@ -1,4 +1,4 @@
-package com.its.test.ruleengine;
+package com.its.test.rules.jexl;
 
 import java.util.HashMap;
 import java.util.Map;

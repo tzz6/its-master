@@ -33,7 +33,7 @@ public class MultiThreadProcessService {
 		System.out.println("ProcessSomething" + Thread.currentThread() + "...start" + getIndex() + "...date"
 				+ format.format(new Date()));
 		try {
-			Thread.sleep(6000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}

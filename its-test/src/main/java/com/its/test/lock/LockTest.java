@@ -20,7 +20,7 @@ public class LockTest {
     }
     
     /**
-          *   测试Jedis实现 -Redis分布式锁
+     * 测试Jedis实现 -Redis分布式锁
      */
     public static void testJedis() {
         Service service = new Service();
@@ -43,7 +43,7 @@ public class LockTest {
     }
     
     /**
-          *   测试Redisson框架实现-Redis分布式锁
+     * 测试Redisson框架实现-Redis分布式锁
      */
     public static void testRedisson() {
         Service service = new Service();

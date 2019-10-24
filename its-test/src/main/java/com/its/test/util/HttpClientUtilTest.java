@@ -318,4 +318,22 @@ public class HttpClientUtilTest {
 
 	}
 
+    @Test
+    public void testSendHttpPostWs() {
+        //测试调用webservice
+        String xml =
+	    "<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:ser='http://service.sys.cxf.facade.servers.its.com/'>"+
+	    "<soapenv:Header/>"+
+	    "<soapenv:Body>"+
+	       "<ser:getSysUserList>"+
+	          "<arg0>admin</arg0>"+
+	          "<arg1>1</arg1>"+
+	          "<arg2>3</arg2>"+
+	       "</ser:getSysUserList>"+
+	    "</soapenv:Body>"+
+	    "</soapenv:Envelope>";
+	    String responseContent = HttpClientUtil.getInstance().sendHttpPost("http://localhost:8080/cxf/cxfSysUserFacade/getSysUserList?wsdl", xml);
+	    System.out.println("reponse content:" + responseContent);
+	}
+
 }

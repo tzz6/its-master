@@ -46,15 +46,15 @@ public class Service {
         }
 	}
 	
-	/**
-         *  业务方法-Redisson框架实现
+    /**
+     * 业务方法-Redisson框架实现
      */
     public void seckillRedisson() {
         // Redis锁key名称
         String lockName = "RedissonDistributedLock";
         try {
             // 加锁
-            redissonlock.lockWithTimeout(lockName, 3 * 1000);
+            redissonlock.lockWithTimeout(lockName, 1 * 1000);
             // 执行业务处理
             getOrderNum();
         } catch (Exception e) {
@@ -73,7 +73,7 @@ public class Service {
         String orderNum = OrderNumdb.list.get(0);
         try {
             // 用线程等待的方式模拟业务代码处理时长
-            Thread.sleep(1* 100);
+            Thread.sleep(1* 2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
