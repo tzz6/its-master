@@ -57,7 +57,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 		response.setCharacterEncoding("UTF-8");
 
 		/** 不需登录要过滤的url */
-		String[] notLoginFilterUrl = new String[] { "login", "logout", "webcam", "test","sysUser" };
+		String[] notLoginFilterUrl = new String[] { "login", "logout", "webcam", "test" };
 		/** 登录后不需要过滤的url */
 		String[] loginNotFilterUrl = new String[] { "index", "css", "js", "images" };
 
