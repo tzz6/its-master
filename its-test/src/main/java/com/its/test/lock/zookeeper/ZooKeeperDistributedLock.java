@@ -39,7 +39,7 @@ public class ZooKeeperDistributedLock implements Lock, Watcher {
     // private List<Exception> exceptionList = new ArrayList<Exception>();
 
     /**
-     * 配置分布式锁
+          * 配置分布式锁
      * 
      * @param config 连接的url
      * @param lockName 竞争资源
@@ -67,7 +67,7 @@ public class ZooKeeperDistributedLock implements Lock, Watcher {
     }
 
     /**
-     * 加锁
+          * 加锁
      */
     @Override
     public void lock() {

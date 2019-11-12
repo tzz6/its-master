@@ -30,7 +30,7 @@ public class ConsumerReceiveTest {
 
 	private Logger logger = LoggerFactory.getLogger(ConsumerReceiveTest.class);
 	private static KafkaConsumer<String, String> consumer;
-	private static String BOOTSTRAP_SERVERS = "10.203.15.50:9092,10.202.107.207:9092,10.202.107.115:9092";
+	private static String BOOTSTRAP_SERVERS = "vm-01-ip:9092,vm-02-ip:9092,vm-03-ip:9092";
     private static Collection<String> topics = Arrays.asList("mytopic20190705", "mytopic", "mytopic2");
 
 	

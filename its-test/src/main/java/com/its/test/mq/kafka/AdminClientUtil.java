@@ -56,7 +56,7 @@ import org.apache.kafka.common.config.ConfigResource;
  */
 public class AdminClientUtil {
     
-    private static String BOOTSTRAP_SERVERS = "10.203.15.50:9092,10.202.107.207:9092,10.202.107.115:9092";
+    private static String BOOTSTRAP_SERVERS = "vm-01-ip:9092,vm-02-ip:9092,vm-03-ip:9092";
 
 	public static void main(String[] args) throws Exception {
 		Properties props = new Properties();

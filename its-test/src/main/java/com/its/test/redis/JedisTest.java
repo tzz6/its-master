@@ -178,9 +178,9 @@ public class JedisTest {
     }
 
     /**
-     * sorted set Redis 有序集合和集合一样也是string类型元素的集合,且不允许重复的成员。
-     * 不同的是每个元素都会关联一个double类型的分数。redis正是通过分数来为集合中的成员进行从小到大的排序。
-     * 有序集合的成员是唯一的,但分数(score)却可以重复
+     * sorted set Redis 有序集合和集合一样也是string类型元素的集合,且不允许重复的成员。<br>
+          * 不同的是每个元素都会关联一个double类型的分数。redis正是通过分数来为集合中的成员进行从小到大的排序。<br>
+          * 有序集合的成员是唯一的,但分数(score)却可以重复
      */
     @Test
     public void testSortedSet() {
