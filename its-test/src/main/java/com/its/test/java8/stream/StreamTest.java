@@ -2,10 +2,17 @@ package com.its.test.java8.stream;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Java 8 API添加了一个新的抽象称为流Stream，可以让你以一种声明的方式处理数据。<br>
@@ -27,39 +34,63 @@ import java.util.stream.Collectors;
  * @author tzz
  */
 public class StreamTest {
-    public static void main(String args[]) {
+    private List<User> users = null;
+    private List<String> strings = null;
+    private List<Integer> integers = null;
+    private List<Integer> numbers = null;
 
-        List<String> strings = Arrays.asList("abc", "", "bc", "efg", "abcd", "", "jkl");
-        List<Integer> integers = Arrays.asList(1, 2, 13, 4, 15, 6, 17, 8, 19);
-        List<Integer> numbers = Arrays.asList(3, 2, 2, 3, 7, 3, 5);
+    @Before
+    public void initUser() {
+        users = new ArrayList<User>();
+        users.add(new User(22, "张三", "123456", (short)1, true));
+        users.add(new User(21, "本四", "a123456", (short)2, false));
+        users.add(new User(23, "TEST", "b123456", (short)1, false));
+        users.add(new User(5, "BBB", "e123456", (short)1, true));
+        users.add(new User(18, "ABC", "c123456", (short)2, true));
+        users.add(new User(17, "BBB", "d123456", (short)1, false));
 
-        System.out.println("使用 Java 7: ");
-        System.out.println("列表: " + strings);
+        strings = Arrays.asList("abc", "", "bc", "efg", "abcd", "", "jkl");
+        integers = Arrays.asList(1, 2, 13, 4, 15, 6, 17, 8, 19);
+        numbers = Arrays.asList(3, 2, 2, 3, 7, 3, 5);
+    }
 
-        long count = getCountEmptyStringUsingJava7(strings);
-        System.out.println("空字符数量为: " + count);
+    @Test
+    public void test() {
+        System.out.println("Java7列表: " + strings);
+        System.out.println("Java8列表: " + strings);
 
-        count = getCountLength3UsingJava7(strings);
-        System.out.println("字符串长度为 3 的数量为: " + count);
+        long count = Java7Function.getCountEmptyStringUsingJava7(strings);
+        System.out.println("Java7空字符数量为: " + count);
+        count = strings.stream().filter(string -> string.isEmpty()).count();
+        System.out.println("Java8空字符串数量为: " + count);
+
+        count = Java7Function.getCountLength3UsingJava7(strings);
+        System.out.println("Java7字符串长度为 3 的数量为: " + count);
+        count = strings.stream().filter(string -> string.length() == 3).count();
+        System.out.println("Java8字符串长度为 3 的数量为: " + count);
 
         // 删除空字符串
-        List<String> filtered = deleteEmptyStringsUsingJava7(strings);
-        System.out.println("筛选后的列表: " + filtered);
+        List<String> filtered = Java7Function.deleteEmptyStringsUsingJava7(strings);
+        System.out.println("Java7筛选后的列表: " + filtered);
+        filtered = strings.stream().filter(string -> !string.isEmpty()).collect(Collectors.toList());
+        System.out.println("Java8筛选后的列表: " + filtered);
 
         // 删除空字符串，并使用逗号把它们合并起来
-        String mergedString = getMergedStringUsingJava7(strings, ", ");
-        System.out.println("合并字符串: " + mergedString);
+        String mergedString = Java7Function.getMergedStringUsingJava7(strings, ", ");
+        System.out.println("Java7合并字符串: " + mergedString);
+        mergedString = strings.stream().filter(string -> !string.isEmpty()).collect(Collectors.joining(", "));
+        System.out.println("Java8合并字符串: " + mergedString);
 
         // 获取列表元素平方数
-        List<Integer> squaresList = getSquares(numbers);
-        System.out.println("平方数列表: " + squaresList);
+        List<Integer> squaresList = Java7Function.getSquares(numbers);
+        System.out.println("Java7平方数列表: " + squaresList);
 
-        System.out.println("列表: " + integers);
-        System.out.println("列表中最大的数 : " + getMax(integers));
-        System.out.println("列表中最小的数 : " + getMin(integers));
-        System.out.println("所有数之和 : " + getSum(integers));
-        System.out.println("平均数 : " + getAverage(integers));
-        System.out.println("随机数: ");
+        System.out.println("Java7列表: " + integers);
+        System.out.println("Java7列表中最大的数 : " + Java7Function.getMax(integers));
+        System.out.println("Java7列表中最小的数 : " + Java7Function.getMin(integers));
+        System.out.println("Java7所有数之和 : " + Java7Function.getSum(integers));
+        System.out.println("Java7平均数 : " + Java7Function.getAverage(integers));
+        System.out.println("Java7随机数: ");
         // 输出10个随机数
         Random random = new Random();
         int end = 10;
@@ -67,129 +98,147 @@ public class StreamTest {
             System.out.println(random.nextInt());
         }
 
-        System.out.println("使用 Java 8: ");
-        System.out.println("列表: " + strings);
-
-        count = strings.stream().filter(string -> string.isEmpty()).count();
-        System.out.println("空字符串数量为: " + count);
-
-        count = strings.stream().filter(string -> string.length() == 3).count();
-        System.out.println("字符串长度为 3 的数量为: " + count);
-        // 删除空字符串
-        filtered = strings.stream().filter(string -> !string.isEmpty()).collect(Collectors.toList());
-        System.out.println("筛选后的列表: " + filtered);
-        // 删除空字符串，并使用逗号把它们合并起来
-        mergedString = strings.stream().filter(string -> !string.isEmpty()).collect(Collectors.joining(", "));
-        System.out.println("合并字符串: " + mergedString);
         // 获取列表元素平方数
         squaresList = numbers.stream().map(i -> i * i).distinct().collect(Collectors.toList());
-        System.out.println("Squares List: " + squaresList);
-        System.out.println("列表: " + integers);
+        System.out.println("Java8 Squares List: " + squaresList);
+        System.out.println("Java8列表: " + integers);
 
         IntSummaryStatistics stats = integers.stream().mapToInt((x) -> x).summaryStatistics();
 
-        System.out.println("列表中最大的数 : " + stats.getMax());
-        System.out.println("列表中最小的数 : " + stats.getMin());
-        System.out.println("所有数之和 : " + stats.getSum());
-        System.out.println("平均数 : " + stats.getAverage());
-        System.out.println("随机数: ");
-
+        System.out.println("Java8列表中最大的数 : " + stats.getMax());
+        System.out.println("Java8列表中最小的数 : " + stats.getMin());
+        System.out.println("Java8所有数之和 : " + stats.getSum());
+        System.out.println("Java8平均数 : " + stats.getAverage());
+        System.out.println("Java8随机数: ");
         random.ints().limit(10).sorted().forEach(System.out::println);
 
         // 并行处理
         count = strings.parallelStream().filter(string -> string.isEmpty()).count();
-        System.out.println("空字符串的数量为: " + count);
+        System.out.println("Java8空字符串的数量为: " + count);
     }
+    
 
-    private static int getCountEmptyStringUsingJava7(List<String> strings) {
-        int count = 0;
-        for (String string : strings) {
-
-            if (string.isEmpty()) {
-                count++;
+    /** 排序：按照年龄大小进行排序 */
+    @Test
+    public void testSort() {
+        Comparator<User> ageComparator = new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                if (o1.age > o2.age) {
+                    return 1;
+                }
+                if (o1.age < o2.age) {
+                    return -1;
+                }
+                return 0;
             }
-        }
-        return count;
-    }
-
-    private static int getCountLength3UsingJava7(List<String> strings) {
-        int count = 0;
-        for (String string : strings) {
-
-            if (string.length() == 3) {
-                count++;
+        };
+        // 从测试结果来看，java8 Stream操作的耗时至少是传统方法的50多倍，时间成本较大。
+        // java8 Stream排序
+        System.out.println("Java8");
+        long time = System.currentTimeMillis();
+        List<User> sortUsers = users.stream().sorted(ageComparator).collect(Collectors.toList());
+        System.out.println("耗时" + (System.currentTimeMillis() - time));
+        System.out.println(sortUsers);
+        // java8排序(按姓名)lambda
+        Collections.sort(users, (o1, o2) -> o1.getName().compareTo(o2.getName()));
+        System.out.println(users);
+        // java8排序(按性别)lambda
+        Collections.sort(users, (User o1, User o2) -> {
+            if (o1.gendar > o2.gendar) {
+                return 1;
             }
-        }
-        return count;
-    }
-
-    private static List<String> deleteEmptyStringsUsingJava7(List<String> strings) {
-        List<String> filteredList = new ArrayList<String>();
-        for (String string : strings) {
-
-            if (!string.isEmpty()) {
-                filteredList.add(string);
+            if (o1.gendar < o2.gendar) {
+                return -1;
             }
+            return 0;
+        });
+        System.out.println(users);
+        
+        // java7排序
+        System.out.println("Java7");
+        long time2 = System.currentTimeMillis();
+        Collections.sort(users, ageComparator);
+        System.out.println("耗时" + (System.currentTimeMillis() - time2));
+        System.out.println(users);
+        
+        List<String> nameList = new ArrayList<>(users.size());
+        Set<String> nameSet = new HashSet<String>(users.size());
+        users.stream().forEach(user -> nameSet.add(user.getName()));
+        nameSet.stream().sorted((o1, o2) -> o1.compareTo(o2)).forEachOrdered(nameList::add);
+        users.forEach(System.out::println);
+        nameSet.forEach(user -> {
+            System.out.println(user);
+        });
+    }
+    
+    class User {
+
+        /** 年龄 */
+        public int age;
+        /** 姓名 */
+        public String name;
+        /** 密码 */
+        private String password;
+        /** 性别，0未知，1男，2女 */
+        public short gendar;
+        /** 是否已婚 */
+        public boolean hasMarried;
+
+        public int getAge() {
+            return age;
         }
-        return filteredList;
-    }
 
-    private static String getMergedStringUsingJava7(List<String> strings, String separator) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String string : strings) {
-            if (!string.isEmpty()) {
-                stringBuilder.append(string);
-                stringBuilder.append(separator);
-            }
+        public void setAge(int age) {
+            this.age = age;
         }
-        String mergedString = stringBuilder.toString();
-        return mergedString.substring(0, mergedString.length() - 2);
-    }
 
-    private static List<Integer> getSquares(List<Integer> numbers) {
-        List<Integer> squaresList = new ArrayList<Integer>();
-        for (Integer number : numbers) {
-            Integer square = new Integer(number.intValue() * number.intValue());
-
-            if (!squaresList.contains(square)) {
-                squaresList.add(square);
-            }
+        public String getName() {
+            return name;
         }
-        return squaresList;
-    }
 
-    private static int getMax(List<Integer> numbers) {
-        int max = numbers.get(0);
-        for (int i = 1; i < numbers.size(); i++) {
-            Integer number = numbers.get(i);
-            if (number.intValue() > max) {
-                max = number.intValue();
-            }
+        public void setName(String name) {
+            this.name = name;
         }
-        return max;
-    }
 
-    private static int getMin(List<Integer> numbers) {
-        int min = numbers.get(0);
-        for (int i = 1; i < numbers.size(); i++) {
-            Integer number = numbers.get(i);
-
-            if (number.intValue() < min) {
-                min = number.intValue();
-            }
+        public String getPassword() {
+            return password;
         }
-        return min;
-    }
 
-    private static int getSum(List<Integer> numbers) {
-        int sum = (int)(numbers.get(0));
-        for (int i = 1; i < numbers.size(); i++) {
-            sum += (int)numbers.get(i);
+        public void setPassword(String password) {
+            this.password = password;
         }
-        return sum;
-    }
 
-    private static int getAverage(List<Integer> numbers) {
-        return getSum(numbers) / numbers.size();
+        public short getGendar() {
+            return gendar;
+        }
+
+        public void setGendar(short gendar) {
+            this.gendar = gendar;
+        }
+
+        public boolean isHasMarried() {
+            return hasMarried;
+        }
+
+        public void setHasMarried(boolean hasMarried) {
+            this.hasMarried = hasMarried;
+        }
+
+        public User(int age, String name, String password, short gendar, boolean hasMarried) {
+            super();
+            this.age = age;
+            this.name = name;
+            this.password = password;
+            this.gendar = gendar;
+            this.hasMarried = hasMarried;
+        }
+
+        @Override
+        public String toString() {
+            return "{\"age\":\"" + age + "\", \"name\":\"" + name + "\", \"password\":\"" + password
+                + "\", \"gendar\":\"" + gendar + "\", \"hasMarried\":\"" + hasMarried + "\"} \n";
+        }
     }
+    
 }

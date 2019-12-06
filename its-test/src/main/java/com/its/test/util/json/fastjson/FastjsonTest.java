@@ -1,4 +1,4 @@
-package com.its.test.util.json;
+package com.its.test.util.json.fastjson;
 
 import java.util.ArrayList;
 import java.util.Date;

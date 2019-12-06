@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.its.common.crypto.simple.Md5ShaCryptoUtil;
 import com.its.common.utils.Constants;
 import com.its.common.utils.PrimaryKeyUtil;
+import com.its.common.utils.json.JacksonUtil;
+import com.its.model.annotation.Import;
 import com.its.model.mybatis.dao.domain.JobManager;
 import com.its.model.mybatis.dao.domain.SysUser;
 import com.its.model.mybatis.dao.domain.SysUserRole;
@@ -280,5 +282,19 @@ public class SysUserController {
 			return successFlag;
 		}
 	}
+	
+	public static void main(String[] args) {
+	    SysUser sysUser = new SysUser();
+	    sysUser.setStId("1533693");
+	    sysUser.setStCode("ZS001");
+	    sysUser.setStName("测试");
+	    sysUser.setStPassword("1qaz2wsx");
+	    sysUser.setLanguage("CN");
+	    sysUser.setCreateBy("sys");
+	    sysUser.setCreateTm(new Date());
+	    sysUser.setUpdateBy("sys");
+	    sysUser.setUpdateTm(new Date());
+	    System.out.println(JacksonUtil.nonDefaultMapper().toJson(sysUser));
+    }
 
 }

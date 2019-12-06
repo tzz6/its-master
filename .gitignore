@@ -1,3 +1,13 @@
 /.settings/
 /.project
 /logs/
+/.idea/
+/its-common/its-common.iml
+/its-core/its-core.iml
+/its-model/its-model.iml
+/its-parent.iml
+/its-servers/its-servers.iml
+/its-servers-facade/its-servers-facade.iml
+/its-service/its-service.iml
+/its-service-facade/its-service-facade.iml
+/its-web/its-web.iml

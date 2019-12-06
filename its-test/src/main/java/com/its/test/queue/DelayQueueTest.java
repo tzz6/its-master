@@ -44,28 +44,27 @@ public class DelayQueueTest {
     // (2)集群扩展相当麻烦
     // (3)因为内存条件限制的原因，比如下单未付款的订单数太多，那么很容易就出现OOM异常
     // (4)代码复杂度较高
-    
-    public static void main(String[] args) {  
-        List<String> list = new ArrayList<String>();  
-        list.add("00000001");  
-        list.add("00000002");  
-        list.add("00000003");  
-        list.add("00000004");  
-        list.add("00000005");  
-        DelayQueue<OrderDelay> queue = new DelayQueue<OrderDelay>();  
-        long start = System.currentTimeMillis();  
+
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<String>();
+        list.add("00000001");
+        list.add("00000002");
+        list.add("00000003");
+        list.add("00000004");
+        list.add("00000005");
+        DelayQueue<OrderDelay> queue = new DelayQueue<OrderDelay>();
+        long start = System.currentTimeMillis();
         int end = 5;
         for (int i = 0; i < end; i++) {
-            //延迟三秒取出
-            queue.put(new OrderDelay(list.get(i), TimeUnit.NANOSECONDS.convert(3, TimeUnit.SECONDS)));  
-                try {  
-                     queue.take().print();  
-                     System.out.println("After " +   
-                             (System.currentTimeMillis()-start) + " MilliSeconds");  
-            } catch (InterruptedException e) {  
-                e.printStackTrace();  
-            }  
-        }  
-    }  
+            // 延迟三秒取出
+            queue.put(new OrderDelay(list.get(i), TimeUnit.NANOSECONDS.convert(3, TimeUnit.SECONDS)));
+            try {
+                queue.take().print();
+                System.out.println("After " + (System.currentTimeMillis() - start) + " MilliSeconds");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

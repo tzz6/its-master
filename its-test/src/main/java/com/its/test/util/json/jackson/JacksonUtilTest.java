@@ -1,4 +1,4 @@
-package com.its.test.util.json;
+package com.its.test.util.json.jackson;
 
 import org.junit.Test;
 

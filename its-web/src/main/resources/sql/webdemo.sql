@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50532
-Source Host           : localhost:3306
+Source Server         : 127.0.0.1
+Source Server Version : 50562
+Source Host           : 127.0.0.1:3306
 Source Database       : webdemo
 
 Target Server Type    : MYSQL
-Target Server Version : 50532
+Target Server Version : 50562
 File Encoding         : 65001
 
-Date: 2017-09-22 09:27:47
+Date: 2019-12-05 15:01:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -80,6 +80,8 @@ INSERT INTO `bld_language` VALUES ('sys_menu_0024', 'zh', '支付管理');
 INSERT INTO `bld_language` VALUES ('sys_menu_0024', 'en', 'Pay Manager');
 INSERT INTO `bld_language` VALUES ('sys_menu_0025', 'zh', '支付宝');
 INSERT INTO `bld_language` VALUES ('sys_menu_0025', 'en', 'AliPay');
+INSERT INTO `bld_language` VALUES ('sys_menu_0026', 'en', 'ReportManager');
+INSERT INTO `bld_language` VALUES ('sys_menu_0026', 'zh', '报表管理');
 
 -- ----------------------------
 -- Table structure for `bsd_weight_charge_type`
@@ -105,13 +107,25 @@ CREATE TABLE `hibernate_sequence` (
 -- ----------------------------
 -- Records of hibernate_sequence
 -- ----------------------------
-INSERT INTO `hibernate_sequence` VALUES ('619');
-INSERT INTO `hibernate_sequence` VALUES ('619');
-INSERT INTO `hibernate_sequence` VALUES ('619');
-INSERT INTO `hibernate_sequence` VALUES ('619');
-INSERT INTO `hibernate_sequence` VALUES ('619');
-INSERT INTO `hibernate_sequence` VALUES ('619');
-INSERT INTO `hibernate_sequence` VALUES ('619');
+INSERT INTO `hibernate_sequence` VALUES ('906');
+INSERT INTO `hibernate_sequence` VALUES ('906');
+INSERT INTO `hibernate_sequence` VALUES ('906');
+INSERT INTO `hibernate_sequence` VALUES ('906');
+INSERT INTO `hibernate_sequence` VALUES ('906');
+INSERT INTO `hibernate_sequence` VALUES ('906');
+INSERT INTO `hibernate_sequence` VALUES ('906');
+
+-- ----------------------------
+-- Table structure for `its_spb_gateway_route`
+-- ----------------------------
+DROP TABLE IF EXISTS `its_spb_gateway_route`;
+CREATE TABLE `its_spb_gateway_route` (
+  `gateway_route_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `gateway_route_key` varchar(2000) NOT NULL COMMENT '动态服务网关路由配置',
+  `gateway_route` varchar(2000) NOT NULL COMMENT '动态服务网关路由配置',
+  `status` varchar(8) DEFAULT '1' COMMENT '状态0:无效 1:有效 1',
+  PRIMARY KEY (`gateway_route_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2535 DEFAULT CHARSET=utf8 COMMENT='SpringCloudGateway动态服务网关';
 
 -- ----------------------------
 -- Table structure for `qrtz_blob_triggers`
@@ -163,9 +177,11 @@ CREATE TABLE `qrtz_cron_triggers` (
 -- Records of qrtz_cron_triggers
 -- ----------------------------
 INSERT INTO `qrtz_cron_triggers` VALUES ('schedulerFactory', 'exQuartzAJobCronTrigger', 'DEFAULT', '0/10 * * * * ?', 'Asia/Shanghai');
-INSERT INTO `qrtz_cron_triggers` VALUES ('schedulerFactory', 'exQuartzBJobCronTrigger', 'DEFAULT', '0/10 * * * * ?', 'Asia/Shanghai');
-INSERT INTO `qrtz_cron_triggers` VALUES ('schedulerFactory', 'exQuartzJobCronTrigger', 'DEFAULT', '0/10 * * * * ?', 'Asia/Shanghai');
-INSERT INTO `qrtz_cron_triggers` VALUES ('schedulerFactory', 'WD_TRIGGER_NAME', 'DEFAULT', '0/5 * * * * ?', 'Asia/Shanghai');
+INSERT INTO `qrtz_cron_triggers` VALUES ('schedulerFactory', 'exQuartzBJobCronTrigger', 'DEFAULT', '0/30 * * * * ?', 'Asia/Shanghai');
+INSERT INTO `qrtz_cron_triggers` VALUES ('schedulerFactory', 'exQuartzJobCronTrigger', 'DEFAULT', '0/50 * * * * ?', 'Asia/Shanghai');
+INSERT INTO `qrtz_cron_triggers` VALUES ('TestScheduler1', 'exQuartzAJobCronTrigger', 'DEFAULT', '0/10 * * * * ?', 'Asia/Shanghai');
+INSERT INTO `qrtz_cron_triggers` VALUES ('TestScheduler1', 'exQuartzBJobCronTrigger', 'DEFAULT', '0/10 * * * * ?', 'Asia/Shanghai');
+INSERT INTO `qrtz_cron_triggers` VALUES ('TestScheduler1', 'exQuartzJobCronTrigger', 'DEFAULT', '0/10 * * * * ?', 'Asia/Shanghai');
 
 -- ----------------------------
 -- Table structure for `qrtz_fired_triggers`
@@ -215,8 +231,10 @@ CREATE TABLE `qrtz_job_details` (
 -- ----------------------------
 INSERT INTO `qrtz_job_details` VALUES ('schedulerFactory', 'exQuartzAJob', 'DEFAULT', null, 'com.its.servers.job.quartz.EXQuartzAJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000774696D656F7574740001307800);
 INSERT INTO `qrtz_job_details` VALUES ('schedulerFactory', 'exQuartzBJob', 'DEFAULT', null, 'com.its.servers.job.quartz.EXQuartzBJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000774696D656F7574740001307800);
-INSERT INTO `qrtz_job_details` VALUES ('schedulerFactory', 'exQuartzJob', 'DEFAULT', null, 'com.its.servers.job.quartz.EXQuartzJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000774696D656F7574740001307800);
-INSERT INTO `qrtz_job_details` VALUES ('schedulerFactory', 'WD_JOB_NAME', 'DEFAULT', null, 'com.its.servers.job.quartz.DynamicQuartzJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000B7363686564756C654A6F6273720024636F6D2E6974732E6D6F64656C2E64616F2E646F6D61696E2E5363686564756C654A6F6220DAD6D338998A120200094C0009636C6173734E616D657400124C6A6176612F6C616E672F537472696E673B4C000E63726F6E45787072657373696F6E71007E00094C000B6465736372697074696F6E71007E00094C000269647400104C6A6176612F6C616E672F4C6F6E673B4C00086A6F6247726F757071007E00094C00076A6F624E616D6571007E00094C00096A6F6253746174757371007E00094C000C7472696767657247726F757071007E00094C000B747269676765724E616D6571007E0009787074002B636F6D2E6974732E736572766572732E6A6F622E71756172747A2E44796E616D696351756172747A4A6F6274000D302F35202A202A202A202A203F740012E58AA8E68081E4BBBBE58AA1E8B083E5BAA67074000744454641554C5474000B57445F4A4F425F4E414D457400013171007E000F74000F57445F545249474745525F4E414D457800);
+INSERT INTO `qrtz_job_details` VALUES ('schedulerFactory', 'exQuartzJob', 'DEFAULT', null, 'com.its.servers.job.quartz.EXQuartzJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000B7363686564756C654A6F6273720024636F6D2E6974732E6D6F64656C2E64616F2E646F6D61696E2E5363686564756C654A6F6220DAD6D338998A120200094C0009636C6173734E616D657400124C6A6176612F6C616E672F537472696E673B4C000E63726F6E45787072657373696F6E71007E00094C000B6465736372697074696F6E71007E00094C000269647400104C6A6176612F6C616E672F4C6F6E673B4C00086A6F6247726F757071007E00094C00076A6F624E616D6571007E00094C00096A6F6253746174757371007E00094C000C7472696767657247726F757071007E00094C000B747269676765724E616D6571007E00097870740026636F6D2E6974732E736572766572732E6A6F622E71756172747A2E455851756172747A4A6F6274000E302F3130202A202A202A202A203F740025E9809AE8BF87657874656E64732051756172747A4A6F624265616E20E79A84E696B9E5BC8F7372000E6A6176612E6C616E672E4C6F6E673B8BE490CC8F23DF0200014A000576616C7565787200106A6176612E6C616E672E4E756D62657286AC951D0B94E08B0200007870000000000000033F74000744454641554C5474000B657851756172747A4A6F627400013174000744454641554C54740016657851756172747A4A6F6243726F6E547269676765727800);
+INSERT INTO `qrtz_job_details` VALUES ('TestScheduler1', 'exQuartzAJob', 'DEFAULT', null, 'com.its.servers.job.quartz.EXQuartzAJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000774696D656F7574740001307800);
+INSERT INTO `qrtz_job_details` VALUES ('TestScheduler1', 'exQuartzBJob', 'DEFAULT', null, 'com.its.servers.job.quartz.EXQuartzBJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000774696D656F7574740001307800);
+INSERT INTO `qrtz_job_details` VALUES ('TestScheduler1', 'exQuartzJob', 'DEFAULT', null, 'com.its.servers.job.quartz.EXQuartzJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787001737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F4000000000000C7708000000100000000174000774696D656F7574740001307800);
 
 -- ----------------------------
 -- Table structure for `qrtz_locks`
@@ -233,6 +251,8 @@ CREATE TABLE `qrtz_locks` (
 -- ----------------------------
 INSERT INTO `qrtz_locks` VALUES ('schedulerFactory', 'STATE_ACCESS');
 INSERT INTO `qrtz_locks` VALUES ('schedulerFactory', 'TRIGGER_ACCESS');
+INSERT INTO `qrtz_locks` VALUES ('TestScheduler1', 'STATE_ACCESS');
+INSERT INTO `qrtz_locks` VALUES ('TestScheduler1', 'TRIGGER_ACCESS');
 
 -- ----------------------------
 -- Table structure for `qrtz_paused_trigger_grps`
@@ -263,7 +283,8 @@ CREATE TABLE `qrtz_scheduler_state` (
 -- ----------------------------
 -- Records of qrtz_scheduler_state
 -- ----------------------------
-INSERT INTO `qrtz_scheduler_state` VALUES ('schedulerFactory', 'SFHQ931A1505962363848', '1505975489683', '20000');
+INSERT INTO `qrtz_scheduler_state` VALUES ('schedulerFactory', 'SF0001115486A1574752871098', '1574752912534', '20000');
+INSERT INTO `qrtz_scheduler_state` VALUES ('TestScheduler1', 'SF0001115486A1575528832685', '1575529274336', '20000');
 
 -- ----------------------------
 -- Table structure for `qrtz_simple_triggers`
@@ -340,10 +361,12 @@ CREATE TABLE `qrtz_triggers` (
 -- ----------------------------
 -- Records of qrtz_triggers
 -- ----------------------------
-INSERT INTO `qrtz_triggers` VALUES ('schedulerFactory', 'exQuartzAJobCronTrigger', 'DEFAULT', 'exQuartzAJob', 'DEFAULT', null, '1504581000000', '1504580990000', '0', 'PAUSED', 'CRON', '1489673292000', '0', null, '0', '');
-INSERT INTO `qrtz_triggers` VALUES ('schedulerFactory', 'exQuartzBJobCronTrigger', 'DEFAULT', 'exQuartzBJob', 'DEFAULT', null, '1504581000000', '1504580990000', '0', 'PAUSED', 'CRON', '1489673292000', '0', null, '0', '');
-INSERT INTO `qrtz_triggers` VALUES ('schedulerFactory', 'exQuartzJobCronTrigger', 'DEFAULT', 'exQuartzJob', 'DEFAULT', null, '1504580940000', '1504580930000', '0', 'PAUSED', 'CRON', '1489673292000', '0', null, '0', '');
-INSERT INTO `qrtz_triggers` VALUES ('schedulerFactory', 'WD_TRIGGER_NAME', 'DEFAULT', 'WD_JOB_NAME', 'DEFAULT', null, '1489728640000', '1489728635000', '5', 'PAUSED', 'CRON', '1489728621000', '0', null, '0', '');
+INSERT INTO `qrtz_triggers` VALUES ('schedulerFactory', 'exQuartzAJobCronTrigger', 'DEFAULT', 'exQuartzAJob', 'DEFAULT', null, '1540457650000', '1540457640000', '0', 'PAUSED', 'CRON', '1514371410000', '0', null, '0', '');
+INSERT INTO `qrtz_triggers` VALUES ('schedulerFactory', 'exQuartzBJobCronTrigger', 'DEFAULT', 'exQuartzBJob', 'DEFAULT', null, '1540457670000', '1540457640000', '0', 'PAUSED', 'CRON', '1514371410000', '0', null, '0', '');
+INSERT INTO `qrtz_triggers` VALUES ('schedulerFactory', 'exQuartzJobCronTrigger', 'DEFAULT', 'exQuartzJob', 'DEFAULT', null, '1540457690000', '1540457640000', '5', 'PAUSED', 'CRON', '1514372069000', '0', null, '0', '');
+INSERT INTO `qrtz_triggers` VALUES ('TestScheduler1', 'exQuartzAJobCronTrigger', 'DEFAULT', 'exQuartzAJob', 'DEFAULT', null, '1540644710000', '1540644700000', '0', 'PAUSED', 'CRON', '1540639247000', '0', null, '0', '');
+INSERT INTO `qrtz_triggers` VALUES ('TestScheduler1', 'exQuartzBJobCronTrigger', 'DEFAULT', 'exQuartzBJob', 'DEFAULT', null, '1540644710000', '1540644700000', '0', 'PAUSED', 'CRON', '1540639247000', '0', null, '0', '');
+INSERT INTO `qrtz_triggers` VALUES ('TestScheduler1', 'exQuartzJobCronTrigger', 'DEFAULT', 'exQuartzJob', 'DEFAULT', null, '1540644710000', '1540644700000', '0', 'PAUSED', 'CRON', '1540639247000', '0', null, '0', '');
 
 -- ----------------------------
 -- Table structure for `sys_menu`
@@ -392,6 +415,30 @@ INSERT INTO `sys_menu` VALUES ('0000000000000021', '0000000000000020', 'Hessian'
 INSERT INTO `sys_menu` VALUES ('0000000000000023', '0000000000000020', 'Hessian', '21', '/ws/cxfIndex', 'M', 'CXF_INDEX', '/ws/cxfIndex', 'IOP-MCS', 'sys_menu_0023');
 INSERT INTO `sys_menu` VALUES ('0000000000000024', null, '支付管理', '22', null, 'M', 'PAY_MANAGER', null, 'IOP-MCS', 'sys_menu_0024');
 INSERT INTO `sys_menu` VALUES ('0000000000000025', '0000000000000024', '支付宝', '23', '/pay/alipay', 'M', 'ALIPAY_INDEX', '/pay/alipay', 'IOP-MCS', 'sys_menu_0025');
+INSERT INTO `sys_menu` VALUES ('0000000000000026', '0000000000000001', '报表管理', '24', '/sysReport/toSysReportManage', 'M', 'SYS_REPORT_MANAGER', '/sysReport/toSysReportManage,/sysReport/sysReportManage,/sysReport/sysReportPageValue', 'IOP-MCS', 'sys_menu_0026');
+INSERT INTO `sys_menu` VALUES ('0000000000000029', null, '系统管理xx', '1', null, 'M', 'SYS_USER_MANAGER_1', '', 'IOP-MCS', 'sys_menu_0001');
+
+-- ----------------------------
+-- Table structure for `sys_menu_name`
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_menu_name`;
+CREATE TABLE `sys_menu_name` (
+  `SMN_MENU_ID` varchar(32) NOT NULL COMMENT '菜单ID',
+  `MENU_NAME` varchar(128) DEFAULT NULL COMMENT '菜单名',
+  `MENU_SORT` int(8) DEFAULT NULL COMMENT '排序',
+  `MENU_URL` varchar(256) DEFAULT NULL COMMENT 'URL',
+  `MENU_TYPE` varchar(2) DEFAULT NULL COMMENT '菜单类型（M:菜单、B:按钮）',
+  `PERMISSION_CODE` varchar(128) DEFAULT NULL COMMENT '权限编码',
+  `PERMISSION_URL` varchar(512) DEFAULT NULL COMMENT '权限URL',
+  `SYS_NAME` varchar(128) DEFAULT NULL COMMENT '系统名称',
+  `BLD_CODE` varchar(16) DEFAULT NULL COMMENT '语言CODE',
+  PRIMARY KEY (`SMN_MENU_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单表-用于测试触发器存储过程';
+
+-- ----------------------------
+-- Records of sys_menu_name
+-- ----------------------------
+INSERT INTO `sys_menu_name` VALUES ('0000000000000026', '报表管理', '24', '/sysUser/toSysUserManage', 'M', 'SYS_USER_MANAGER', '/sysUser/toSysUserManage,/sysUser/sysUserManage', 'ITS-中文', 'sys_menu_0026');
 
 -- ----------------------------
 -- Table structure for `sys_name`
@@ -470,6 +517,7 @@ INSERT INTO `sys_role_menu` VALUES ('2559940E454A4BCA94328D4155DE84A7', '0000000
 INSERT INTO `sys_role_menu` VALUES ('2559940E454A4BCA94328D4155DE84A7', '0000000000000023');
 INSERT INTO `sys_role_menu` VALUES ('2559940E454A4BCA94328D4155DE84A7', '0000000000000024');
 INSERT INTO `sys_role_menu` VALUES ('2559940E454A4BCA94328D4155DE84A7', '0000000000000025');
+INSERT INTO `sys_role_menu` VALUES ('2559940E454A4BCA94328D4155DE84A7', '0000000000000026');
 
 -- ----------------------------
 -- Table structure for `sys_user`
@@ -485,14 +533,16 @@ CREATE TABLE `sys_user` (
   `UPDATE_BY` varchar(20) NOT NULL COMMENT '修改人',
   `UPDATE_TM` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`ST_ID`),
-  UNIQUE KEY `ST_Code` (`ST_Code`)
+  UNIQUE KEY `ST_Code` (`ST_Code`),
+  KEY `sys_user_st_code` (`ST_Code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('A63418EDD2924FE18CD51FB8A4DEA8EC', 'Test01', 'Testxx', 'bcfe1b1ac8f5b18c2a35fae8452cf5fef062676dbe83b6b1d141601fdb0a842c0a222da40a401ffa9baecbfb5a756be1fb31e9bb4c3477dda355b6f0ef1a89aa', 'admin', '2017-06-14 16:25:43', 'admin', null);
-INSERT INTO `sys_user` VALUES ('DA499AED4E9243049B8AA8BCC76CE4C0', 'admin', 'admin', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', '01115486', '2017-04-13 17:34:26', '01115486', null);
+INSERT INTO `sys_user` VALUES ('DA499AED4E9243049B8AA8BCC76CE4C0', 'admin', 'admin', '8450eca01665516d9aeb5317764902b78495502637c96192c81b1683d32d691a0965cf037feca8b9ed9ee6fc6ab8f27fce8f77c4fd9b4a442a00fc317b8237e6', '01115486', '2018-06-13 17:34:26', '\"admin\"', '2019-10-24 01:49:11');
+INSERT INTO `sys_user` VALUES ('EEAD13A0790347DB8A86739CD1350A94', 'Test3', 'test3', '44843e206b8626f5bf88c06d5e6bfd56f4ad75b9aaf4202db88485e6f4020a22df7e912929c8983aec37e019b649fe8e808a7603adb9464694d7ee6df051b5f4', 'admin', '2019-10-24 10:13:02', 'admin', null);
+INSERT INTO `sys_user` VALUES ('FEFCF1A4121F4F019281833F47E7BBF0', 'ddd', 'ddd', '652dcf7057417d54c3236731a2ca47330b8809236b87da89917403feaac34ea5dbe938ee60fdd606383b38df9b51239d25968ddf1c0445c0e7ab448287197d64', 'admin', '2019-10-24 08:22:26', 'admin', null);
 
 -- ----------------------------
 -- Table structure for `sys_user_role`
@@ -545,13 +595,29 @@ CREATE TABLE `tab_file_model` (
   `name` varchar(255) DEFAULT NULL,
   `savePath` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=380 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=890 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tab_file_model
 -- ----------------------------
-INSERT INTO `tab_file_model` VALUES ('378', '2017-05-24 16:39:06', 'Hydrangeas.jpg', 'E:\\Eclipse\\4.6.0\\eclipse\\workspace\\its-master\\its-web\\src\\main\\webapp\\WEB-INF\\upload\\20170524\\3\\13\\b225d13c-d1ea-47df-a1be-15ab809bcf6e_20170524163906.Hydrangeas.jpg');
-INSERT INTO `tab_file_model` VALUES ('379', '2017-05-24 16:39:06', 'Lighthouse.jpg', 'E:\\Eclipse\\4.6.0\\eclipse\\workspace\\its-master\\its-web\\src\\main\\webapp\\WEB-INF\\upload\\20170524\\4\\1\\50a8636d-85ae-42af-8c5a-2922c7a06f35_20170524163906.Lighthouse.jpg');
+INSERT INTO `tab_file_model` VALUES ('859', '2018-10-27 17:49:24', 'user_template.xlsx', 'D:\\Eclipse\\V4.6\\eclipse\\workspace\\its-master\\its-web\\src\\main\\webapp\\WEB-INF\\file\\upload\\20181027\\1\\4\\f7ab77d3-0481-4811-8584-88a3ea0fbe92_20181027174924.user_template.xlsx');
+INSERT INTO `tab_file_model` VALUES ('860', '2018-10-27 17:49:24', 'user_template_null.xlsx', 'D:\\Eclipse\\V4.6\\eclipse\\workspace\\its-master\\its-web\\src\\main\\webapp\\WEB-INF\\file\\upload\\20181027\\6\\4\\8ccd0381-4d32-4527-906f-e0878338006d_20181027174924.user_template_null.xlsx');
+
+-- ----------------------------
+-- Table structure for `tab_job_manager`
+-- ----------------------------
+DROP TABLE IF EXISTS `tab_job_manager`;
+CREATE TABLE `tab_job_manager` (
+  `JOB_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'JOB_ID定时任务分片ID',
+  `SERVICE_TYPE` varchar(16) NOT NULL COMMENT '业务数据类型',
+  `SERVICE_ID` varchar(32) NOT NULL COMMENT '业务数据ID',
+  `STATUS` varchar(8) DEFAULT '0' COMMENT '状态0:定时任务未处理 1:定时任务已处理',
+  `JOB_COUNT` int(10) DEFAULT '0' COMMENT 'JOB调用次数',
+  `IP` varchar(16) DEFAULT '0' COMMENT '数据IP',
+  `JOB_IP` varchar(16) DEFAULT '0' COMMENT 'JOB执行IP',
+  PRIMARY KEY (`JOB_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=20750 DEFAULT CHARSET=utf8 COMMENT='定时任务业务数据管理表';
+
 
 -- ----------------------------
 -- Table structure for `tab_orders`
@@ -586,7 +652,7 @@ CREATE TABLE `tab_role` (
   KEY `FK_5wa9ua4sgjur7e5ap7y1tde3q` (`departmentId`),
   CONSTRAINT `FK9d96k2u6qc5v3urwr5mjyvacr` FOREIGN KEY (`departmentId`) REFERENCES `tab_department` (`id`),
   CONSTRAINT `FK_5wa9ua4sgjur7e5ap7y1tde3q` FOREIGN KEY (`departmentId`) REFERENCES `tab_department` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=391 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tab_role
@@ -594,7 +660,6 @@ CREATE TABLE `tab_role` (
 INSERT INTO `tab_role` VALUES ('1', '角色1', '1');
 INSERT INTO `tab_role` VALUES ('2', '角色2', '1');
 INSERT INTO `tab_role` VALUES ('3', '角色3', '3');
-INSERT INTO `tab_role` VALUES ('390', 't', '1');
 
 -- ----------------------------
 -- Table structure for `tab_role_type`
@@ -627,15 +692,15 @@ CREATE TABLE `tab_schedule_job` (
   `triggerGroup` varchar(255) DEFAULT NULL,
   `triggerName` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=619 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=906 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tab_schedule_job
 -- ----------------------------
-INSERT INTO `tab_schedule_job` VALUES ('615', 'com.tzz.job.quartz.EXQuartzJob', '0/10 * * * * ?', '通过extends QuartzJobBean 的方式', 'DEFAULT', 'exQuartzJob', '1', 'DEFAULT', 'exQuartzJobCronTrigger');
-INSERT INTO `tab_schedule_job` VALUES ('616', 'com.tzz.job.quartz.EXQuartzAJob', '0/10 * * * * ?', 'A--通过extends QuartzJobBean 的方式', 'DEFAULT', 'exQuartzAJob', '1', 'DEFAULT', 'exQuartzAJobCronTrigger');
-INSERT INTO `tab_schedule_job` VALUES ('617', 'com.tzz.job.quartz.EXQuartzBJob', '0/10 * * * * ?', 'B--通过extends QuartzJobBean 的方式', 'DEFAULT', 'exQuartzBJob', '1', 'DEFAULT', 'exQuartzBJobCronTrigger');
-INSERT INTO `tab_schedule_job` VALUES ('618', 'com.tzz.job.quartz.DynamicQuartzJob', '0 0/10 * * * ?', '动态添加任务', 'DEFAULT', 'dynamicQuartzJob', '1', 'DEFAULT', 'dynamicQuartzCronTrigger');
+INSERT INTO `tab_schedule_job` VALUES ('902', 'com.tzz.job.quartz.EXQuartzJob', '0/10 * * * * ?', '通过extends QuartzJobBean 的方式', 'DEFAULT', 'exQuartzJob', '1', 'DEFAULT', 'exQuartzJobCronTrigger');
+INSERT INTO `tab_schedule_job` VALUES ('903', 'com.tzz.job.quartz.EXQuartzAJob', '0/10 * * * * ?', 'A--通过extends QuartzJobBean 的方式', 'DEFAULT', 'exQuartzAJob', '1', 'DEFAULT', 'exQuartzAJobCronTrigger');
+INSERT INTO `tab_schedule_job` VALUES ('904', 'com.tzz.job.quartz.EXQuartzBJob', '0/10 * * * * ?', 'B--通过extends QuartzJobBean 的方式', 'DEFAULT', 'exQuartzBJob', '1', 'DEFAULT', 'exQuartzBJobCronTrigger');
+INSERT INTO `tab_schedule_job` VALUES ('905', 'com.tzz.job.quartz.DynamicQuartzJob', '0 0/10 * * * ?', '动态添加任务', 'DEFAULT', 'dynamicQuartzJob', '1', 'DEFAULT', 'dynamicQuartzCronTrigger');
 
 -- ----------------------------
 -- Table structure for `tab_user`
@@ -652,7 +717,7 @@ CREATE TABLE `tab_user` (
   KEY `FK_iai43sss9fw8wakfuhc0apcar` (`departmentid`),
   CONSTRAINT `FK41rr5k7gw5uaqjiqbri2iq9v` FOREIGN KEY (`departmentid`) REFERENCES `tab_department` (`id`),
   CONSTRAINT `FK_iai43sss9fw8wakfuhc0apcar` FOREIGN KEY (`departmentid`) REFERENCES `tab_department` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=390 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=856 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tab_user
@@ -677,11 +742,10 @@ INSERT INTO `tab_user` VALUES ('22', 'Test05', '123456', '2016-02-26 14:27:00', 
 INSERT INTO `tab_user` VALUES ('23', 'Test05', '123456', '2016-02-26 14:28:37', '男', '2');
 INSERT INTO `tab_user` VALUES ('24', 'Test06', '123456', '2016-02-26 14:57:37', '女', '3');
 INSERT INTO `tab_user` VALUES ('25', 'Test09', '123456', '2016-02-26 14:57:49', '女', '4');
-INSERT INTO `tab_user` VALUES ('26', 'Test2016051601', '123456', '2016-05-16 10:53:59', '男', '1');
 INSERT INTO `tab_user` VALUES ('27', 'tanzhongzhu@sf-express.com', '123456', '2016-05-16 15:50:11', '男', '1');
-INSERT INTO `tab_user` VALUES ('117', 'Test', '123456', '2017-03-15 22:33:35', '男', '1');
-INSERT INTO `tab_user` VALUES ('388', '15813729906', '123456', '2017-05-24 19:02:09', '男', '1');
-INSERT INTO `tab_user` VALUES ('389', '15813729906', '123456', '2017-05-24 19:03:03', '男', '1');
+INSERT INTO `tab_user` VALUES ('820', 'tanzhongzhu@sf-express.com', null, '2017-12-22 17:01:26', '女', '1');
+INSERT INTO `tab_user` VALUES ('821', 'tanzhongzhu@sf-express.com', null, '2017-12-22 17:01:42', '男', '1');
+INSERT INTO `tab_user` VALUES ('855', 'admin', null, '2018-03-29 17:45:26', '?', '1');
 
 -- ----------------------------
 -- Table structure for `user_role`
@@ -714,9 +778,10 @@ INSERT INTO `user_role` VALUES ('19', '1');
 INSERT INTO `user_role` VALUES ('20', '1');
 INSERT INTO `user_role` VALUES ('22', '1');
 INSERT INTO `user_role` VALUES ('24', '1');
-INSERT INTO `user_role` VALUES ('26', '1');
 INSERT INTO `user_role` VALUES ('27', '1');
-INSERT INTO `user_role` VALUES ('388', '1');
+INSERT INTO `user_role` VALUES ('820', '1');
+INSERT INTO `user_role` VALUES ('821', '1');
+INSERT INTO `user_role` VALUES ('855', '1');
 INSERT INTO `user_role` VALUES ('2', '2');
 INSERT INTO `user_role` VALUES ('4', '2');
 INSERT INTO `user_role` VALUES ('5', '2');
@@ -732,10 +797,9 @@ INSERT INTO `user_role` VALUES ('22', '2');
 INSERT INTO `user_role` VALUES ('23', '2');
 INSERT INTO `user_role` VALUES ('24', '2');
 INSERT INTO `user_role` VALUES ('25', '2');
-INSERT INTO `user_role` VALUES ('26', '2');
 INSERT INTO `user_role` VALUES ('27', '2');
-INSERT INTO `user_role` VALUES ('117', '2');
-INSERT INTO `user_role` VALUES ('389', '2');
+INSERT INTO `user_role` VALUES ('820', '2');
+INSERT INTO `user_role` VALUES ('855', '2');
 INSERT INTO `user_role` VALUES ('4', '3');
 INSERT INTO `user_role` VALUES ('6', '3');
 INSERT INTO `user_role` VALUES ('8', '3');
@@ -746,34 +810,75 @@ INSERT INTO `user_role` VALUES ('21', '3');
 INSERT INTO `user_role` VALUES ('23', '3');
 INSERT INTO `user_role` VALUES ('25', '3');
 
+-- ----------------------------
+-- Procedure structure for `prc_delete_sys_menu_name`
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `prc_delete_sys_menu_name`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `prc_delete_sys_menu_name`()
+BEGIN
+	delete from sys_menu_name;
+END
+;;
+DELIMITER ;
 
-DROP TABLE IF EXISTS `tab_job_manager`;
-CREATE TABLE `tab_job_manager` (
-  `JOB_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'JOB_ID定时任务分片ID',
-  `SERVICE_TYPE` varchar(16) NOT NULL COMMENT '业务数据类型',
-  `SERVICE_ID` varchar(32) NOT NULL COMMENT '业务数据ID',
-  `STATUS` varchar(8) DEFAULT '0' COMMENT '状态0:定时任务未处理 1:定时任务已处理',
-  `JOB_COUNT` int(10) DEFAULT '0' COMMENT 'JOB调用次数',
-  `IP` varchar(16) DEFAULT '0' COMMENT '数据IP',
-  `JOB_IP` varchar(16) DEFAULT '0' COMMENT 'JOB执行IP',
-  PRIMARY KEY (`JOB_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='定时任务业务数据管理表';
-
-
--- 测试数据批量insert
-DROP PROCEDURE tab_job_manager_insert; 
-CREATE PROCEDURE tab_job_manager_insert () 
+-- ----------------------------
+-- Procedure structure for `tab_job_manager_insert`
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `tab_job_manager_insert`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `tab_job_manager_insert`(IN i int,max int)
 BEGIN 
-DECLARE i INT DEFAULT 1;
-WHILE i<1000 
+WHILE i<max 
 DO 
-INSERT INTO `tab_job_manager` (service_type,service_id,status,ip,job_ip)  VALUES ('sys_user', 'DA499AED4E9243049B8AA8BCC76CE4C0', '0', '10.118.53.59', null);
+
+INSERT INTO `tt_address_source` VALUES (i, i, 'SZX0900SYD', 'SYD', '2018-08-31', '9', '83138630006', '083138630006', 'SZX', 'SYD', '1', '1.5', 'KG', 'APX', '30.0', '1piece', null, 'air tank', 'P', 'B', 'ST', 'none', 'golden orange e-commerce', 'DE##EwA9TuNa%2By68vsQ0%2FVbp5n78AThj17Kxr1hY1R0o5GZyvOazrC7LgondjEKKdix95mY%2Fuu0j6CQL9iPIsDbA4YMPWW2r%2FwYETdmFQDtRjMqVYDM15CWKD3fO2WXjz7jDoe%2FqKAh2yZZwK7MeHLv9iDeWR6guyr0AAbfwNzj6ra7IwMIMwieIjEFOK9v0RVgbmf%2BXuQ%3D%3D', '', 'Shenzhen', 'VICTORIA', null, 'CN', '13414488360', 'terry awad', 'fortune auto north america inc', 'DE##EwA9TobMepEKnV4sQyH01BpWmJ%2BT5CNe0eOuyajTJ8ATk9HmTR1h8aNnV3PUTmg4wsMkBLCc0H5ostXPQe2jGuJi%2BeAfeI%2Fm2GwxdUlpf78MB%2FpD', '', 'AFTERLEE', 'NEW SOUTH WALES', '2474', 'AU', '8772270260', '032771991143 032771991152', null, '3', '1495 oakbridge terrace powhatan va 23139 usa POWHATAN Virginia', '2018-09-01 14:10:11', 'A', null, 'B', 'APX', '0', '', '0', '0', '1', '1', '1', '0', '1', 'data clean does not exist fail', 'C901', '8606977390', '0', '0', '10899100', 'CN', '755U', 'SFO', '9.500000', '7550047542', null, '0', '1', 'C0AF3E5BDDD4433B87971AABC984A4E9', '澳大利亚', '0');
+
+INSERT INTO `wod_waybill_info` VALUES (i, '20180809Y00000000a0f3997', i, '0', '1', '2.500', '2.482', '1', '888880', null, null, null, null, '', 
+null, null, null, 'C901', 'T4', null, null, 'B1', null, null, null, null, null, '125.0', '0.000', 'USD', null, 
+'kg', '12.000', '10.000', '14.000', null, null, null, null, null, '2018-08-13 17:31:27', '2018-08-13 17:31:27', null, '0', 'OSMS_WAYBILL', 'PICKUP', null, '755A', 'JFK', null, null, null);
+INSERT INTO `wod_waybill_customs` VALUES (i, 'Z00000000A0F7C98', 'd29adfc0ba354099929a4d72bb6c05c2', '2018-06-29 00:00:00', 'SZX0100MOW', null, '518000', '18025', '', null, null, 
+'US', null, 'test1017060032', null);
+INSERT INTO `wod_waybill_taxbill_info` VALUES (i, '363', null, '2018-03-01 10:57:58', '321625485149', '321625485149', '06999000000003216254851494', '10882325150', '', 'srcCompany', 
+'srcPersonName', 'DesCompany', 'desPersonName', '156164.00000', 'NTD', 'B', '32.21000', '18930.44655', '34.11000', '3.35000', '1.11110', '18940.44655', '7.99000', '33.11000', '100.00000', '333.11100', '0.00000', 
+'21.00000', '1', 'NRT', 'NRT011', 'JP', '8521030001', '2', '0', '852B', 'HKD', '018748', null, '2018-03-01 10:57:58', '0', null, null, null, null, null, null, null, null, null, null, null, null, 
+i, '2018-09-03 12:00:42', '2018-03-01 10:58:02', null);
+
+INSERT INTO `wod_waybill_addr` VALUES (i, 'PennsylvaniaBethlehem777 Henderson Blvd, South Bay,1B,Bethlehem , PA Pennsylvania', null, 'JFK', 'US', 'golden boat lifts manufacturing inc', 
+'MARY ENGLAND DSI', null, null, 'DEEQAVTpp7JMq9UCFayDX1sz%2BJ%2B7E%3D', null, null, '广东省，深圳市，南山区软件产业基地5栋B座6楼', '7551129595', '', '755', 'kevin o neill', 'kevin o neill J', '755A', null, 
+'DEEQAVTs8diNi4ob4J%2B7QeaeTWEXA%3D', null, null, '2018-08-13 17:27:12', null, '20180809Z00000000A0F7C98', null, '2018-08-13 17:27:12', i, 'Z00000000A0F7C98', null, null, null);
+INSERT INTO `wod_waybill_fee` VALUES (i, 'Z00000000A0F7C98', '2b4e248cb3cc4f99b00c3ddfceb7effc', '1', null, null, '1', '2', null, '7551129595', null, null, null, null, null, null, null, null, 
+'2018-08-13 17:27:12');
+
 SET i=i+1; 
 END WHILE ; 
 commit; 
-END;
+END
+;;
+DELIMITER ;
 
-CALL tab_job_manager_insert();
-
-
-
+-- ----------------------------
+-- Event structure for `eve_delete_sys_menu_name`
+-- ----------------------------
+DROP EVENT IF EXISTS `eve_delete_sys_menu_name`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` EVENT `eve_delete_sys_menu_name` ON SCHEDULE EVERY 40 SECOND STARTS '2017-11-06 17:13:41' ON COMPLETION PRESERVE ENABLE DO CALL prc_delete_sys_menu_name()
+;;
+DELIMITER ;
+DROP TRIGGER IF EXISTS `sys_menu_trigger`;
+DELIMITER ;;
+CREATE TRIGGER `sys_menu_trigger` AFTER INSERT ON `sys_menu` FOR EACH ROW BEGIN  
+    SET @smnCount :=(select count(1) from sys_menu_name smn where smn.SMN_MENU_ID = new.MENU_ID);-- 判断是否已存在一样的BLD_CODE
+    SET @lang :="zh";
+		SET @sysName :=(select bl.BLD_NAME from sys_name sysn left join bld_language bl on sysn.bld_code = bl.bld_code where sysn.sys_name_code =new.sys_name_code and bl.LANG = @lang);  
+    IF  @smnCount>0 THEN  -- 存在一样的BLD_CODE，则更新
+			UPDATE sys_menu_name set SMN_MENU_ID=new.MENU_ID,MENU_NAME=new.MENU_NAME,MENU_SORT=new.MENU_SORT,MENU_URL=new.MENU_URL,
+			MENU_TYPE=new.MENU_TYPE,PERMISSION_CODE=new.PERMISSION_CODE,PERMISSION_URL=new.PERMISSION_URL,SYS_NAME=@sysName,BLD_CODE=new.BLD_CODE 
+			WHERE SMN_MENU_ID = new.MENU_ID;
+    ELSE  -- 不存在一样的BLD_CODE，则更新 
+			INSERT INTO sys_menu_name (SMN_MENU_ID,MENU_NAME,MENU_SORT,MENU_URL,MENU_TYPE,PERMISSION_CODE,PERMISSION_URL,SYS_NAME,BLD_CODE) 
+			VALUES (new.MENU_ID,new.MENU_NAME,new.MENU_SORT,new.MENU_URL,new.MENU_TYPE,new.PERMISSION_CODE,new.PERMISSION_URL,@sysName,new.BLD_CODE);
+    END IF;  
+END
+;;
+DELIMITER ;

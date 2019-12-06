@@ -17,7 +17,10 @@ import com.its.test.java8.lambda.innerclass.Anonymous;
 import com.its.test.java8.lambda.innerclass.Dpartment;
 
 /**
- * Lambda表达式
+ * Lambda表达式<br>
+ * Lambda表达式是一个匿名方法，简化了匿名内部类的写法，把模板语法屏蔽，突出业务语句，传达的更像一种行为。<br>
+ * Lambda表达式是有类型的，JDK内置了众多函数接口<br>
+ * Lambda的3段式结构：（...）-> { ...}
  * 
  * @author tzz
  */
@@ -134,6 +137,29 @@ public class LambdaTest {
     @Test
     public void testInnerclass() {
 
+        // 非Lambda表达式写法
+        int[] array = {2, 3, 5, 8, 1};
+        new Anonymous().process(array, new Dpartment() {
+            @Override
+            public void sum(int[] target) {
+                int sum = 0;
+                for (int tmp : target) {
+                    sum += tmp;
+                }
+                System.out.println("sum= " + sum);
+
+            }
+        });
+        // Lambda表达式写法
+        new Anonymous().process(array, (int[] target) -> {
+            int sum = 0;
+            for (int tmp : target) {
+                sum += tmp;
+            }
+            System.out.println("sum= " + sum);
+        });
+
+        //java7
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -141,7 +167,20 @@ public class LambdaTest {
             }
         }).start();
 
+        //java8
         new Thread(() -> System.out.println("In Java8!")).start();
+        
+        // 非Lambda表达式写法
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("Hello World");
+            }
+        };
+        runnable.run();
+        // Lambda表达式的书写形式
+        Runnable run = () -> System.out.println("Hello World");
+        run.run();
 
         List<String> list = Arrays.asList("I", "love", "you", "too");
         // 接口名
@@ -159,41 +198,10 @@ public class LambdaTest {
         Collections.sort(list2, (s1, s2) -> {
             return s1.length() - s2.length();
         });
-
-        // Lambda表达式写法
-        int[] array = {2, 3, 5, 8, 1};
-        new Anonymous().process(array, new Dpartment() {
-            @Override
-            public void sum(int[] target) {
-                int sum = 0;
-                for (int tmp : target) {
-                    sum += tmp;
-                }
-                System.out.println("sum= " + sum);
-
-            }
-        });
-        new Anonymous().process(array, (int[] target) -> {
-            int sum = 0;
-            for (int tmp : target) {
-                sum += tmp;
-            }
-            System.out.println("sum= " + sum);
-        });
-
-        // 非Lambda表达式写法
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("Hello World");
-            }
-        };
-        runnable.run();
-        // Lambda表达式的书写形式
-        Runnable run = () -> System.out.println("Hello World");
-        run.run();
+        
         BinaryOperator<Long> add = (Long x, Long y) -> x + y;
         System.out.println(add.apply(1L, 2L));
+        list2.forEach(String::toLowerCase);
     }
 
     @Test
@@ -232,15 +240,14 @@ public class LambdaTest {
         list.add(1);
         list.add(2);
         list.add(3);
-
         // 可改变对象
         list.stream().map((i) -> i * 3).forEach(System.out::println);
-
         // 不可改变原有对象
         list.forEach(i -> i = i * 3);
         list.forEach(System.out::println);
     }
 
+    /** 测试BigDecimal */
     @Test
     public void testBigDecimal() {
         // 总计费重量

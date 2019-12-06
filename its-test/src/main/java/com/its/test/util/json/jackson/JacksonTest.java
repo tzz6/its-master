@@ -1,4 +1,4 @@
-package com.its.test.util.json;
+package com.its.test.util.json.jackson;
 
 import java.io.IOException;
 import java.util.ArrayList;
