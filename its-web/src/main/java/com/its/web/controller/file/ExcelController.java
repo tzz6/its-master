@@ -18,6 +18,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.its.web.controller.mongodb.MongodbController;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -186,13 +187,7 @@ public class ExcelController extends BaseController {
 			country.setId(i);
 			country.setName(sysUser.getStCode());
 			country.setEnName(sysUser.getStName());
-			country.setCreateDate(new Date());
-			List<City> citys = new ArrayList<City>();
-			City city = new City();
-			city.setId(id);
-			city.setName("深圳");
-			citys.add(city);
-			country.setCitys(citys);
+			MongodbController.setCountry(country, id);
 			countries.add(country);
 		}
 		countryMongoDao.insertAll(countries);
@@ -207,13 +202,7 @@ public class ExcelController extends BaseController {
 			country.setId(i);
 			country.setName(sysUser.getStCode());
 			country.setEnName(sysUser.getStName());
-			country.setCreateDate(new Date());
-			List<City> citys = new ArrayList<City>();
-			City city = new City();
-			city.setId(id);
-			city.setName("深圳");
-			citys.add(city);
-			country.setCitys(citys);
+			MongodbController.setCountry(country, id);
 			countries.add(country);
 		}
 		countryMongoDao.insertAll(countries);
