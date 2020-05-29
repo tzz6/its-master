@@ -10,11 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * @author tzz
- * @工号: 
+ * @工号:
  * @date 2019/07/06
- * @Introduce: Redis分布式锁-Redisson框架实现
+ * @Introduce: Redis分布式锁-Redisson框架实现-CP
  */
 public class RedissonDistributedLock {
 	private static final Logger logger = LoggerFactory.getLogger(RedissonDistributedLock.class);
@@ -34,7 +34,7 @@ public class RedissonDistributedLock {
 
 	/**
 	 * 加锁
-	 * 
+	 *
 	 * @param lockKey 锁的key
 	 * @param timeout redis锁的超时时间，超时自动解锁
 	 * @return 锁标识
@@ -44,7 +44,7 @@ public class RedissonDistributedLock {
         try {
             // 获取锁对象
             RLock rLock = redissonClient.getLock(lockKey);
-            // 加锁，并且设置锁过期时间，单位毫秒，防止死锁的产生
+            // 加锁，并且设置锁过期时间，单位毫秒，防止死锁的产生（watchdogsaaa）
             rLock.lock(timeout, TimeUnit.MILLISECONDS);
             logger.info("ThreadName:" + Thread.currentThread().getName() + "---获得锁");
             // 加锁成功
@@ -54,10 +54,10 @@ public class RedissonDistributedLock {
         }
         return flag;
     }
-	
+
     /**
      * 释放锁
-     * 
+     *
      * @param lockKey 锁的key
      * @return
      */

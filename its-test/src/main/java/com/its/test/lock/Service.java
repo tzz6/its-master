@@ -7,9 +7,9 @@ import com.its.test.lock.redis.RedisDistributedLock;
 import com.its.test.lock.redisson.RedissonDistributedLock;
 
 /**
- * 
+ *
  * @author tzz
- * @工号: 
+ * @工号:
  * @date 2019/07/06
  * @Introduce: 业务处理测试类-Redis
  */
@@ -18,13 +18,13 @@ public class Service {
 
     /** Redis分布式锁-Jedis实现 */
     RedisDistributedLock redislock = new RedisDistributedLock();
-    
+
     /** Redis分布式锁-Redisson框架实现 */
 	RedissonDistributedLock redissonlock = new RedissonDistributedLock();
 
 
 	/**
-	 * 业务方法-Jedis实现 
+	 * 业务方法-Jedis实现
 	 */
 	public void seckillJedis() {
 	    // Redis锁key名称
@@ -35,7 +35,7 @@ public class Service {
             // 加锁
             indentifier = redislock.lockWithTimeout(lockName, 30 * 1000, 10 * 1000);
             // 执行业务处理
-            getOrderNum();
+            getOrderNum(2* 1000);
         } catch (Exception e) {
             logger.error("****seckillJedis****" + e.getMessage(), e);
         } finally {
@@ -45,7 +45,7 @@ public class Service {
             redislock.releaseLockTransaction(lockName, indentifier);
         }
 	}
-	
+
     /**
           * 业务方法-Redisson框架实现
      */
@@ -54,9 +54,9 @@ public class Service {
         String lockName = "RedissonDistributedLock";
         try {
             // 加锁
-            redissonlock.lockWithTimeout(lockName, 1 * 1000);
+            redissonlock.lockWithTimeout(lockName, 1 * 1000*20);
             // 执行业务处理
-            getOrderNum();
+            getOrderNum(2* 1000*20);
         } catch (Exception e) {
             logger.error("****seckillRedisson****" + e.getMessage(), e);
         } finally {
@@ -68,12 +68,15 @@ public class Service {
 	/**
 	 * 使用预分配号(模拟数据库操作)
 	 */
-    public void getOrderNum() {
+    public void getOrderNum(long executionTime) {
         OrderNumdb.getOrderNumdb();
         String orderNum = OrderNumdb.list.get(0);
         try {
+            if(orderNum.indexOf("9")>0){
+                executionTime = 1000*5;
+            }
             // 用线程等待的方式模拟业务代码处理时长
-            Thread.sleep(1* 2000);
+            Thread.sleep(executionTime);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
